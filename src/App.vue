@@ -46,7 +46,11 @@
               align-self="center"
               v-show="!$vuetify.breakpoint.mobile"
             >
-              <v-btn>LOG IN</v-btn>
+              <v-btn
+                color="red lighten-1 font-semibold
+"
+                >LOG IN</v-btn
+              >
             </v-col>
           </v-row>
 
