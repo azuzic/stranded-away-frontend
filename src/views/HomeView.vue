@@ -36,17 +36,40 @@
             </div>
         </div>
         <div class="over"></div>
+        <v-container class="mb-16">
+            <h2 class="text-4xl text-white font-bold mb-4 mt-8 text-center">Featured Games</h2>
+            <v-row>
+                <v-col>
+                    <card-1
+                        :availability="'AVAILABLE NOW!'"
+                        :title="'DOGE'"
+                        :text="'The great and epic Doge game! Our first game ever. Made in just 2 weeks!'"
+                        :imageSrc="'cards/doge1.png'"
+                    ></card-1>
+                </v-col>
+                <v-col>
+                    <card-1
+                        :availability="'AVAILABLE IN JUNE'"
+                        :title="'Stranded Away'"
+                        :text="'2D shooter/puzzle game about exploring abandoned planets. Game is currently still in work in progress!'"
+                        :imageSrc="'cards/stranded1.png'"
+                    ></card-1>
+                </v-col>
+            </v-row>
+        </v-container>
       </div>
   </div>
 </template>
 
 <script>
 import SimpleCarousel from "vue2-simple-carousel";
+import card1 from "@/components/card1.vue";
 
 export default {
   name: "Home",
   components: {
-      SimpleCarousel
+      SimpleCarousel,
+      card1,
   },
   data: () => ({}),
 };
@@ -60,7 +83,8 @@ export default {
     .center {
         color: white;
         width: 100%;
-        top: 30%;
+        top: 0;
+        margin-top: 300px;
         font-size: 100px;
         font-family: pdark;
         z-index: 10000;

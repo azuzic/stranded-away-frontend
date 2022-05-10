@@ -134,6 +134,10 @@ export default {
     z-index: 1;
 }
 
+.v-card {
+    border: none !important;
+}
+
 html,
 #app {
   background-color: #212121ea;
