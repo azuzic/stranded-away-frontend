@@ -44,11 +44,12 @@
             </v-list-item>
           </v-list>
         </v-navigation-drawer>
+
         <!--/Mobile navigation-->
-        <router-view />
       </v-main>
     </nav>
     <!--Header-->
+    <router-view />
     <!--Footer-->
     <v-card>
       <v-footer v-bind="localAttrs" :padless="padless" class="v-footer">
@@ -106,7 +107,7 @@ export default {
     logoWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return 175;
+          return 200;
         case "sm":
           return 200;
         case "md":
@@ -116,18 +117,6 @@ export default {
         case "xl":
           return 250;
       }
-    },
-    //For Footer
-    localAttrs() {
-      const attrs = {};
-
-      if (this.variant === "default") {
-        attrs.absolute = false;
-        attrs.fixed = false;
-      } else {
-        attrs[this.variant] = true;
-      }
-      return attrs;
     },
   },
 };
@@ -143,5 +132,10 @@ export default {
 .v-footer {
     filter: drop-shadow(0px 0px 32px rgba(0, 0, 0, 1));
     z-index: 1;
+}
+
+html,
+#app {
+  background-color: #212121ea;
 }
 </style>

@@ -1,1 +1,2 @@
 footer, header: grey darken-4
+redLogo : red lighten-1
