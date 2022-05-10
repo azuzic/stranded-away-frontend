@@ -74,24 +74,25 @@
             </v-list-item>
           </v-list>
         </v-navigation-drawer>
+
         <!--/Mobile navigation-->
-        <router-view />
       </v-main>
     </nav>
     <!--Header-->
+    <router-view />
     <!--Footer-->
-    <v-card height="400px">
-      <v-footer v-bind="localAttrs" :padless="padless">
-        <v-card flat tile width="100%" class="grey darken-4 text-center">
-          <v-divider></v-divider>
 
-          <v-card-text class="white--text">
-            <strong>MacroQuiet Game development</strong>
-            <p>Copyright © {{ new Date().getFullYear() }}</p>
-          </v-card-text>
-        </v-card>
-      </v-footer>
-    </v-card>
+    <v-footer :padless="padless">
+      <v-card flat tile width="100%" class="grey darken-4 text-center">
+        <v-divider></v-divider>
+
+        <v-card-text class="white--text">
+          <strong>MacroQuiet Game development</strong>
+          <p>Copyright © {{ new Date().getFullYear() }}</p>
+        </v-card-text>
+      </v-card>
+    </v-footer>
+
     <!--/Footer-->
   </v-app>
 </template>
@@ -139,7 +140,7 @@ export default {
     logoWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return 175;
+          return 200;
         case "sm":
           return 200;
         case "md":
@@ -150,18 +151,12 @@ export default {
           return 250;
       }
     },
-    //For Footer
-    localAttrs() {
-      const attrs = {};
-
-      if (this.variant === "default") {
-        attrs.absolute = false;
-        attrs.fixed = false;
-      } else {
-        attrs[this.variant] = true;
-      }
-      return attrs;
-    },
   },
 };
 </script>
+<style>
+html,
+#app {
+  background-color: #212121ea;
+}
+</style>
