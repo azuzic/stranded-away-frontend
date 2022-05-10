@@ -2,62 +2,32 @@
   <v-app>
     <!--Header-->
     <nav>
-      <v-main>
-        <v-app-bar color="grey darken-4" padless>
-          <v-row justify="left" align="start">
-            <v-col
-              align-self="center"
-              :cols="$vuetify.breakpoint.mobile ? '12' : '2'"
-            >
-              <router-link to="/">
-                <img
-                  src="@/assets/macroquiet_logo.png"
-                  alt=""
-                  :width="logoWidth"
-                />
-              </router-link>
-            </v-col>
-            <v-col
-              v-show="!$vuetify.breakpoint.mobile"
-              align-self="center"
-              cols="9"
-            >
-              <v-btn
-                v-for="link in links"
-                :key="link.title"
-                color="white"
-                text
-                rounded
-                class="my-4"
-                cols="2"
-                @click="scroll(link.to)"
-              >
-                <v-icon
-                  color="red lighten-1
-"
-                  class="mr-1"
-                  >{{ link.icon }}</v-icon
-                >
-                <strong class="text-sm">{{ link.title }}</strong>
-              </v-btn>
-            </v-col>
-            <v-col
-              cols="1"
-              align-self="center"
-              v-show="!$vuetify.breakpoint.mobile"
-            >
-              <v-btn>LOG IN</v-btn>
-            </v-col>
-          </v-row>
+        <v-main >
+            <v-app-bar color="grey darken-4" class="v-app-bar">
+                <v-row justify="left" align="start">
 
-          <!--Mobile navigation icon-->
-          <v-app-bar-nav-icon
-            color="white"
-            v-show="$vuetify.breakpoint.mobile"
-            @click.stop="drawer = !drawer"
-          ></v-app-bar-nav-icon>
-          <!--/Mobile navigation icon-->
-        </v-app-bar>
+                    <v-col align-self="center" :cols="$vuetify.breakpoint.mobile ? '12' : '2'">
+                        <router-link to="/">
+                            <img class="p-4" 
+                            src="@/assets/macroquiet_logo.png" alt="" :width="logoWidth"/>
+                        </router-link>
+                    </v-col>
+                    <v-col v-show="!$vuetify.breakpoint.mobile" align-self="center" cols="9" class="mt-2">
+                        <v-btn v-for="link in links" :key="link.title" color="white" text rounded class="my-4" cols="2" @click="scroll(link.to)">
+                                <v-icon color="red lighten-1" class="mr-1" >{{ link.icon }}</v-icon >
+                                <strong class="text-sm">{{ link.title }}</strong>
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="1" align-self="center" v-show="!$vuetify.breakpoint.mobile" >
+                        <v-btn color="secondary" rounded class="my-4" cols="2" > <strong class="text-sm">LOG IN</strong> </v-btn>
+                    </v-col>
+
+                </v-row>
+
+            <!--Mobile navigation icon-->
+                <v-app-bar-nav-icon color="white" v-show="$vuetify.breakpoint.mobile" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+            <!--/Mobile navigation icon-->
+            </v-app-bar>
         <!--Mobile navigation-->
         <v-navigation-drawer v-model="drawer" absolute temporary>
           <v-list dense>
@@ -80,14 +50,11 @@
     </nav>
     <!--Header-->
     <!--Footer-->
-    <v-card height="400px">
-      <v-footer v-bind="localAttrs" :padless="padless">
+    <v-card>
+      <v-footer v-bind="localAttrs" :padless="padless" class="v-footer">
         <v-card flat tile width="100%" class="grey darken-4 text-center">
-          <v-divider></v-divider>
-
-          <v-card-text class="white--text">
-            <strong>MacroQuiet Game development</strong>
-            <p>Copyright © {{ new Date().getFullYear() }}</p>
+          <v-card-text class="white--text flex justify-center align-center mb-0">
+            <span class="-mb-4"><strong>MacroQuiet Game development <br></strong><p>Copyright © {{ new Date().getFullYear() }}</p></span>
           </v-card-text>
         </v-card>
       </v-footer>
@@ -165,3 +132,16 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.v-app-bar {
+    height: 64+16px !important;
+    padding-top: 8px;
+    filter: drop-shadow(0px 0px 64px rgba(0, 0, 0, 1));
+    z-index: 1;
+}
+.v-footer {
+    filter: drop-shadow(0px 0px 32px rgba(0, 0, 0, 1));
+    z-index: 1;
+}
+</style>
