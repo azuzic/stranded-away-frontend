@@ -28,16 +28,19 @@
             <div><img src="@/assets/game_images/GameScreenshot_18.png"></div>
             <div><img src="@/assets/game_images/GameScreenshot_17.png"></div>
         </SimpleCarousel>
-        <div class="center flex absolute justify-center">
-            <img class="img mr-6" src="@/assets/Stranded_Away_Icon.png">
-            <div class="h-full justify-center align-text-bottom align-end flex-end mt-12">
-                    <div>Stranded</div> 
-                    <div class="-mt-14 ml-3">Away</div>  
+        <div class="over flex justify-center content-center align-center">
+            <div class="center flex justify-center">
+                <img class="img mr-4" src="@/assets/Stranded_Away_Icon.png">
+                <div class="h-full justify-center align-text-bottom align-end flex-end stranded">
+                        <div>Stranded</div> 
+                        <div class="away">Away</div>  
+                </div>
             </div>
         </div>
-        <div class="over"></div>
-        <v-container class="mb-16">
-            <h2 class="text-4xl text-white font-bold mb-4 mt-8 text-center">Featured Games</h2>
+        
+      </div>
+      <v-container class="mb-16">
+            <h2 class="text-4xl text-white font-bold mb-4 mt-8 text-center v-container">Featured Games</h2>
             <v-row>
                 <v-col>
                     <card-1
@@ -57,7 +60,6 @@
                 </v-col>
             </v-row>
         </v-container>
-      </div>
   </div>
 </template>
 
@@ -79,19 +81,24 @@ export default {
 @font-face { font-family: pdark; src: url('@/assets/fonts/pdark.ttf');}
 .title-carousel {
     position: relative;
-    height: 100%;
+    filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 1));
     .center {
+        position: absolute;
         color: white;
         width: 100%;
-        top: 0;
-        margin-top: 300px;
-        font-size: 100px;
+        font-size: 5.2vw;
         font-family: pdark;
         z-index: 10000;
         filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.75));
     }
     .img {
-        height: 251px;
+        height: 14vw;
+    }
+    .stranded {
+        margin-top: 3vw;
+    }
+    .away {
+        margin-top: -2.45vw;
     }
 }
 
@@ -101,6 +108,12 @@ export default {
     height: 100%;
     width: 100%;
     background-color: rgba(172, 255, 47, 0);
+}
+
+.v-container {
+    h2 {
+        z-index: 9999999;
+    }
 }
 
 </style>

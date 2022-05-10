@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <!--Header-->
-    <nav>
-        <v-main >
+    <nav class="custom-nav">
+        <v-main>
             <v-app-bar color="grey darken-4" class="v-app-bar">
                 <v-row justify="left" align="start">
 
@@ -141,5 +141,13 @@ export default {
 html,
 #app {
   background-color: #212121ea;
+}
+
+.custom-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    overflow: visible !important;
 }
 </style>
