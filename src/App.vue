@@ -9,16 +9,18 @@
               align-self="center"
               :cols="$vuetify.breakpoint.mobile ? '12' : '2'"
             >
-              <img
-                src="@/assets/macroquiet_logo.png"
-                alt=""
-                :width="logoWidth"
-              />
+              <router-link to="/">
+                <img
+                  src="@/assets/macroquiet_logo.png"
+                  alt=""
+                  :width="logoWidth"
+                />
+              </router-link>
             </v-col>
             <v-col
               v-show="!$vuetify.breakpoint.mobile"
               align-self="center"
-              cols="10"
+              cols="9"
             >
               <v-btn
                 v-for="link in links"
@@ -36,13 +38,19 @@
                   class="mr-1"
                   >{{ link.icon }}</v-icon
                 >
-                <strong>{{ link.title }}</strong>
+                <strong class="text-sm">{{ link.title }}</strong>
               </v-btn>
+            </v-col>
+            <v-col
+              cols="1"
+              align-self="center"
+              v-show="!$vuetify.breakpoint.mobile"
+            >
+              <v-btn>LOG IN</v-btn>
             </v-col>
           </v-row>
 
           <!--Mobile navigation icon-->
-          <v-toolbar-side-icon></v-toolbar-side-icon>
           <v-app-bar-nav-icon
             color="white"
             v-show="$vuetify.breakpoint.mobile"
@@ -104,6 +112,11 @@ export default {
         title: "Our games",
         icon: "mdi-google-controller",
         to: "games",
+      },
+      {
+        title: "Contact us",
+        icon: "mdi-account-box",
+        to: "contact-us",
       },
     ],
     //For footer
