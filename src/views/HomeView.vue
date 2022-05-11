@@ -31,7 +31,7 @@
     </div>
     <v-container class="mb-16">
       <h2
-        class="text-4xl text-white font-bold mb-4 mt-8 text-center v-container"
+        class="text-4xl text-white font-bold mb-6 mt-4 text-center v-container"
       >
         Featured Games
       </h2>

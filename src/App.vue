@@ -2,45 +2,86 @@
   <v-app>
     <!--Header-->
     <nav class="custom-nav">
-        <v-main>
-            <v-app-bar color="grey darken-4" class="v-app-bar">
-                <v-row justify="left" align="start">
+      <v-main>
+        <v-app-bar color="grey darken-4" class="v-app-bar">
+          <v-row justify="left" align="start">
+            <v-col
+              align-self="center"
+              :cols="$vuetify.breakpoint.mobile ? '12' : '2'"
+            >
+              <router-link to="/">
+                <img
+                  class="p-4"
+                  src="@/assets/macroquiet_logo.png"
+                  alt=""
+                  :width="logoWidth"
+                />
+              </router-link>
+            </v-col>
+            <v-col
+              v-show="!$vuetify.breakpoint.mobile"
+              align-self="center"
+              cols="9"
+              class="mt-2"
+            >
+              <v-btn
+                v-for="link in links"
+                :key="link.title"
+                color="white"
+                text
+                rounded
+                class="my-4"
+                cols="2"
+                @click="scroll(link.to)"
+              >
+                <v-icon color="red lighten-1" class="mr-1">{{
+                  link.icon
+                }}</v-icon>
+                <strong class="text-sm">{{ link.title }}</strong>
+              </v-btn>
+            </v-col>
+            <v-col
+              cols="1"
+              align-self="center"
+              v-show="!$vuetify.breakpoint.mobile"
+            >
+              <v-btn color="secondary" rounded class="my-4" cols="2">
+                <strong class="text-sm">LOG IN</strong>
+              </v-btn>
+            </v-col>
+          </v-row>
 
-                    <v-col align-self="center" :cols="$vuetify.breakpoint.mobile ? '12' : '2'">
-                        <router-link to="/">
-                            <img class="p-4" 
-                            src="@/assets/macroquiet_logo.png" alt="" :width="logoWidth"/>
-                        </router-link>
-                    </v-col>
-                    <v-col v-show="!$vuetify.breakpoint.mobile" align-self="center" cols="9" class="mt-2">
-                        <v-btn v-for="link in links" :key="link.title" color="white" text rounded class="my-4" cols="2" @click="scroll(link.to)">
-                                <v-icon color="red lighten-1" class="mr-1" >{{ link.icon }}</v-icon >
-                                <strong class="text-sm">{{ link.title }}</strong>
-                        </v-btn>
-                    </v-col>
-                    <v-col cols="1" align-self="center" v-show="!$vuetify.breakpoint.mobile" >
-                        <v-btn color="secondary" rounded class="my-4" cols="2" > <strong class="text-sm">LOG IN</strong> </v-btn>
-                    </v-col>
-
-                </v-row>
-
-            <!--Mobile navigation icon-->
-                <v-app-bar-nav-icon color="white" v-show="$vuetify.breakpoint.mobile" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-            <!--/Mobile navigation icon-->
-            </v-app-bar>
+          <!--Mobile navigation icon-->
+          <v-app-bar-nav-icon
+            color="white"
+            v-show="$vuetify.breakpoint.mobile"
+            @click.stop="drawer = !drawer"
+          ></v-app-bar-nav-icon>
+          <!--/Mobile navigation icon-->
+        </v-app-bar>
         <!--Mobile navigation-->
-        <v-navigation-drawer v-model="drawer" absolute temporary>
+
+        <v-navigation-drawer
+          v-model="drawer"
+          absolute
+          temporary
+          height="400"
+          color="grey darken-4"
+        >
           <v-list dense>
             <v-list-item v-for="link in links" :key="link.title" link>
               <div @click="scroll(link.to)">
-                <v-list-item-icon>
-                  <v-icon>{{ link.icon }}</v-icon>
+                <v-list-item-icon class="white--text">
+                  <v-icon color="white">{{ link.icon }}</v-icon> &nbsp;{{
+                    link.title
+                  }}
                 </v-list-item-icon>
-
-                <v-list-item-content>
-                  <v-list-item-title>{{ link.title }}</v-list-item-title>
-                </v-list-item-content>
               </div>
+            </v-list-item>
+            <v-list-item class="justify-center top-28 white--text">
+              <v-btn color="secondary" rounded class="my-4" cols="2">
+                <strong class="text-sm">LOG IN</strong>
+              </v-btn>
             </v-list-item>
           </v-list>
         </v-navigation-drawer>
@@ -49,13 +90,42 @@
       </v-main>
     </nav>
     <!--Header-->
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+      height="400"
+      color="grey darken-4"
+    >
+      <v-list dense>
+        <v-list-item v-for="link in links" :key="link.title" link>
+          <div @click="scroll(link.to)">
+            <v-list-item-icon class="white--text">
+              <v-icon color="white">{{ link.icon }}</v-icon> &nbsp;{{
+                link.title
+              }}
+            </v-list-item-icon>
+          </div>
+        </v-list-item>
+        <v-list-item class="justify-center top-28 white--text">
+          <v-btn color="secondary" rounded class="my-4" cols="2">
+            <strong class="text-sm">LOG IN</strong>
+          </v-btn>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
     <router-view />
     <!--Footer-->
     <v-card>
       <v-footer v-bind="localAttrs" :padless="padless" class="v-footer">
         <v-card flat tile width="100%" class="grey darken-4 text-center">
-          <v-card-text class="white--text flex justify-center align-center mb-0">
-            <span class="-mb-4"><strong>MacroQuiet Game development <br></strong><p>Copyright © {{ new Date().getFullYear() }}</p></span>
+          <v-card-text
+            class="white--text flex justify-center align-center mb-0"
+          >
+            <span class="-mb-4"
+              ><strong>MacroQuiet Game development <br /></strong>
+              <p>Copyright © {{ new Date().getFullYear() }}</p></span
+            >
           </v-card-text>
         </v-card>
       </v-footer>
@@ -107,7 +177,7 @@ export default {
     logoWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return 200;
+          return 250;
         case "sm":
           return 200;
         case "md":
@@ -124,18 +194,18 @@ export default {
 
 <style lang="scss" scoped>
 .v-app-bar {
-    height: 64+16px !important;
-    padding-top: 8px;
-    filter: drop-shadow(0px 0px 64px rgba(0, 0, 0, 1));
-    z-index: 1;
+  height: 64+16px !important;
+  padding-top: 8px;
+  filter: drop-shadow(0px 0px 64px rgba(0, 0, 0, 1));
+  z-index: 1;
 }
 .v-footer {
-    filter: drop-shadow(0px 0px 32px rgba(0, 0, 0, 1));
-    z-index: 1;
+  filter: drop-shadow(0px 0px 32px rgba(0, 0, 0, 1));
+  z-index: 1;
 }
 
 .v-card {
-    border: none !important;
+  border: none !important;
 }
 
 html,
@@ -144,10 +214,10 @@ html,
 }
 
 .custom-nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    width: 100%;
-    overflow: visible !important;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  overflow: visible !important;
 }
 </style>
