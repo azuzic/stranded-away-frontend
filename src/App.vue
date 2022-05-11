@@ -3,7 +3,7 @@
     <!--Header-->
     <nav class="custom-nav">
       <v-main>
-        <v-app-bar color="grey darken-4" class="v-app-bar">
+        <v-app-bar class="v-app-bar navbarColor">
           <v-row justify="left" align="start">
             <v-col
               align-self="center"
@@ -117,8 +117,8 @@
     <router-view />
     <!--Footer-->
     <v-card>
-      <v-footer v-bind="localAttrs" :padless="padless" class="v-footer">
-        <v-card flat tile width="100%" class="grey darken-4 text-center">
+      <v-footer v-bind="localAttrs" :padless="padless">
+        <v-card flat tile width="100%" class="navbarColor text-center">
           <v-card-text
             class="white--text flex justify-center align-center mb-0"
           >
@@ -210,7 +210,7 @@ export default {
 
 html,
 #app {
-  background-color: #212121ea;
+  background-color: #0f1119;
 }
 
 .custom-nav {
@@ -219,5 +219,8 @@ html,
   z-index: 100;
   width: 100%;
   overflow: visible !important;
+}
+.navbarColor {
+  background-color: #111011 !important;
 }
 </style>

@@ -20,8 +20,8 @@
           <div
             class="h-full justify-center align-text-bottom align-end flex-end stranded"
           >
-            <div>Stranded</div>
-            <div class="away">Away</div>
+            <div class="p-dark">Stranded</div>
+            <div class="away p-dark">Away</div>
             <div :class="$vuetify.breakpoint.mobile ? 'text-xs	' : 'text-2xl'">
               Available July 2022.
             </div>
@@ -85,7 +85,7 @@ export default {
     color: white;
     width: 100%;
     font-size: 5.2vw;
-    font-family: pdark;
+
     z-index: 10000;
     filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.75));
   }
@@ -112,5 +112,8 @@ export default {
   h2 {
     z-index: 9999999;
   }
+}
+.p-dark {
+  font-family: pdark;
 }
 </style>
