@@ -37,7 +37,7 @@
                 v-model="password"
                 :error-messages="errors"
                 dark
-                label="required|Password"
+                label="Password"
                 required
                 type="password"
               ></v-text-field>
