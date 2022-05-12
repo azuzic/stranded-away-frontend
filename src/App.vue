@@ -45,8 +45,14 @@
               align-self="center"
               v-show="!$vuetify.breakpoint.mobile"
             >
-              <v-btn color="secondary" rounded class="my-4" cols="2">
-                <strong class="text-sm">LOG IN</strong>
+              <v-btn
+                color="secondary"
+                rounded
+                class="my-4"
+                cols="2"
+                @click="$router.push({ name: 'login' })"
+              >
+                <strong class="text-sm">SIGN IN</strong>
               </v-btn>
             </v-col>
           </v-row>
@@ -79,8 +85,14 @@
               </div>
             </v-list-item>
             <v-list-item class="justify-center top-28 white--text">
-              <v-btn color="secondary" rounded class="my-4" cols="2">
-                <strong class="text-sm">LOG IN</strong>
+              <v-btn
+                color="secondary"
+                rounded
+                class="my-4"
+                cols="2"
+                @click="$router.push({ name: 'login' })"
+              >
+                <strong class="text-sm">SIGN IN</strong>
               </v-btn>
             </v-list-item>
           </v-list>
@@ -90,34 +102,10 @@
       </v-main>
     </nav>
     <!--Header-->
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      temporary
-      height="400"
-      color="grey darken-4"
-    >
-      <v-list dense>
-        <v-list-item v-for="link in links" :key="link.title" link>
-          <div @click="scroll(link.to)">
-            <v-list-item-icon class="white--text">
-              <v-icon color="white">{{ link.icon }}</v-icon> &nbsp;{{
-                link.title
-              }}
-            </v-list-item-icon>
-          </div>
-        </v-list-item>
-        <v-list-item class="justify-center top-28 white--text">
-          <v-btn color="secondary" rounded class="my-4" cols="2">
-            <strong class="text-sm">LOG IN</strong>
-          </v-btn>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
     <router-view />
     <!--Footer-->
     <v-card>
-      <v-footer v-bind="localAttrs" :padless="padless">
+      <v-footer :padless="padless" bottom fixed>
         <v-card flat tile width="100%" class="navbarColor text-center">
           <v-card-text
             class="white--text flex justify-center align-center mb-0"
@@ -208,9 +196,9 @@ export default {
   border: none !important;
 }
 
-html,
 #app {
   background-color: #0f1119;
+  color: white;
 }
 
 .custom-nav {

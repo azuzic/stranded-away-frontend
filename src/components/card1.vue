@@ -16,9 +16,7 @@
       <v-spacer></v-spacer>
 
       <v-btn icon>
-        <v-icon color="white">{{
-          show ? "mdi-chevron-up" : "mdi-arrow-right"
-        }}</v-icon>
+        <v-icon color="white">{{ "mdi-arrow-right" }}</v-icon>
       </v-btn>
     </v-card-actions>
 
