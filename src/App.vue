@@ -144,7 +144,7 @@ export default {
       {
         title: "Discover",
         icon: "mdi-newspaper-variant-multiple",
-        to: "/",
+        to: "news",
       },
       {
         title: "Our games",

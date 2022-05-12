@@ -31,16 +31,25 @@
     </div>
     <v-container class="mb-16">
       <h2
+        id="news"
         class="text-4xl text-white font-bold mb-6 mt-4 text-center v-container"
       >
-        Featured Games
+        NEWS
+      </h2>
+    </v-container>
+    <v-container class="mb-16">
+      <h2
+        id="games"
+        class="text-4xl text-white font-bold mb-6 mt-4 text-center v-container"
+      >
+        FEATURED GAMES
       </h2>
       <v-row>
         <v-col>
           <card-1
             :availability="'AVAILABLE NOW!'"
             :title="'DOGE'"
-            :text="'The great and epic Doge game! Our first game ever. Made in just 2 weeks!'"
+            :text="'The great and epic Doge game! Our first game ever. Made in just 2 weeks! Take control of lost doge trying to find his way out of town. Be careful! You will encounter many dogcatchers along the way. Also, those bones look delicious. Collect them all!'"
             :imageSrc="'cards/doge1.png'"
           ></card-1>
         </v-col>
@@ -48,7 +57,7 @@
           <card-1
             :availability="'AVAILABLE IN JULY'"
             :title="'Stranded Away'"
-            :text="'2D shooter/puzzle game about exploring abandoned planets. Game is currently still in work in progress!'"
+            :text="'2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still in work in progress!'"
             :imageSrc="'cards/stranded1.png'"
           ></card-1>
         </v-col>

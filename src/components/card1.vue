@@ -1,15 +1,15 @@
 <template>
-  <v-card class="mx-auto" color="grey darken-3" max-width="420">
+  <v-card class="mx-auto" color="#18141c" max-width="420">
     <v-img :src="require('@/assets/' + imageSrc)" height="200px"></v-img>
 
     <v-card-title class="uppercase white--text text-xs mb-2">
       {{ availability }}
     </v-card-title>
 
-    <v-card-subtitle class="uppercase white--text text-3xl">
+    <v-card-subtitle class="uppercase white--text text-3xl font-bold">
       {{ title }}
     </v-card-subtitle>
-    <v-card-text class="white--text">
+    <v-card-text class="white--text font-medium">
       {{ text }}
     </v-card-text>
     <v-card-actions>
@@ -32,3 +32,8 @@ export default {
   data: () => ({}),
 };
 </script>
+<style>
+.cardColor {
+  background-color: #18141c;
+}
+</style>

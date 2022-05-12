@@ -1,2 +1,4 @@
-footer, header: grey darken-4
+footer, header: #111011
+background: #0f1119
 redLogo : red lighten-1
+cards: #18141c
