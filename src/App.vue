@@ -125,7 +125,7 @@
 <script>
 import router from "@/router";
 import store from "@/store";
-import { Service, Storage } from "@/services";
+import { Storage } from "@/services";
 export default {
   name: "App",
   data: () => ({
@@ -133,7 +133,7 @@ export default {
     store,
     links: [
       {
-        title: "ABOUT US",
+        title: "About us",
         icon: "mdi-newspaper-variant-multiple",
         to: "about-us",
       },

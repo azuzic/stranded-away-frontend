@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" color="#18141c" max-width="420">
+  <v-card class="mx-auto" color="#15171e" max-width="420">
     <v-img :src="require('@/assets/' + imageSrc)" height="200px"></v-img>
 
     <v-card-title class="uppercase white--text text-xs mb-2">

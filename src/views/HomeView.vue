@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <v-container class="mb-16">
+    <v-container class="mb-8">
       <h2
         id="games"
         class="text-4xl text-white font-bold mb-6 mt-4 v-container text-center"
@@ -129,9 +129,6 @@ export default {
   }
   .stranded {
     margin-top: 3vw;
-  }
-  .away {
-    margin-top: -2.45vw;
   }
 }
 .over {
