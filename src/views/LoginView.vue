@@ -13,7 +13,7 @@
         <h1 class="text-center font-bold text-4xl">
           Sign in to your MacroQuiet Account
         </h1>
-        <validation-observer ref="observer" v-slot="{ invalid }">
+        <validation-observer ref="observer" v-slot="{}">
           <form @submit.prevent="submit">
             <validation-provider
               v-slot="{ errors }"

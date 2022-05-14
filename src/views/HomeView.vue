@@ -8,7 +8,7 @@
         :height="$vuetify.breakpoint.mobile ? '200' : '700'"
       >
         <v-carousel-item
-          v-for="(item, i) in carouselPictures"
+          v-for="(item, i) in store.carouselImagesSrc"
           :key="i"
           :src="require('@/assets/game_images/' + item)"
         >
@@ -57,20 +57,16 @@
         FEATURED GAMES
       </h2>
       <v-row justify="center">
-        <v-col :cols="$vuetify.breakpoint.mobile ? '12' : '3'">
+        <v-col
+          v-for="gameCard in store.gameCards"
+          :key="gameCard.id"
+          :cols="$vuetify.breakpoint.mobile ? '12' : '3'"
+        >
           <card-1
-            :availability="'AVAILABLE NOW!'"
-            :title="'DOGE'"
-            :text="'The great and epic Doge game! Our first game ever. Made in just 2 weeks! Take control of lost doge trying to find his way out of town. Be careful! You will encounter many dogcatchers along the way. Also, those bones look really delicious.'"
-            :imageSrc="'cards/doge1.png'"
-          ></card-1>
-        </v-col>
-        <v-col :cols="$vuetify.breakpoint.mobile ? '12' : '3'">
-          <card-1
-            :availability="'AVAILABLE IN JULY'"
-            :title="'Stranded Away'"
-            :text="'2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still work in progress!'"
-            :imageSrc="'cards/stranded1.png'"
+            :availability="gameCard.availability"
+            :title="gameCard.title"
+            :text="gameCard.text"
+            :imageSrc="gameCard.imageSrc"
           ></card-1>
         </v-col>
       </v-row>
@@ -103,7 +99,7 @@
 
 <script>
 import card1 from "@/components/card1.vue";
-import carouselImagesSrc from "@/carouselPictures";
+import store from "@/store";
 
 export default {
   name: "Home",
@@ -111,7 +107,7 @@ export default {
     card1,
   },
   data: () => ({
-    carouselPictures: carouselImagesSrc,
+    store,
   }),
 };
 </script>

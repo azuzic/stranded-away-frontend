@@ -124,10 +124,13 @@
 
 <script>
 import router from "@/router";
+import store from "@/store";
+import axios from "axios";
 export default {
   name: "App",
   data: () => ({
     drawer: null,
+    store,
     links: [
       {
         title: "ABOUT US",
@@ -150,7 +153,25 @@ export default {
     padless: true,
     variant: "fixed",
   }),
+  mounted() {
+    this.fetchGameCards();
+    this.fetchCarouselImages();
+  },
   methods: {
+    //Backend fetchers
+    async fetchGameCards() {
+      const response = await axios.get(
+        "http://localhost:3000/storage?data=gameCards"
+      );
+      store.gameCards = response.data;
+    },
+    async fetchCarouselImages() {
+      const response = await axios.get(
+        "http://localhost:3000/storage?data=carouselImagesSrc"
+      );
+      store.carouselImagesSrc = response.data;
+    },
+    //Link scroll
     scroll(id) {
       if (this.$route.name != "home-page")
         router.push({ path: "/", replace: true });
