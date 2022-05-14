@@ -85,7 +85,7 @@
             ABOUT US
           </h2>
 
-          <h1>We are two person Indie Game Developer Studio from Croatia.</h1>
+          <h1>We are a two person Indie Game Developer Studio from Croatia.</h1>
           <h2>
             It all started in the summer of 2021. when two friends and
             colleagues decided they wanted to create video games and fulfill
