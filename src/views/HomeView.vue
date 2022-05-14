@@ -16,12 +16,31 @@
       </v-carousel>
       <div class="over flex justify-center content-center align-center">
         <div class="center flex justify-center">
-          <img class="img mr-4" src="@/assets/Stranded_Away_Icon.png" />
+          <img
+            :class="$vuetify.breakpoint.mobile ? 'mr-4 h-24' : 'mr-4 h-64'"
+            src="@/assets/Stranded_Away_Icon.png"
+          />
           <div
             class="h-full justify-center align-text-bottom align-end flex-end stranded"
           >
-            <div class="p-dark">Stranded</div>
-            <div class="away p-dark">Away</div>
+            <div
+              :class="
+                $vuetify.breakpoint.mobile
+                  ? 'text-4xl	p-dark'
+                  : 'text-8xl p-dark'
+              "
+            >
+              Stranded
+            </div>
+            <div
+              :class="
+                $vuetify.breakpoint.mobile
+                  ? 'text-4xl	p-dark'
+                  : 'text-8xl p-dark'
+              "
+            >
+              Away
+            </div>
             <div :class="$vuetify.breakpoint.mobile ? 'text-xs	' : 'text-2xl'">
               Available July 2022.
             </div>
@@ -29,37 +48,53 @@
         </div>
       </div>
     </div>
-    <v-container class="mb-16">
-      <h2
-        id="news"
-        class="text-4xl text-white font-bold mb-6 mt-4 text-center v-container"
-      >
-        NEWS
-      </h2>
-    </v-container>
+
     <v-container class="mb-16">
       <h2
         id="games"
-        class="text-4xl text-white font-bold mb-6 mt-4 text-center v-container"
+        class="text-4xl text-white font-bold mb-6 mt-4 v-container text-center"
       >
         FEATURED GAMES
       </h2>
-      <v-row>
-        <v-col>
+      <v-row justify="center">
+        <v-col :cols="$vuetify.breakpoint.mobile ? '12' : '3'">
           <card-1
             :availability="'AVAILABLE NOW!'"
             :title="'DOGE'"
-            :text="'The great and epic Doge game! Our first game ever. Made in just 2 weeks! Take control of lost doge trying to find his way out of town. Be careful! You will encounter many dogcatchers along the way. Also, those bones look delicious. Collect them all!'"
+            :text="'The great and epic Doge game! Our first game ever. Made in just 2 weeks! Take control of lost doge trying to find his way out of town. Be careful! You will encounter many dogcatchers along the way. Also, those bones look really delicious.'"
             :imageSrc="'cards/doge1.png'"
           ></card-1>
         </v-col>
-        <v-col>
+        <v-col :cols="$vuetify.breakpoint.mobile ? '12' : '3'">
           <card-1
             :availability="'AVAILABLE IN JULY'"
             :title="'Stranded Away'"
-            :text="'2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still in work in progress!'"
+            :text="'2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still work in progress!'"
             :imageSrc="'cards/stranded1.png'"
           ></card-1>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container class="mb-32 text-center">
+      <v-row justify="center">
+        <v-col :cols="$vuetify.breakpoint.mobile ? '12' : '3'">
+          <h2
+            id="about-us"
+            class="text-4xl text-white font-bold mb-4 mt-4 v-container"
+          >
+            ABOUT US
+          </h2>
+
+          <h1>We are two person Indie Game Developer Studio from Croatia.</h1>
+          <h2>
+            It all started in the summer of 2021. when two friends and
+            colleagues decided they wanted to create video games and fulfill
+            their lifelong dreams.
+          </h2>
+          <h2>
+            Meet <span class="text-red-like-logo">@blaskec</span> and
+            <span class="text-red-like-logo">@zuza</span> now!
+          </h2>
         </v-col>
       </v-row>
     </v-container>
@@ -93,13 +128,8 @@ export default {
     position: absolute;
     color: white;
     width: 100%;
-    font-size: 5.2vw;
-
     z-index: 10000;
     filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.75));
-  }
-  .img {
-    height: 14vw;
   }
   .stranded {
     margin-top: 3vw;
@@ -108,7 +138,6 @@ export default {
     margin-top: -2.45vw;
   }
 }
-
 .over {
   position: absolute;
   top: 0;
@@ -116,7 +145,6 @@ export default {
   width: 100%;
   background-color: rgba(172, 255, 47, 0);
 }
-
 .v-container {
   h2 {
     z-index: 9999999;

@@ -19,7 +19,6 @@
         <v-icon color="white">{{ "mdi-arrow-right" }}</v-icon>
       </v-btn>
     </v-card-actions>
-
     <i class="mdi mdi-diving-flippers:"></i>
     <v-divider></v-divider>
   </v-card>

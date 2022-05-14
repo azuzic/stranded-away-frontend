@@ -130,9 +130,9 @@ export default {
     drawer: null,
     links: [
       {
-        title: "Discover",
+        title: "ABOUT US",
         icon: "mdi-newspaper-variant-multiple",
-        to: "news",
+        to: "about-us",
       },
       {
         title: "Our games",
