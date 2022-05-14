@@ -125,7 +125,7 @@
 <script>
 import router from "@/router";
 import store from "@/store";
-import axios from "axios";
+import { Service, Storage } from "@/services";
 export default {
   name: "App",
   data: () => ({
@@ -154,22 +154,14 @@ export default {
     variant: "fixed",
   }),
   mounted() {
-    this.fetchGameCards();
-    this.fetchCarouselImages();
+    this.fetchData("gameCards");
+    this.fetchData("carouselImagesSrc");
   },
   methods: {
-    //Backend fetchers
-    async fetchGameCards() {
-      const response = await axios.get(
-        "http://localhost:3000/storage?data=gameCards"
-      );
-      store.gameCards = response.data;
-    },
-    async fetchCarouselImages() {
-      const response = await axios.get(
-        "http://localhost:3000/storage?data=carouselImagesSrc"
-      );
-      store.carouselImagesSrc = response.data;
+    //Backend fetcher
+    async fetchData(data) {
+      const response = await Storage.getAll(data);
+      store[data] = response.data;
     },
     //Link scroll
     scroll(id) {
