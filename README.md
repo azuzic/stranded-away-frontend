@@ -8,7 +8,7 @@ VUE.js front-end aplikacije za MacroQuiet Game Development - 2 people Indie Game
 
 ### Autori i zaduženja
 
--   Alesandro Žužić (azuzic@unipu.hr) - 
+-   Alesandro Žužić (azuzic@unipu.hr) - Izrada challenge levela - Unity, VUE.js CSS, SCSS, achivements/trophies page, user profile page, stats page
 -   Luka Blašković (lblaskovi@unipu.hr) - Frontend komponente -> Vuetify - News, Front, VeeValidate - Login/Register page , Unity networking - Login page
 
 ### Kratki opis funkcionalnosti
