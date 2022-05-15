@@ -25,6 +25,7 @@
 </template>
 <script>
 export default {
+  name: "card1",
   props: ["availability", "title", "text", "imageSrc"],
   data: () => ({}),
 };

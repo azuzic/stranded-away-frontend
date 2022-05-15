@@ -15,6 +15,9 @@ let Auth = {
   registerUser(userData) {
     return Service.post("users", userData);
   },
+  authenticateUser(userData) {
+    return Service.post("auth", userData);
+  },
 };
 
-export { Service, Storage, Auth };
+export { Storage, Auth };
