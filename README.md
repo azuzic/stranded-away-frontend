@@ -1,6 +1,6 @@
 # "MacroQuiet Front-end"
 
-VUE.js front-end aplikacije za MacroQuiet Game Development - 2 people indie game development team.
+VUE.js front-end aplikacije za MacroQuiet Game Development - 2 people Indie Game Development Studio.
 
 ### Poveznica na aplikaciju
 - https://macroquiet.com/ (WIP - backend još nije deployan)
