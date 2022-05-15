@@ -8,9 +8,9 @@
         :height="$vuetify.breakpoint.mobile ? '200' : '700'"
       >
         <v-carousel-item
-          v-for="(item, i) in store.carouselImagesSrc"
+          v-for="(item, i) in store.carouselPictures"
           :key="i"
-          :src="require('@/assets/game_images/' + item)"
+          :src="require('@/assets/game_images/' + item.src)"
         >
         </v-carousel-item>
       </v-carousel>

@@ -155,7 +155,7 @@ export default {
   }),
   mounted() {
     this.fetchData("gameCards");
-    this.fetchData("carouselImagesSrc");
+    this.fetchData("carouselPictures");
   },
   methods: {
     //Backend fetcher
