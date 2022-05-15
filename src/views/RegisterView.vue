@@ -86,16 +86,6 @@
             ><span class="text-red-like-logo">Sign in here</span></router-link
           >
         </h2>
-        <v-alert
-          dense
-          text
-          type="success"
-          class="mt-2 animate__animated animate__fadeInUp"
-          v-show="registerSuccess"
-        >
-          Your account has been successfully created. Please confirm your email
-          address to login.
-        </v-alert>
       </v-col>
     </v-row>
   </v-container>
@@ -103,7 +93,6 @@
 <script>
 import { required, email, max, min, alpha_dash } from "vee-validate/dist/rules";
 import "animate.css";
-import { Auth } from "@/services";
 import {
   extend,
   ValidationObserver,
@@ -157,21 +146,12 @@ export default {
     email: "",
     password: "",
     passwordConfirm: "",
-    registerSuccess: false,
+    checkboxRememberMe: null,
   }),
 
   methods: {
-    async submit() {
+    submit() {
       this.$refs.observer.validate();
-      console.log("Validated successfully!");
-      let userData = {
-        username: this.username,
-        email: this.email,
-        password: this.password,
-      };
-      await Auth.registerUser(userData);
-      console.log("Request sent successfully!");
-      this.registerSuccess = true;
     },
   },
 };

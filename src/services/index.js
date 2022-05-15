@@ -11,10 +11,5 @@ let Storage = {
     return Service.get(`storage?data=${data}`);
   },
 };
-let Auth = {
-  registerUser(userData) {
-    return Service.post("users", userData);
-  },
-};
 
-export { Service, Storage, Auth };
+export { Service, Storage };
