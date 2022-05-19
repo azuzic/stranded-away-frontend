@@ -76,26 +76,28 @@
             </validation-provider>
 
             <v-btn class="mr-4 mt-4" width="100%" type="submit" dark>
-              SIGN UP
+              <span v-show="!submiting">SIGN UP</span>
+              <rotatingLogo v-show="submiting" :height="45"></rotatingLogo>
             </v-btn>
           </form>
         </validation-observer>
+
         <h2 class="mt-4 text-center">
           Already have an account?
           <router-link to="/login"
             ><span class="text-red-like-logo">Sign in here</span></router-link
           >
         </h2>
-        <v-alert
-          dense
-          text
-          type="success"
-          class="mt-2 animate__animated animate__fadeInUp"
-          v-show="registerSuccess"
-        >
-          Your account has been successfully created. Please confirm your email
-          address to login.
-        </v-alert>
+
+        <alert
+          :activator="authResolver.registerRequest"
+          :text="
+            authResolver.promptType
+              ? 'Your account has been successfully created. Please confirm your email address to login.'
+              : 'Error signing up. Please check your input for errors or contact support.'
+          "
+          :type="authResolver.promptType ? 'success' : 'error'"
+        ></alert>
       </v-col>
     </v-row>
   </v-container>
@@ -104,12 +106,18 @@
 import { required, email, max, min, alpha_dash } from "vee-validate/dist/rules";
 import "animate.css";
 import { Auth } from "@/services";
+
+import authResolver from "@/services/authResolver";
+
 import {
   extend,
   ValidationObserver,
   ValidationProvider,
   setInteractionMode,
 } from "vee-validate";
+
+import rotatingLogo from "@/components/rotatingLogo.vue";
+import alert from "@/components/alert.vue";
 
 setInteractionMode("eager");
 
@@ -151,27 +159,43 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
+    alert,
+    rotatingLogo,
   },
   data: () => ({
     username: "",
     email: "",
     password: "",
     passwordConfirm: "",
-    registerSuccess: false,
+    submiting: false, //For loading animation
+    authResolver,
   }),
 
   methods: {
     async submit() {
-      this.$refs.observer.validate();
-      console.log("Validated successfully!");
-      let userData = {
-        username: this.username,
-        email: this.email,
-        password: this.password,
-      };
-      await Auth.registerUser(userData);
-      console.log("Request sent successfully!");
-      this.registerSuccess = true;
+      const isValid = this.$refs.observer.validate();
+      console.log(isValid);
+      if (isValid) {
+        this.submiting = true;
+        console.log("Validated successfully!");
+
+        let userData = {
+          username: this.username,
+          email: this.email,
+          password: this.password,
+        };
+
+        try {
+          await Auth.registerUser(userData);
+          console.log("Request sent successfully!");
+
+          this.authResolver.registerHandler("success");
+        } catch (e) {
+          this.submiting = false;
+          console.log(e);
+          this.authResolver.registerHandler("failed");
+        }
+      } else return;
     },
   },
 };

@@ -2,7 +2,7 @@
   <v-alert
     dense
     text
-    type="success"
+    :type="type"
     class="mt-2 animate__animated animate__fadeInUp"
     v-show="activator"
   >
@@ -12,8 +12,8 @@
 
 <script>
 export default {
-  name: "alert-success",
-  props: ["text", "activator"],
+  name: "alert",
+  props: ["text", "activator", "type"],
 };
 </script>
 

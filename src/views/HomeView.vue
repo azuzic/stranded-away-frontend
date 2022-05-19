@@ -93,6 +93,36 @@
           </h2>
         </v-col>
       </v-row>
+      <v-row justify="center">
+        <v-col :cols="$vuetify.breakpoint.mobile ? '6' : '2'">
+          <v-card
+            class="mx-auto"
+            :width="$vuetify.breakpoint.mobile ? '175' : '200'"
+          >
+            <v-img
+              class="align-end"
+              height="300px"
+              src="@/assets/portraits/Portret_Luka_Big.png"
+            >
+              <v-card-title class="text-red-like-logo">blaskec</v-card-title>
+            </v-img>
+          </v-card>
+        </v-col>
+        <v-col :cols="$vuetify.breakpoint.mobile ? '6' : '2'">
+          <v-card
+            class="mx-auto"
+            :width="$vuetify.breakpoint.mobile ? '175' : '200'"
+          >
+            <v-img
+              class="align-end"
+              height="300"
+              src="@/assets/portraits/Portret_Alesandro_Big.png"
+            >
+              <v-card-title class="text-red-like-logo">zuza</v-card-title>
+            </v-img>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>

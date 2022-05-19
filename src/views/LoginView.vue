@@ -54,7 +54,8 @@
             </validation-provider>
 
             <v-btn class="mr-4" width="100%" type="submit" dark>
-              SIGN IN
+              <span v-show="!submiting">SIGN IN</span>
+              <rotatingLogo v-show="submiting" :height="45"></rotatingLogo>
             </v-btn>
           </form>
         </validation-observer>
@@ -66,28 +67,24 @@
             ></router-link
           >
         </h2>
-        <alert-success
-          :activator="loginSuccess"
-          :text="'You have logged in successfully!'"
-        ></alert-success>
-        <alert-failed
-          :activator="loginFailed"
-          :text="'Login unsuccessful! Wrong email or password.'"
-        ></alert-failed>
+        <alert
+          :activator="authResolver.loginRequest"
+          :text="
+            authResolver.promptType
+              ? 'Logging in...'
+              : 'Login unsuccessful! Wrong email or password.'
+          "
+          :type="authResolver.promptType ? 'success' : 'error'"
+        ></alert>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
-let wait = function (seconds) {
-  return new Promise((resolveFn) => {
-    setTimeout(resolveFn, seconds * 1000);
-  });
-};
-
 import { required, email } from "vee-validate/dist/rules";
 import "animate.css";
 import { Auth } from "@/services";
+import authResolver from "@/services/authResolver";
 import {
   extend,
   ValidationObserver,
@@ -95,8 +92,8 @@ import {
   setInteractionMode,
 } from "vee-validate";
 
-import alertSuccess from "@/components/alertSuccess.vue";
-import alertFailed from "@/components/alertFailed.vue";
+import rotatingLogo from "@/components/rotatingLogo.vue";
+import alert from "@/components/alert.vue";
 
 setInteractionMode("eager");
 
@@ -114,45 +111,40 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
-    alertSuccess,
-    alertFailed,
+    alert,
+    rotatingLogo,
   },
   data: () => ({
     email: "",
     password: "",
     checkboxRememberMe: null,
-    loginSuccess: false,
-    loginFailed: false,
+    authResolver,
+    submiting: false,
   }),
 
   methods: {
     async submit() {
       this.$refs.observer.validate();
+      this.submiting = true;
       console.log("Validated successfully!");
+
       let userData = {
         email: this.email,
         password: this.password,
       };
+
       try {
         await Auth.authenticateUser(userData);
+
         console.log("Request sent successfully!");
-        this.authResolver("success");
+
+        this.authResolver.loginHandler("success");
       } catch (e) {
+        this.submiting = false;
         if (e.response.data.error == "Cannot authenticate")
-          this.authResolver("failed");
+          this.authResolver.loginHandler("failed");
+
         console.error(e);
-      }
-    },
-    async authResolver(alert) {
-      if (alert == "success") {
-        this.loginSuccess = true;
-        await wait(3);
-        this.loginSuccess = false;
-        this.$router.replace({ name: "home" });
-      } else {
-        this.loginFailed = true;
-        await wait(3);
-        this.loginFailed = false;
       }
     },
   },

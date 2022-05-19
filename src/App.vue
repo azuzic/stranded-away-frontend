@@ -4,7 +4,7 @@
     <nav class="custom-nav">
       <v-main>
         <v-app-bar class="v-app-bar navbarColor">
-          <v-row justify="left" align="start">
+          <v-row justify="start" align="start">
             <v-col
               align-self="center"
               :cols="$vuetify.breakpoint.mobile ? '12' : '2'"
@@ -133,14 +133,14 @@ export default {
     store,
     links: [
       {
-        title: "About us",
-        icon: "mdi-newspaper-variant-multiple",
-        to: "about-us",
-      },
-      {
         title: "Our games",
         icon: "mdi-google-controller",
         to: "games",
+      },
+      {
+        title: "About us",
+        icon: "mdi-newspaper-variant-multiple",
+        to: "about-us",
       },
       {
         title: "Contact us",
