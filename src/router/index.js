@@ -3,6 +3,9 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
+import UserProfileView from "../views/UserProfileView.vue";
+
+import { Auth } from "@/services";
 
 Vue.use(VueRouter);
 
@@ -23,11 +26,9 @@ const routes = [
     component: RegisterView,
   },
   {
-    path: "/games",
-    name: "games",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    path: "/user",
+    name: "user",
+    component: UserProfileView,
   },
 ];
 
@@ -35,6 +36,17 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ["/login", "/register", "/"];
+  const userRequired = !publicPages.includes(to.path);
+
+  const user = Auth.getUser();
+  if (userRequired && !user) {
+    next("/login");
+    return;
+  } else next();
 });
 
 export default router;

@@ -4,6 +4,26 @@ let Service = axios.create({
   baseURL: "http://localhost:4000/",
   timeout: 1000,
 });
+// prije svakog poslanog requesta na backend izvrši:
+Service.interceptors.request.use((request) => {
+  let token = Auth.getUserToken();
+  try {
+    request.headers["Authorization"] = "Bearer " + token;
+  } catch (e) {
+    console.error(e);
+  }
+  return request;
+});
+/*
+Service.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response.status == 401 || error.response.status == 403) {
+      Auth.signOut();
+    }
+  }
+);
+*/
 
 //Vezani uz pojedine rute
 let Storage = {
@@ -17,6 +37,28 @@ let Auth = {
   },
   authenticateUser(userData) {
     return Service.post("auth", userData);
+  },
+  signOut() {
+    localStorage.removeItem("user");
+  },
+  getUser() {
+    return JSON.parse(localStorage.getItem("user"));
+  },
+  getUserToken() {
+    let user = this.getUser();
+    if (user && user.token) return user.token;
+    else return false;
+  },
+  authenticated() {
+    let user = Auth.getUser();
+    if (user && user.token) {
+      return true;
+    } else return false;
+  },
+  state: {
+    get authenticated() {
+      return Auth.authenticated();
+    },
   },
 };
 

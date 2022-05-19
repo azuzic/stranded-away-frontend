@@ -46,6 +46,7 @@
               v-show="!$vuetify.breakpoint.mobile"
             >
               <v-btn
+                v-if="!auth.authenticated"
                 color="secondary"
                 rounded
                 class="my-4"
@@ -53,6 +54,17 @@
                 @click="$router.push({ name: 'login' })"
               >
                 <strong class="text-sm">SIGN IN</strong>
+              </v-btn>
+
+              <v-btn
+                v-else
+                color="secondary"
+                rounded
+                class="my-4"
+                cols="2"
+                @click="signOut"
+              >
+                <strong class="text-sm">SIGN OUT</strong>
               </v-btn>
             </v-col>
           </v-row>
@@ -86,11 +98,22 @@
             </v-list-item>
             <v-list-item class="justify-center top-28 white--text">
               <v-btn
+                v-if="!auth.authenticated"
                 color="secondary"
                 rounded
                 class="my-4"
                 cols="2"
                 @click="$router.push({ name: 'login' })"
+              >
+                <strong class="text-sm">SIGN IN</strong>
+              </v-btn>
+              <v-btn
+                v-else
+                color="secondary"
+                rounded
+                class="my-4"
+                cols="2"
+                @click="signOut"
               >
                 <strong class="text-sm">SIGN IN</strong>
               </v-btn>
@@ -125,7 +148,8 @@
 <script>
 import router from "@/router";
 import store from "@/store";
-import { Storage } from "@/services";
+import { Storage, Auth } from "@/services";
+
 export default {
   name: "App",
   data: () => ({
@@ -145,13 +169,16 @@ export default {
       {
         title: "Contact us",
         icon: "mdi-account-box",
-        to: "contact-us",
+        to: "games",
       },
     ],
     //For footer
     items: ["default", "absolute", "fixed"],
     padless: true,
     variant: "fixed",
+
+    //Get authenticated state from services/auth
+    auth: Auth.state,
   }),
   mounted() {
     this.fetchData("gameCards");
@@ -165,13 +192,18 @@ export default {
     },
     //Link scroll
     scroll(id) {
-      if (this.$route.name != "home-page")
-        router.push({ path: "/", replace: true });
+      if (this.$route.name != "home") router.push({ path: "/", replace: true });
       if (id == null) return;
-      document.getElementById(id).scrollIntoView({
-        behavior: "smooth",
-      });
-      this.drawer = false;
+      try {
+        document.getElementById(id).scrollIntoView({
+          behavior: "smooth",
+        });
+        this.drawer = false;
+      } catch (e) {}
+    },
+    signOut() {
+      Auth.signOut();
+      router.go();
     },
   },
   computed: {

@@ -8,15 +8,19 @@ export default {
   loginRequest: false,
   promptType: false,
 
-  loginHandler: async function (state) {
+  loginHandler: async function (state, response) {
     this.loginRequest = true;
 
     if (state == "success") {
       this.promptType = true;
       await wait(3);
 
-      //Redirect to home
-      router.replace({ name: "home" });
+      //Save token to localStorage
+      let user = response.data;
+      localStorage.setItem("user", JSON.stringify(user));
+
+      //Redirect to user profile page
+      router.replace({ name: "user" });
     } else {
       this.promptType = false;
       await wait(3);

@@ -186,14 +186,14 @@ export default {
         };
 
         try {
-          await Auth.registerUser(userData);
+          let response = await Auth.registerUser(userData);
           console.log("Request sent successfully!");
 
-          this.authResolver.registerHandler("success");
+          this.authResolver.registerHandler("success", response);
         } catch (e) {
           this.submiting = false;
           console.log(e);
-          this.authResolver.registerHandler("failed");
+          this.authResolver.registerHandler("failed", response);
         }
       } else return;
     },

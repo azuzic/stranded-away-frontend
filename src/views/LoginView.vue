@@ -132,17 +132,16 @@ export default {
         email: this.email,
         password: this.password,
       };
-
+      let response = {};
       try {
-        await Auth.authenticateUser(userData);
-
+        response = await Auth.authenticateUser(userData);
         console.log("Request sent successfully!");
 
-        this.authResolver.loginHandler("success");
+        this.authResolver.loginHandler("success", response);
       } catch (e) {
         this.submiting = false;
         if (e.response.data.error == "Cannot authenticate")
-          this.authResolver.loginHandler("failed");
+          this.authResolver.loginHandler("failed", response);
 
         console.error(e);
       }
