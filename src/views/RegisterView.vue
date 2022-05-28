@@ -75,14 +75,20 @@
               ></v-text-field>
             </validation-provider>
 
-            <v-btn class="mr-4 mt-4" width="100%" type="submit" dark>
-              <span v-show="!submiting">SIGN UP</span>
-              <rotatingLogo v-show="submiting" :height="45"></rotatingLogo>
+            <v-btn
+              v-show="!submitting"
+              class="mr-4 mt-4"
+              width="100%"
+              type="submit"
+              dark
+            >
+              <span>SIGN UP</span>
             </v-btn>
+            <rotatingLogo v-show="submitting" :height="80"></rotatingLogo>
           </form>
         </validation-observer>
 
-        <h2 class="mt-4 text-center">
+        <h2 class="mt-4 text-center" v-show="!submitting">
           Already have an account?
           <router-link to="/login"
             ><span class="text-red-like-logo">Sign in here</span></router-link
@@ -168,7 +174,7 @@ export default {
     email: "",
     password: "",
     passwordConfirm: "",
-    submiting: false, //For loading animation
+    submitting: false, //For loading animation
     authResolver,
   }),
 
@@ -177,7 +183,7 @@ export default {
       const isValid = this.$refs.observer.validate();
       console.log(isValid);
       if (isValid) {
-        this.submiting = true;
+        this.submitting = true;
         console.log("Validated successfully!");
 
         let userData = {
@@ -192,7 +198,7 @@ export default {
 
           this.authResolver.registerHandler("success", response);
         } catch (e) {
-          this.submiting = false;
+          this.submitting = false;
           console.log(e);
           this.authResolver.registerHandler("failed", response);
         }

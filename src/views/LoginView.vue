@@ -138,6 +138,7 @@ export default {
       let userData = {
         email: this.email,
         password: this.password,
+        rememberMe: this.checkboxRememberMe,
       };
       let response = {};
       try {

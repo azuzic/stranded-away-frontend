@@ -230,11 +230,11 @@ export default {
   height: 64+16px !important;
   padding-top: 8px;
   filter: drop-shadow(0px 0px 64px rgba(0, 0, 0, 1));
-  z-index: 1;
+  z-index: 100;
 }
 .v-footer {
   filter: drop-shadow(0px 0px 32px rgba(0, 0, 0, 1));
-  z-index: 1;
+  z-index: 100;
 }
 
 .v-card {

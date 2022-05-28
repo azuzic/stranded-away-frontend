@@ -185,7 +185,7 @@ export default {
         icon: "mdi-newspaper-variant",
         date: "28 May, 2022",
         title: "Stranded Away coming soon!",
-        text: "2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still work in progress!",
+        text: "2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still in progress!",
       },
     ],
   }),
