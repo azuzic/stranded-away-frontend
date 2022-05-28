@@ -53,13 +53,19 @@
               ></v-checkbox>
             </validation-provider>
 
-            <v-btn class="mr-4" width="100%" type="submit" dark>
-              <span v-show="!submiting">SIGN IN</span>
-              <rotatingLogo v-show="submiting" :height="45"></rotatingLogo>
+            <v-btn
+              class="mr-4"
+              width="100%"
+              type="submit"
+              dark
+              v-show="!submitting"
+            >
+              <span>SIGN IN</span>
             </v-btn>
+            <rotatingLogo v-show="submitting" :height="80"></rotatingLogo>
           </form>
         </validation-observer>
-        <h2 class="mt-4 text-center">
+        <h2 class="mt-4 text-center" v-show="!submitting">
           New to MacroQuiet?
           <router-link to="/register"
             ><span class="text-red-like-logo"
@@ -119,13 +125,13 @@ export default {
     password: "",
     checkboxRememberMe: null,
     authResolver,
-    submiting: false,
+    submitting: false,
   }),
 
   methods: {
     async submit() {
       this.$refs.observer.validate();
-      this.submiting = true;
+      this.submitting = true;
       console.log("Validated successfully!");
 
       let userData = {
@@ -139,7 +145,7 @@ export default {
 
         this.authResolver.loginHandler("success", response);
       } catch (e) {
-        this.submiting = false;
+        this.submitting = false;
         if (e.response.data.error == "Cannot authenticate")
           this.authResolver.loginHandler("failed", response);
 
