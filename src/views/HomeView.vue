@@ -112,8 +112,8 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container class="mb-32 text-center">
-      <h2 class="text-4xl text-white font-bold uppercase mb-6">
+    <v-container class="mb-32">
+      <h2 class="text-4xl text-white font-bold uppercase mb-6 text-center">
         What's been going on
       </h2>
       <v-row justify="center">
@@ -125,12 +125,12 @@
             fill-dot
             small
           >
-            <v-card :color="item.color" dark max-width="800">
-              <v-card-title class="text-h6 uppercase">
-                <v-icon size="64">
+            <v-card :color="item.color" dark max-width="900">
+              <v-card-title>
+                <v-icon size="32">
                   {{ item.icon }}
                 </v-icon>
-                {{ item.title }}
+                <span class="text-xl uppercase ml-2">{{ item.title }}</span>
               </v-card-title>
 
               <v-container class="grey lighten-5">

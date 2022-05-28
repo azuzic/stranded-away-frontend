@@ -12,22 +12,22 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "home",
+    name: "Home",
     component: HomeView,
   },
   {
     path: "/login",
-    name: "login",
+    name: "Login",
     component: LoginView,
   },
   {
     path: "/register",
-    name: "register",
+    name: "Register",
     component: RegisterView,
   },
   {
     path: "/user",
-    name: "user",
+    name: "User",
     component: UserProfileView,
   },
 ];
@@ -41,7 +41,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const publicPages = ["/login", "/register", "/"];
   const userRequired = !publicPages.includes(to.path);
-
+  document.title = `${to.name} - ${process.env.VUE_APP_TITLE}`;
   const user = Auth.getUser();
   if (userRequired && !user) {
     next("/login");

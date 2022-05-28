@@ -51,7 +51,7 @@
                 rounded
                 class="my-4"
                 cols="2"
-                @click="$router.push({ name: 'login' })"
+                @click="$router.push({ name: 'Login' })"
               >
                 <strong class="text-sm">SIGN IN</strong>
               </v-btn>
@@ -103,7 +103,7 @@
                 rounded
                 class="my-4"
                 cols="2"
-                @click="$router.push({ name: 'login' })"
+                @click="$router.push({ name: 'Login' })"
               >
                 <strong class="text-sm">SIGN IN</strong>
               </v-btn>

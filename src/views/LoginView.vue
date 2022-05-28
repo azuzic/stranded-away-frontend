@@ -114,6 +114,7 @@ extend("email", {
 });
 
 export default {
+  name: "Login",
   components: {
     ValidationProvider,
     ValidationObserver,
