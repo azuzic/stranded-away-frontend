@@ -20,7 +20,7 @@ export default {
       localStorage.setItem("user", JSON.stringify(user));
 
       //Redirect to user profile page
-      router.replace({ name: "user" });
+      router.replace({ name: "User" });
     } else {
       this.promptType = false;
       await wait(3);
@@ -38,7 +38,7 @@ export default {
       await wait(3);
 
       //Redirect to login
-      router.replace({ name: "login" });
+      router.replace({ name: "Login" });
     } else {
       this.promptType = false;
       await wait(3);
