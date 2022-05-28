@@ -71,7 +71,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container class="mb-32 text-center">
+    <v-container class="mb-8 text-center">
       <v-row justify="center">
         <v-col :cols="$vuetify.breakpoint.mobile ? '12' : '3'">
           <h2
@@ -95,34 +95,61 @@
       </v-row>
       <v-row justify="center">
         <v-col :cols="$vuetify.breakpoint.mobile ? '6' : '2'">
-          <v-card
-            class="mx-auto"
-            :width="$vuetify.breakpoint.mobile ? '175' : '200'"
+          <v-img
+            class="align-end"
+            height="300px"
+            src="@/assets/portraits/Portret_Luka_Big-noBG.png"
           >
-            <v-img
-              class="align-end"
-              height="300px"
-              src="@/assets/portraits/Portret_Luka_Big.png"
-            >
-              <v-card-title class="text-red-like-logo">blaskec</v-card-title>
-            </v-img>
-          </v-card>
+          </v-img>
         </v-col>
         <v-col :cols="$vuetify.breakpoint.mobile ? '6' : '2'">
-          <v-card
-            class="mx-auto"
-            :width="$vuetify.breakpoint.mobile ? '175' : '200'"
+          <v-img
+            class="align-end"
+            height="300"
+            src="@/assets/portraits/Portret_Alesandro_Big-noBG.png"
           >
-            <v-img
-              class="align-end"
-              height="300"
-              src="@/assets/portraits/Portret_Alesandro_Big.png"
-            >
-              <v-card-title class="text-red-like-logo">zuza</v-card-title>
-            </v-img>
-          </v-card>
+          </v-img>
         </v-col>
       </v-row>
+    </v-container>
+    <v-container class="mb-32 text-center">
+      <h2 class="text-4xl text-white font-bold uppercase mb-6">
+        What's been going on
+      </h2>
+      <v-row justify="center">
+        <v-timeline align-top :dense="$vuetify.breakpoint.smAndDown">
+          <v-timeline-item
+            v-for="(item, i) in reversedNews"
+            :key="i"
+            :color="item.color"
+            fill-dot
+            small
+          >
+            <v-card :color="item.color" dark max-width="800">
+              <v-card-title class="text-h6 uppercase">
+                <v-icon size="64">
+                  {{ item.icon }}
+                </v-icon>
+                {{ item.title }}
+              </v-card-title>
+
+              <v-container class="grey lighten-5">
+                <v-row class="text-xs text--primary p-2">{{ item.date }}</v-row>
+                <v-row>
+                  <v-col cols="12" md="10">
+                    <div class="text--primary">
+                      <p>{{ item.text }}</p>
+                      <v-btn :color="item.color" class="mx-0" outlined>
+                        read more
+                      </v-btn>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card>
+          </v-timeline-item>
+        </v-timeline></v-row
+      >
     </v-container>
   </div>
 </template>
@@ -138,7 +165,35 @@ export default {
   },
   data: () => ({
     store,
+    news: [
+      {
+        color: "red lighten-1",
+        icon: "mdi-newspaper-variant",
+        date: "3 July, 2021",
+        title: "MacroQuiet is born!",
+        text: "Bring the Champagne!",
+      },
+      {
+        color: "red lighten-1",
+        icon: "mdi-newspaper-variant",
+        date: "21 July, 2021",
+        title: "Doge game available now!",
+        text: "The great and epic Doge game! Our first game ever. Made in just 2 weeks! Take control of lost doge trying to find his way out of town. Be careful! You will encounter many dogcatchers along the way. Also, those bones look really delicious.",
+      },
+      {
+        color: "red lighten-1",
+        icon: "mdi-newspaper-variant",
+        date: "28 May, 2022",
+        title: "Stranded Away coming soon!",
+        text: "2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still work in progress!",
+      },
+    ],
   }),
+  computed: {
+    reversedNews() {
+      return this.news.reverse();
+    },
+  },
 };
 </script>
 
