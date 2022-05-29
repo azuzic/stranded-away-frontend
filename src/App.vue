@@ -3,7 +3,7 @@
     <!--Header-->
     <nav class="custom-nav">
       <v-main>
-        <v-app-bar class="v-app-bar navbarColor">
+        <v-app-bar class="v-app-bar navbarColor" fixed>
           <v-row justify="start" align="start">
             <v-col
               align-self="center"
@@ -18,6 +18,7 @@
                 />
               </router-link>
             </v-col>
+            <!--LINKS-->
             <v-col
               v-show="!$vuetify.breakpoint.mobile"
               align-self="center"
@@ -40,6 +41,7 @@
                 <strong class="text-sm">{{ link.title }}</strong>
               </v-btn>
             </v-col>
+            <!--/LINKS-->
             <v-col
               cols="1"
               align-self="center"
@@ -54,7 +56,7 @@
               >
                 <strong class="text-sm">SIGN IN</strong>
               </v-btn>
-
+              <!--User profile icon-->
               <v-col align-self="center" v-else>
                 <v-menu bottom min-width="200px" rounded offset-y>
                   <template v-slot:activator="{ on }">
@@ -92,6 +94,7 @@
                   </v-card>
                 </v-menu>
               </v-col>
+              <!--/User profile icon-->
             </v-col>
           </v-row>
 
@@ -249,15 +252,15 @@ export default {
     logoWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return 250;
+          return 225;
         case "sm":
-          return 200;
+          return 175;
         case "md":
-          return 250;
+          return 225;
         case "lg":
-          return 240;
+          return 220;
         case "xl":
-          return 250;
+          return 225;
       }
     },
   },
@@ -265,12 +268,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-app-bar {
-  height: 64+16px !important;
-  padding-top: 8px;
-  filter: drop-shadow(0px 0px 64px rgba(0, 0, 0, 1));
-  z-index: 100;
-}
+//filter: drop-shadow(0px 0px 64px rgba(0, 0, 0, 1));
 .v-footer {
   filter: drop-shadow(0px 0px 32px rgba(0, 0, 0, 1));
   z-index: 100;

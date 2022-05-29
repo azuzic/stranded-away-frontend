@@ -21,6 +21,7 @@ export default {
 
       //Redirect to user profile page
       router.replace({ name: "Home" });
+      router.go();
     } else {
       this.promptType = false;
       await wait(3);

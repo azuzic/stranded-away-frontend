@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="mt-12">
     <v-row justify="center" align="center">
       <v-col
         :cols="$vuetify.breakpoint.mobile ? '10' : '3'"
