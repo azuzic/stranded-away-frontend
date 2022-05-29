@@ -20,7 +20,7 @@ export default {
       localStorage.setItem("user", JSON.stringify(user));
 
       //Redirect to user profile page
-      router.replace({ name: "User" });
+      router.replace({ name: "Home" });
     } else {
       this.promptType = false;
       await wait(3);

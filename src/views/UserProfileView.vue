@@ -1,12 +1,9 @@
-<template>
-  <v-container>
-    <p>Hello dear user!</p>
-  </v-container>
-</template>
+<template></template>
 
 <script>
 export default {
   name: "User",
+  data: () => ({}),
 };
 </script>
 

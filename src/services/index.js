@@ -46,6 +46,7 @@ let Auth = {
   },
   getUserToken() {
     let user = this.getUser();
+    console.log(user);
     if (user && user.token) return user.token;
     else return false;
   },
@@ -54,6 +55,15 @@ let Auth = {
     if (user && user.token) {
       return true;
     } else return false;
+  },
+  getUserData() {
+    let user = this.getUser();
+    let userData = {
+      username: user.username,
+      email: user.email,
+      //Plus profile picture treba dodati
+    };
+    return userData;
   },
   state: {
     get authenticated() {

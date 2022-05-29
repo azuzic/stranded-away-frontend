@@ -50,22 +50,48 @@
                 color="secondary"
                 rounded
                 class="my-4"
-                cols="2"
                 @click="$router.push({ name: 'Login' })"
               >
                 <strong class="text-sm">SIGN IN</strong>
               </v-btn>
 
-              <v-btn
-                v-else
-                color="secondary"
-                rounded
-                class="my-4"
-                cols="2"
-                @click="signOut"
-              >
-                <strong class="text-sm">SIGN OUT</strong>
-              </v-btn>
+              <v-col align-self="center" v-else>
+                <v-menu bottom min-width="200px" rounded offset-y>
+                  <template v-slot:activator="{ on }">
+                    <v-btn icon x-large v-on="on">
+                      <v-avatar color="gray " size="48">
+                        <img src="@/assets/default-user-icon.jpg" alt="" />
+                      </v-avatar>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-list-item-content class="justify-center">
+                      <div class="mx-auto text-center">
+                        <v-avatar color="gray " size="48">
+                          <img src="@/assets/default-user-icon.jpg" alt="" />
+                        </v-avatar>
+                        <h3>{{ user.fullName }}</h3>
+                        <p class="text-caption mt-1">
+                          {{ user.email }}
+                        </p>
+                        <v-divider class="my-3"></v-divider>
+                        <v-btn
+                          @click="$router.push({ name: 'User' })"
+                          depressed
+                          rounded
+                          text
+                        >
+                          MY PROFILE
+                        </v-btn>
+                        <v-divider class="my-3"></v-divider>
+                        <v-btn @click="signOut()" depressed rounded text>
+                          SIGN OUT
+                        </v-btn>
+                      </div>
+                    </v-list-item-content>
+                  </v-card>
+                </v-menu>
+              </v-col>
             </v-col>
           </v-row>
 
@@ -113,9 +139,9 @@
                 rounded
                 class="my-4"
                 cols="2"
-                @click="signOut"
+                @click="signOut()"
               >
-                <strong class="text-sm">SIGN IN</strong>
+                <strong class="text-sm">SIGN OUT</strong>
               </v-btn>
             </v-list-item>
           </v-list>
@@ -134,7 +160,7 @@
             class="white--text flex justify-center align-center mb-0"
           >
             <span class="-mb-4"
-              ><strong>MacroQuiet Game development <br /></strong>
+              ><strong>MacroQuiet Game Development <br /></strong>
               <p>Copyright © {{ new Date().getFullYear() }}</p></span
             >
           </v-card-text>
@@ -179,12 +205,25 @@ export default {
 
     //Get authenticated state from services/auth
     auth: Auth.state,
+    user: {
+      initials: "JD",
+      fullName: "John Doe",
+      email: "john.doe@doe.com",
+    },
   }),
   mounted() {
     this.fetchData("gameCards");
     this.fetchData("carouselPictures");
+    this.getUserDetails();
   },
   methods: {
+    getUserDetails() {
+      if (this.auth.authenticated) {
+        let userData = Auth.getUserData();
+        this.user.fullName = userData.username;
+        this.user.email = userData.email;
+      }
+    },
     //Backend fetcher
     async fetchData(data) {
       const response = await Storage.getAll(data);
