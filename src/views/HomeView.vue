@@ -10,7 +10,7 @@
         <v-carousel-item
           v-for="(item, i) in store.carouselPictures"
           :key="i"
-          :src="require('@/assets/game_images/' + item.src)"
+          :src="require('@/assets/game_images/' + item)"
         >
         </v-carousel-item>
       </v-carousel>

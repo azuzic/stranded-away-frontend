@@ -215,8 +215,9 @@ export default {
     },
   }),
   mounted() {
-    this.fetchData("gameCards");
-    this.fetchData("carouselPictures");
+    //this.fetchData("gameCards");
+    //this.fetchData("carouselPictures");
+
     this.getUserDetails();
   },
   methods: {
