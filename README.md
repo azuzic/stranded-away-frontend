@@ -9,7 +9,7 @@ VUE.js front-end aplikacije za MacroQuiet Game Development - 2 people Indie Game
 ### Autori i zaduženja
 
 -   Alesandro Žužić (azuzic@unipu.hr) - Izrada challenge levela - Unity, VUE.js CSS, SCSS, achivements/trophies page, user profile page, stats page
--   Luka Blašković (lblaskovi@unipu.hr) - Frontend komponente -> Vuetify - News, Front, VeeValidate - Login/Register page , Unity networking - Login page
+-   Luka Blašković (lblaskovi@unipu.hr) - Frontend komponente -> Vuetify - News, Front, VeeValidate - Login/Register page , Unity networking - Login page, Forum
 
 ### Kratki opis funkcionalnosti
 Projekt se sastoji od igrice Stranded Away koja se izrađuje u Unity-u (DESKTOP igra), korisničkog sučelja na webu i backenda s odgovarajućom MongoDB bazom podataka. U grupu korisnika spadaju svi igrači koji bi htjeli igrati ovu igru.
