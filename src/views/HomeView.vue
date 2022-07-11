@@ -62,12 +62,12 @@
           :key="gameCard.id"
           :cols="width"
         >
-          <card-1
+          <gameCard
             :availability="gameCard.availability"
             :title="gameCard.title"
             :text="gameCard.text"
             :imageSrc="gameCard.imageSrc"
-          ></card-1>
+          ></gameCard>
         </v-col>
       </v-row>
     </v-container>
@@ -155,13 +155,13 @@
 </template>
 
 <script>
-import card1 from "@/components/card1.vue";
+import gameCard from "@/components/gameCard.vue";
 import store from "@/store";
 
 export default {
   name: "Home",
   components: {
-    card1,
+    gameCard,
   },
   data: () => ({
     store,

@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" color="#15171e" max-width="420">
+  <v-card class="mx-auto" max-width="420" color="#15171e">
     <router-link to="/user">
       <figure class="hover11">
         <v-img :src="require('@/assets/' + imageSrc)" height="200px"></v-img>
@@ -18,7 +18,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn icon>
+      <v-btn icon @click="$router.push({ name: 'game' })">
         <v-icon color="white">{{ "mdi-arrow-right" }}</v-icon>
       </v-btn>
     </v-card-actions>
@@ -28,8 +28,8 @@
 </template>
 <script>
 export default {
-  name: "card1",
-  props: ["availability", "title", "text", "imageSrc"],
+  name: "gameCard",
+  props: ["availability", "title", "text", "imageSrc", "link"],
   data: () => ({}),
   methods: {},
 };

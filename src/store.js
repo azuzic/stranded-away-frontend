@@ -25,21 +25,5 @@ export default {
     "GameScreenshot_18.png",
     "GameScreenshot_17.png",
   ],
-  //Temporary here... will be in database
-  gameCards: [
-    {
-      id: 1000,
-      availability: "Available now!",
-      title: "Doge",
-      text: "The great and epic Doge game! Our first game ever. Made in just 2 weeks! Take control of lost doge trying to find his way out of town. Be careful! You will encounter many dogcatchers along the way. Also, those bones look really delicious.",
-      imageSrc: "cards/doge1.png",
-    },
-    {
-      id: 1001,
-      availability: "Available in july!",
-      title: "Stranded Away",
-      text: "2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still work in progress!",
-      imageSrc: "cards/stranded1.png",
-    },
-  ],
+  gameCards: [],
 };
