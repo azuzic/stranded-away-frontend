@@ -18,7 +18,10 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn icon @click="$router.push({ name: 'GamePage' })">
+      <v-btn
+        icon
+        @click="$router.push({ name: 'GamePage', params: { gameName: gName } })"
+      >
         <v-icon color="white">{{ "mdi-arrow-right" }}</v-icon>
       </v-btn>
     </v-card-actions>
