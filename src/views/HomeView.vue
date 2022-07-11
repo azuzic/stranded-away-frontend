@@ -60,7 +60,7 @@
         <v-col
           v-for="gameCard in store.gameCards"
           :key="gameCard.id"
-          :cols="$vuetify.breakpoint.mobile ? '12' : '3'"
+          :cols="width"
         >
           <card-1
             :availability="gameCard.availability"
@@ -193,6 +193,20 @@ export default {
     reversedNews() {
       return this.news.reverse();
     },
+    width() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return 11;
+        case "sm":
+          return 6;
+        case "md":
+          return 6;
+        case "lg":
+          return 4;
+        case "xl":
+          return 3;
+      }
+    },
   },
 };
 </script>
@@ -230,5 +244,8 @@ export default {
 }
 .p-dark {
   font-family: pdark;
+}
+.theme--light.v-timeline:before {
+  background: #917777;
 }
 </style>
