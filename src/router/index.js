@@ -4,7 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import UserProfileView from "../views/UserProfileView.vue";
-import game from "../components/game.vue";
+import Game from "../components/game.vue";
 
 import { Auth } from "@/services";
 
@@ -32,9 +32,10 @@ const routes = [
     component: UserProfileView,
   },
   {
-    path: "/game/:name",
+    path: "/game/:gameName",
     name: "Game",
-    component: game,
+    component: Game,
+    props: true,
   },
 ];
 

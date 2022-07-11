@@ -67,6 +67,7 @@
             :title="gameCard.title"
             :text="gameCard.text"
             :imageSrc="gameCard.imageSrc"
+            :gName="gameCard.gameName"
           ></gameCard>
         </v-col>
       </v-row>
@@ -246,6 +247,6 @@ export default {
   font-family: pdark;
 }
 .theme--light.v-timeline:before {
-  background: #917777;
+  background: rgba(250, 251, 251, 255);
 }
 </style>
