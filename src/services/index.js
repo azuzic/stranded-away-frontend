@@ -4,6 +4,7 @@ let Service = axios.create({
   baseURL: "https://stranded-away.herokuapp.com/",
   timeout: 1000,
 });
+console.log(Service);
 // prije svakog poslanog requesta na backend izvrši:
 Service.interceptors.request.use((request) => {
   let token = Auth.getUserToken();

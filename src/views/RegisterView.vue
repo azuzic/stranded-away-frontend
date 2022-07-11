@@ -1,10 +1,7 @@
 <template>
   <v-container class="mt-12">
     <v-row justify="center" align="center">
-      <v-col
-        :cols="$vuetify.breakpoint.mobile ? '10' : '3'"
-        align-self="center"
-      >
+      <v-col :cols="width" align-self="center">
         <v-img
           src="@/assets/macroquiet_logo_notext.png"
           width="25%"
@@ -203,6 +200,22 @@ export default {
           this.authResolver.registerHandler("failed", response);
         }
       } else return;
+    },
+  },
+  computed: {
+    width() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return 11;
+        case "sm":
+          return 8;
+        case "md":
+          return 6;
+        case "lg":
+          return 4;
+        case "xl":
+          return 3;
+      }
     },
   },
 };
