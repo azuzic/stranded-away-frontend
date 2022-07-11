@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto" max-width="420" color="#15171e">
-    <router-link :to="{ name: 'Game', params: { gameName: gName } }">
+    <router-link :to="{ name: 'GamePage', params: { gameName: gName } }">
       <figure class="hover11">
         <v-img :src="require('@/assets/' + imageSrc)" height="200px"></v-img>
       </figure>
@@ -18,7 +18,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn icon @click="$router.push({ name: 'Game' })">
+      <v-btn icon @click="$router.push({ name: 'GamePage' })">
         <v-icon color="white">{{ "mdi-arrow-right" }}</v-icon>
       </v-btn>
     </v-card-actions>
@@ -28,7 +28,7 @@
 </template>
 <script>
 export default {
-  name: "gameCard",
+  name: "GameCard",
   props: ["availability", "title", "text", "imageSrc", "gName"],
   data: () => ({}),
   methods: {},

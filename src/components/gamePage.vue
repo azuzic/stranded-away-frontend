@@ -1,15 +1,11 @@
 <template>
-  <div>
-    <p>Game: {{ name }}</p>
-  </div>
+  <div></div>
 </template>
 
 <script>
 export default {
-  name: "Game",
-  data: () => ({
-    name: this.$route.params.name,
-  }),
+  name: "GamePage",
+
   methods: {
     getData() {
       //Get Data
