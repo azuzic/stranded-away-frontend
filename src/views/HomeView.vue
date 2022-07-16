@@ -42,7 +42,7 @@
               Away
             </div>
             <div :class="$vuetify.breakpoint.mobile ? 'text-xs	' : 'text-2xl'">
-              Available July 2022.
+              Available August 2022.
             </div>
           </div>
         </div>
