@@ -38,9 +38,6 @@ export default {
 };
 </script>
 <style>
-.cardColor {
-  background-color: #18141c;
-}
 /* Opacity #1 */
 .hover11 {
   opacity: 1;

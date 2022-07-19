@@ -78,7 +78,7 @@
                         </p>
                         <v-divider class="my-3"></v-divider>
                         <v-btn
-                          @click="$router.push({ name: 'User' })"
+                          @click="$router.push({ name: 'User', params: { userName: user.fullName } })"
                           depressed
                           rounded
                           text
@@ -280,7 +280,7 @@ export default {
 }
 
 #app {
-  background-color: #0f1119;
+  background-color: var(--firstColor);
   color: white;
 }
 
@@ -292,6 +292,6 @@ export default {
   overflow: visible !important;
 }
 .navbarColor {
-  background-color: #111011 !important;
+  background-color: var(--secondColor) !important;
 }
 </style>
