@@ -29,18 +29,18 @@
                                 </v-avatar>
                             </button>
                         </div>
-                            <!--NAME & EMAIL-->
-                            <div class="flex flex-wrap justify-left align-center">
-                                <div class="grow" :class="$vuetify.breakpoint.mobile ? 'text-center mb-4' : ''">
-                                    <div class="text-4xl text-red-like-logo">{{ user.fullName }}</div>
-                                    <div class="text-slate-300">{{ user.email }}</div>
-                                </div>
-                            <!--MEDALS-->
-                                <div class="flex flex-wrap justify-center align-center min-w-200px" 
-                                :class="$vuetify.breakpoint.mobile ? 'mb-4' : ''" >
-                                    <img v-for="n in 6" :key="n" class="medal" src="@/assets/user/user_medal.png">
-                                </div>
+                        <!--NAME & EMAIL-->
+                        <v-col class="flex flex-wrap justify-left align-center">
+                            <div class="grow" :class="$vuetify.breakpoint.mobile ? 'text-center mb-4' : ''">
+                                <div class="text-4xl text-red-like-logo">{{ user.fullName }}</div>
+                                <div class="text-slate-300">{{ user.email }}</div>
                             </div>
+                        <!--MEDALS-->
+                            <div class="flex flex-wrap justify-center align-center min-w-200px" 
+                            :class="$vuetify.breakpoint.mobile ? 'mb-4' : ''" >
+                                <img v-for="n in 10" :key="n" class="medal" src="@/assets/user/user_medal.png">
+                            </div>
+                        </v-col>
                     </v-row>
                 </v-container>
                 <v-container>
@@ -49,10 +49,11 @@
                         <p class="text-justify text-slate-200">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas semper diam facilisis nisl scelerisque aliquam. Donec rhoncus, augue in facilisis tincidunt, arcu arcu eleifend velit, et interdum nibh mauris et purus. Nunc condimentum velit a lorem condimentum, non imperdiet libero blandit. Mauris at dolor neque. Pellentesque porta varius porta. Suspendisse potenti. Fusce tristique a dui a commodo. Phasellus vitae ante ligula. Suspendisse bibendum metus eu eleifend sagittis. Nunc euismod malesuada congue. Quisque eleifend nisl vitae ex fermentum, tempus cursus erat posuere. Nulla urna velit, elementum ac molestie vel, ornare et nulla. Integer convallis non odio eget malesuada.</p>
                     </div>
                     <v-row class="pr-4">
+                        <!--PLAYED GAMES-->
                         <v-col cols="12" class="ml-4 text-2xl text-red-like-logo">
                             Played games
                         </v-col>
-                        <v-row class="ml-4 mr-1 justify-left"> 
+                        <v-row class="ml-4 mr-1 justify-left w-full"> 
                             <v-col
                             v-for="gameCard in store.gameCards"
                             :key="gameCard.id"
@@ -67,12 +68,13 @@
                             ></gameCard>
                             </v-col>
                         </v-row>
+                        <!--TROPHIES-->
                         <v-col cols="12" class="ml-4 text-2xl text-red-like-logo">
                             Throphies
                         </v-col>
                         <v-col>
-                            <div class="flex flex-wrap justify-left align-center min-w-200px" 
-                            :class="$vuetify.breakpoint.mobile ? 'mb-4' : ''" >
+                            <div class="flex flex-wrap align-center min-w-200px" 
+                            :class="$vuetify.breakpoint.mobile ? 'mb-4 justify-center' : 'justify-left'" >
                                 <img v-for="n in 13" :key="n" class="trophy" src="@/assets/user/user_trophy.png">
                             </div>
                         </v-col>
@@ -161,11 +163,11 @@ export default {
 .trophy {
     transition-duration: 0.5s;
     margin: 10px;
-    width: 100px;
+    width: 80px;
 }
 .trophy:hover {
     transition-duration: 0.5s;
-    margin: -15px;
-    width: 150px;
+    margin: -10px;
+    width: 120px;
 }
 </style>
