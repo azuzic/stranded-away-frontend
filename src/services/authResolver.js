@@ -14,7 +14,7 @@ export default {
     if (state == "success") {
       this.promptType = true;
       await wait(3);
-
+      console.log("Success");
       //Save token to localStorage
       let user = response.data;
       localStorage.setItem("user", JSON.stringify(user));
@@ -23,6 +23,7 @@ export default {
       router.replace({ name: "Home" });
       router.go();
     } else {
+      console.log("Error");
       this.promptType = false;
       await wait(3);
     }

@@ -78,7 +78,12 @@
                         </p>
                         <v-divider class="my-3"></v-divider>
                         <v-btn
-                          @click="$router.push({ name: 'User', params: { userName: user.fullName } })"
+                          @click="
+                            $router.push({
+                              name: 'User',
+                              params: { userName: user.fullName },
+                            })
+                          "
                           depressed
                           rounded
                           text
@@ -108,53 +113,80 @@
         </v-app-bar>
         <!--Mobile navigation-->
 
-        <v-navigation-drawer v-model="drawer" absolute temporary height="auto" color="grey darken-4 h-100" >
-
+        <v-navigation-drawer
+          v-model="drawer"
+          absolute
+          temporary
+          height="auto"
+          color="grey darken-4 h-100"
+        >
           <v-list dense>
-
-            <v-list-item v-for="link in links" :key="link.title" link class="ml-15">
-
+            <v-list-item
+              v-for="link in links"
+              :key="link.title"
+              link
+              class="ml-15"
+            >
               <div @click="scroll(link.to)" class="w-full">
                 <v-list-item-icon class="white--text w-full">
-                  <v-icon color="white">{{ link.icon }}</v-icon> &nbsp;{{ link.title }}
+                  <v-icon color="white">{{ link.icon }}</v-icon> &nbsp;{{
+                    link.title
+                  }}
                 </v-list-item-icon>
               </div>
-
             </v-list-item>
 
             <v-list-item>
-                <v-list-item-content class="justify-center">
-                    <v-divider class="divider mb-2"></v-divider>
-                    <div class="mx-auto text-center text-white">
-                        <v-avatar color="gray " size="48">
-                            <img src="@/assets/default-user-icon.jpg" alt="" />
-                        </v-avatar>
-                        <h3 class="mt-2">{{ user.fullName }}</h3>
-                        <p class="text-caption mt-1">
-                            {{ user.email }}
-                        </p>
-                            <v-btn
-                                @click="$router.push({ name: 'User', params: { userName: user.fullName } })"
-                                depressed rounded> MY PROFILE
-                        </v-btn>
-                    </div>
-                    <v-divider class="divider mt-4"></v-divider>
-                </v-list-item-content>
+              <v-list-item-content class="justify-center">
+                <v-divider class="divider mb-2"></v-divider>
+                <div class="mx-auto text-center text-white">
+                  <v-avatar color="gray " size="48">
+                    <img src="@/assets/default-user-icon.jpg" alt="" />
+                  </v-avatar>
+                  <h3 class="mt-2">{{ user.fullName }}</h3>
+                  <p class="text-caption mt-1">
+                    {{ user.email }}
+                  </p>
+                  <v-btn
+                    @click="
+                      $router.push({
+                        name: 'User',
+                        params: { userName: user.fullName },
+                      })
+                    "
+                    depressed
+                    rounded
+                  >
+                    MY PROFILE
+                  </v-btn>
+                </div>
+                <v-divider class="divider mt-4"></v-divider>
+              </v-list-item-content>
             </v-list-item>
 
             <v-list-item class="justify-center white--text">
-
-              <v-btn v-if="!auth.authenticated" color="secondary" rounded class="my-4" cols="2" @click="$router.push({ name: 'Login' })" >
+              <v-btn
+                v-if="!auth.authenticated"
+                color="secondary"
+                rounded
+                class="my-4"
+                cols="2"
+                @click="$router.push({ name: 'Login' })"
+              >
                 <strong class="text-sm">SIGN IN</strong>
               </v-btn>
-              <v-btn v-else color="secondary" rounded class="my-4" cols="2" @click="signOut()" >
+              <v-btn
+                v-else
+                color="secondary"
+                rounded
+                class="my-4"
+                cols="2"
+                @click="signOut()"
+              >
                 <strong class="text-sm">SIGN OUT</strong>
               </v-btn>
-
             </v-list-item>
-
           </v-list>
-
         </v-navigation-drawer>
 
         <!--/Mobile navigation-->
@@ -194,7 +226,7 @@ export default {
     links: [
       {
         title: "Our games",
-        icon: "mdi-google-controller",
+        icon: "mdi-controller",
         to: "games",
       },
       {
@@ -303,6 +335,6 @@ export default {
 }
 
 .divider {
-    background: white;
+  background: white;
 }
 </style>

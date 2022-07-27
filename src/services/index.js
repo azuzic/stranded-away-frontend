@@ -19,13 +19,13 @@ Service.interceptors.request.use((request) => {
 Service.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log(error);
     if (error.response.status == 401 || error.response.status == 403) {
       Auth.signOut();
     }
   }
 );
 */
-
 //Vezani uz pojedine rute
 let Storage = {
   getAll(data) {
