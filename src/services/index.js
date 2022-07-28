@@ -65,6 +65,15 @@ let Auth = {
     };
     return userData;
   },
+  changeUserPassword(userData) {
+    return Service.patch("user/password", userData);
+  },
+  changeUserUsername(userData) {
+    return Service.patch("user/username", userData);
+  },
+  changeUserEmail(userData) {
+    return Service.patch("user/email", userData);
+  },
   state: {
     get authenticated() {
       return Auth.authenticated();

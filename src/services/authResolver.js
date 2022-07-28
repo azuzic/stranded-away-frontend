@@ -47,4 +47,57 @@ export default {
     }
     this.registerRequest = false;
   },
+
+  passwordChangeRequest: false,
+
+  changePasswordHandler: async function (state) {
+    this.passwordChangeRequest = true;
+
+    if (state == "success") {
+      this.promptType = true;
+      await wait(3);
+    } else {
+      this.promptType = false;
+      await wait(4);
+    }
+    this.passwordChangeRequest = false;
+  },
+
+  usernameChangeRequest: false,
+
+  changeUsernameHandler: async function (state, response) {
+    this.usernameChangeRequest = true;
+
+    if (state == "success") {
+      this.promptType = true;
+      //Change token in localStorage
+      var user = JSON.parse(localStorage.getItem("user"));
+      user.username = response;
+      localStorage.setItem("user", JSON.stringify(user));
+      await wait(3);
+    } else {
+      this.promptType = false;
+      await wait(3);
+    }
+    this.usernameChangeRequest = false;
+  },
+
+  emailChangeRequest: false,
+
+  changeEmailHandler: async function (state, response) {
+    this.emailChangeRequest = true;
+
+    if (state == "success") {
+      this.promptType = true;
+      //Change token in localStorage
+      var user = JSON.parse(localStorage.getItem("user"));
+      user.email = response;
+      localStorage.setItem("user", JSON.stringify(user));
+      await wait(3);
+    } else {
+      this.promptType = false;
+      await wait(3);
+    }
+    this.emailChangeRequest = false;
+  },
 };

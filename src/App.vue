@@ -258,6 +258,9 @@ export default {
     //this.fetchData("carouselPictures");
 
     this.getUserDetails();
+    this.$root.$on('getUserDetails', () => {
+        this.getUserDetails();
+    })
   },
   methods: {
     getUserDetails() {

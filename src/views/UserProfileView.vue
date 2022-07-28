@@ -13,14 +13,15 @@
                         </div>
                     </v-img>
                 </div>
+                <!--COVER IMAGE END-->
                 <v-container class="bg-footer-header min-h-100px">
-                    <v-row class="min-h-100px">
+                    <div class="flex flex-wrap min-h-100px">
                         <!--AVATAR-->
-                        <div :class="$vuetify.breakpoint.mobile ? 'w-full min-h-75px' : 'w-48 ml-3 min-h-100px'">
+                        <div class="avatar" :class="$vuetify.breakpoint.mobile ? 'min-h-75px min-w-full' : 'ml-3 min-h-100px min-w-200px'">
                             <button class="relative" 
                             :class="$vuetify.breakpoint.mobile ? 'justify-center flex align-center w-full' : ''">
-                                <v-avatar class="absolute avatar" size="160">
-                                    <v-img class="user-avatar" src="@/assets/default-user-icon.jpg"></v-img>
+                                <v-avatar class="absolute avatar-image" size="160">
+                                    <v-img src="@/assets/default-user-icon.jpg"></v-img>
                                     <div class="absolute avatar-text text-white h-full w-full">
                                         <div class="h-full w-full">
                                             Change avatar!
@@ -29,19 +30,138 @@
                                 </v-avatar>
                             </button>
                         </div>
-                        <!--NAME & EMAIL-->
-                        <v-col class="flex flex-wrap justify-left align-center">
-                            <div class="grow" :class="$vuetify.breakpoint.mobile ? 'text-center mb-4' : ''">
-                                <div class="text-4xl text-red-like-logo">{{ user.fullName }}</div>
-                                <div class="text-slate-300">{{ user.email }}</div>
+                        <!--AVATAR END-->
+                        <!--USERNAME, EMAIL, PASSWORD-->
+                            <div class="grow flex align-center" :class="$vuetify.breakpoint.mobile ? 'text-center mb-4' : ''">
+                                <div class="name-email" :class="$vuetify.breakpoint.mobile ? 'grow' : ''">
+                                    <!--USERNAME-->
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <div @click="usernameChange = !usernameChange" v-show="!usernameChange" v-bind="attrs" v-on="on" class="text text-4xl text-red-like-logo">{{ user.username }}</div>
+                                            
+                                            <validation-observer ref="observer" v-slot="{}">
+                                                <form v-show="usernameChange" class="text-red-like-logo" @submit.prevent="changeUserUsername">
+                                                    <validation-provider v-slot="{ errors }" name="Username" rules="required|max:16|min:3|alpha_dash">
+                                                        <v-text-field 
+                                                        v-show="!authResolver.usernameChangeRequest" x-small
+                                                        v-model="new_username" :counter="16" :error-messages="errors" dark label="Username" required>
+                                                            <v-btn v-show="!submitting" @click="usernameChange = !usernameChange" class="exit" icon small slot="prepend">
+                                                                <v-icon> mdi-close-circle </v-icon>
+                                                            </v-btn>
+                                                            <v-btn v-show="!submitting" class="send" icon small slot="append" type="submit">
+                                                                <v-icon> mdi-send </v-icon>
+                                                            </v-btn>
+                                                        </v-text-field>
+                                                         <!--ALERT-->
+                                                        <div 
+                                                        v-show="authResolver.usernameChangeRequest"
+                                                        class="bg-footer-header rounded mt-2 animate__animated animate__fadeInUp">
+                                                            <alert
+                                                            :activator="authResolver.usernameChangeRequest"
+                                                            :text=" authResolver.promptType
+                                                                ? 'Username successfully changed!'
+                                                                : 'Error changing username. Please check your input for errors or contact support.' "
+                                                            :type="authResolver.promptType ? 'success' : 'error'" >
+                                                            </alert>
+                                                        </div>
+                                                        <!--ALERT END-->
+                                                    </validation-provider>
+                                                </form>
+                                            </validation-observer>
+                                        </template>
+                                        <span>Change username!</span>
+                                    </v-tooltip>
+                                    <!--USERNAME END-->
+                                    <!--EMAIL-->
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <div @click="emailChange = !emailChange" v-show="!emailChange" v-bind="attrs" v-on="on"  class="text email text-slate-300">{{ user.email }}</div>
+                                            <validation-observer ref="observer" v-slot="{}">
+                                                <form v-show="emailChange" class="text-red-like-logo" @submit.prevent="changeUserEmail">
+                                                    <validation-provider v-slot="{ errors }" name="Email" rules="required|email">
+                                                        <v-text-field 
+                                                        v-show="!authResolver.emailChangeRequest" x-small
+                                                        v-model="new_email" :error-messages="errors" dark label="Email" required>
+                                                            <v-btn v-show="!submitting" @click="emailChange = !emailChange" class="exit" icon small slot="prepend">
+                                                                <v-icon> mdi-close-circle </v-icon>
+                                                            </v-btn>
+                                                            <v-btn v-show="!submitting" class="send" icon small slot="append" type="submit">
+                                                                <v-icon> mdi-send </v-icon>
+                                                            </v-btn>
+                                                        </v-text-field>
+                                                         <!--ALERT-->
+                                                        <div 
+                                                        v-show="authResolver.emailChangeRequest"
+                                                        class="bg-footer-header rounded mt-2 animate__animated animate__fadeInUp">
+                                                            <alert
+                                                            :activator="authResolver.emailChangeRequest"
+                                                            :text=" authResolver.promptType
+                                                                ? 'Email successfully changed!'
+                                                                : 'Error changing email. Please check your input for errors or contact support.' "
+                                                            :type="authResolver.promptType ? 'success' : 'error'" >
+                                                            </alert>
+                                                        </div>
+                                                        <!--ALERT END-->
+                                                    </validation-provider>
+                                                </form>
+                                            </validation-observer>
+                                        </template>
+                                        <span>Change email!</span>
+                                    </v-tooltip>
+                                    <!--EMAIL END-->
+                                    <div @click="passwordChange = !passwordChange" class="password text-xs text-slate-500">Change Password</div>
+                                </div>
+                                <!--PASSWORD CHANGE-->
+                                <v-overlay class="z-1000" :value="passwordChange">
+                                    <validation-observer ref="observer" v-slot="{}">
+                                        <form class="bg-footer-header rounded-2xl" :class="$vuetify.breakpoint.mobile ? 'p-6 w-80' : 'p-8 w-96'" @submit.prevent="changeUserPassword">
+                                            <h1 class="text-center font-bold text-3xl mb-4">
+                                            Change password
+                                            </h1>
+                                            <!--OLD PASSWORD-->
+                                            <validation-provider v-slot="{ errors }" name="Old password" rules="required|password:@New password" >
+                                                <v-text-field v-model="oldPassword" :error-messages="errors" dark label="Old password" required type="password" ></v-text-field>
+                                            </validation-provider>
+                                            <!--OLD PASSWORD END-->
+                                            <!--NEW PASSWORD-->
+                                            <validation-provider v-slot="{ errors }" name="New password" rules="required" >
+                                                <v-text-field v-model="newPassword" :error-messages="errors" dark label="New password" required type="password"></v-text-field>
+                                            </validation-provider>
+                                            <!--NEW PASSWORD END-->
+                                            <v-btn v-show="!submitting" class="mr-4 mt-4" width="100%" type="submit" dark>
+                                                <span>CHANGE PASSWORD</span>
+                                            </v-btn>
+                                            <rotatingLogo v-show="submitting" :height="80"></rotatingLogo>
+                                            <v-btn v-show="!submitting" class="absolute top-0 right-0 m-1"
+                                                icon @click="passwordChange = !passwordChange">
+                                                <v-icon color="grey">{{ "mdi-exit-to-app" }}</v-icon>
+                                            </v-btn>
+                                        </form>
+                                    </validation-observer>
+                                    <!--ALERT-->
+                                    <div 
+                                     v-show="authResolver.passwordChangeRequest"
+                                     class="bg-footer-header rounded mt-2 animate__animated animate__fadeInUp" :class="$vuetify.breakpoint.mobile ? 'w-80' : 'w-96'">
+                                        <alert
+                                        :activator="authResolver.passwordChangeRequest"
+                                        :text=" authResolver.promptType
+                                            ? 'Password successfully changed!'
+                                            : 'Error changing password. Please check your input for errors or contact support.' "
+                                        :type="authResolver.promptType ? 'success' : 'error'" >
+                                        </alert>
+                                    </div>
+                                    <!--ALERT END-->
+                                </v-overlay>
+                                <!--PASSWORD CHANGE END-->
                             </div>
+                        <!--USERNAME, EMAIL, PASSWORD END-->
                         <!--MEDALS-->
-                            <div class="flex flex-wrap justify-center align-center min-w-200px" 
-                            :class="$vuetify.breakpoint.mobile ? 'mb-4' : ''" >
+                            <div v-show="!authResolver.usernameChangeRequest && !authResolver.emailChangeRequest" class="medals flex flex-wrap align-center min-w-200px overfow-hidden" 
+                            :class="$vuetify.breakpoint.mobile ? 'mb-4 justify-center' : 'justify-left'" >
                                 <img v-for="n in 10" :key="n" class="medal" src="@/assets/user/user_medal.png">
                             </div>
-                        </v-col>
-                    </v-row>
+                        <!--MEDALS END-->
+                    </div>
                 </v-container>
                 <v-container>
                     <div class="pl-4 pt-2 pr-4">       
@@ -68,6 +188,7 @@
                             ></gameCard>
                             </v-col>
                         </v-row>
+                        <!--PLAYED GAMES END-->
                         <!--TROPHIES-->
                         <v-col cols="12" class="ml-4 text-2xl text-red-like-logo">
                             Throphies
@@ -78,6 +199,7 @@
                                 <img v-for="n in 13" :key="n" class="trophy" src="@/assets/user/user_trophy.png">
                             </div>
                         </v-col>
+                        <!--TROPHIES END-->
                     </v-row>
                 </v-container>
                 <br><br><br><br>
@@ -88,34 +210,183 @@
 </template>
 
 <script>
+import { required, email, max, min, alpha_dash } from "vee-validate/dist/rules";
+import "animate.css";
+import authResolver from "@/services/authResolver";
+
 import gameCard from "@/components/gameCard.vue";
 import { Auth } from "@/services";
 import store from "@/store";
+import {
+  extend,
+  ValidationObserver,
+  ValidationProvider,
+  setInteractionMode,
+} from "vee-validate";
+
+import rotatingLogo from "@/components/rotatingLogo.vue";
+import alert from "@/components/alert.vue";
+
+setInteractionMode("eager");
+
+extend("email", {
+  ...email,
+  message: "Email must be valid",
+});
+
+extend("max", {
+  ...max,
+  message: "{_field_} may not be greater than {length} characters",
+});
+
+extend("min", {
+  ...min,
+  message: "{_field_} may not be less than {length} characters",
+});
+
+extend("alpha_dash", {
+  ...alpha_dash,
+  message:
+    "Your username may only contain alphabetic characters, numbers, dashes or underscores. ",
+});
+
+extend("required", {
+  ...required,
+  message: "{_field_} can not be empty",
+});
+
+extend("password", {
+  params: ["target"],
+  validate(value, { target }) {
+    return value !== target;
+  },
+  message: "New password cannot be the same as your old password."
+});
+let wait = function (seconds) {
+  return new Promise((resolveFn) => {
+    setTimeout(resolveFn, seconds * 1000);
+  });
+};
 
 export default {
   name: "User",
   components: {
     gameCard,
+    ValidationProvider,
+    ValidationObserver,
+    alert,
+    rotatingLogo,
   },
   data: () => ({ 
     store,
     auth: Auth.state,
     user: {
-        fullName: "",
+        username: "",
         email: ""
-    }
+    },
+    usernameChange: false,
+    emailChange: false,
+    passwordChange: false,
+
+    new_username: "",
+    new_email: "",
+    oldPassword: "",
+    newPassword: "",
+    submitting: false, //For loading animation
+    authResolver,
    }),
-  mounted() {
-    this.getUserDetails();
+  async mounted() {
+    await this.getUserDetails();
+    this.new_username = this.user.username;
+    this.new_email = this.user.email;
   },
   methods: {
-  getUserDetails() {
+    async getUserDetails() {
         if (this.auth.authenticated) {
             let userData = Auth.getUserData();
-            this.user.fullName = userData.username;
+            this.user.username = userData.username;
             this.user.email = userData.email;
         }
-    }
+    },
+    async changeUserPassword() {
+        this.$refs.observer.validate();
+        this.submitting = true;
+        console.log("Validated successfully!");
+
+        let userData = {
+            old_password: this.oldPassword,
+            new_password: this.newPassword,
+        };
+        let response = {};
+        try {
+            response = await Auth.changeUserPassword(userData);
+            console.log("Request sent successfully!");
+            this.submitting = false;
+            this.authResolver.changePasswordHandler("success", response);
+            await wait(3);
+            this.passwordChange = false;
+        } catch (e) {
+            this.submitting = false;
+            this.authResolver.changePasswordHandler("failed", response);
+            if (e.response.data.error == "Cannot change password!") console.log("Cannot change password!");
+            console.error(e);
+        }
+    },
+    async changeUserUsername() {
+        this.$refs.observer.validate();
+        this.submitting = true;
+        console.log("Validated successfully!");
+
+        let userData = {
+            old_username: this.user.username,
+            new_username: this.new_username,
+        };
+        let response = {};
+        try {
+            response = await Auth.changeUserUsername(userData);
+            console.log("Request sent successfully!");
+            this.submitting = false;
+            this.authResolver.changeUsernameHandler("success", this.new_username);
+            await wait(3);
+            await this.getUserDetails();
+            this.appGetUserDetails(); 
+            this.usernameChange = false;
+        } catch (e) {
+            this.submitting = false;
+            this.authResolver.changeUsernameHandler("failed", response);
+            if (e.response.data.error == "Cannot change username!") console.log("Cannot change username!");
+            console.error(e);
+        }
+    },
+    async changeUserEmail() {
+        this.$refs.observer.validate();
+        this.submitting = true;
+        console.log("Validated successfully!");
+
+        let userData = {
+            username: this.user.username,
+            new_email: this.new_email,
+        };
+        let response = {};
+        try {
+            response = await Auth.changeUserEmail(userData);
+            console.log("Request sent successfully!");
+            this.submitting = false;
+            this.authResolver.changeEmailHandler("success", this.new_email);
+            await wait(3);
+            await this.getUserDetails();
+            this.appGetUserDetails(); 
+            this.emailChange = false;
+        } catch (e) {
+            this.submitting = false;
+            this.authResolver.changeEmailHandler("failed", response);
+            if (e.response.data.error == "Cannot change email!") console.log("Cannot change email!");
+            console.error(e);
+        }
+    },
+    appGetUserDetails(){
+        this.$root.$emit('getUserDetails');
+    },
   },
   computed: {
     width() {
@@ -137,37 +408,85 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.avatar {
+.avatar-image {
     bottom: -76px;
+    .avatar-text {
+        transition-duration: 0.25s;
+        padding-top: 72px;
+        opacity: 0;
+        &:hover {
+            transition-duration: 0.25s;
+            opacity: 100;
+            background-color: rgba(0, 0, 0, 0.75);
+        }
+    }
 }
-.avatar-text {
-    transition-duration: 0.25s;
-    padding-top: 72px;
-    opacity: 0;
+.name-email {
+    .text {
+        transition: 0.2s;
+        &:hover {
+            transition: 0.2s;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            padding: 0 8px 0 8px;
+            margin: 0 -8px 0 -8px;
+            cursor: pointer;
+        }
+    }
+    .password {
+        &:hover {
+            color: rgb(146, 146, 255);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+    .send { 
+        color: gray !important;
+        height: 0px;
+        width: 0px;
+        top: 10px;
+        right: 10px;
+        margin-left: 20px;
+        &:hover {
+            background: transparent !important;
+            cursor: pointer;
+            color: white !important;
+        }
+    }
+    .exit {
+        height: 0px;
+        width: 0px;
+        top: 10px;
+        right: 10px;
+        color:indianred !important;
+            background: rgba(255, 0, 0, 0) !important;
+        &:hover {
+            border: 0px !important;
+            cursor: pointer;
+            color:crimson !important;
+        }
+    }
 }
-.avatar-text:hover {
-    transition-duration: 0.25s;
-    opacity: 100;
-    background-color: rgba(0, 0, 0, 0.75);
-}
-.medal {
-    transition-duration: 0.5s;
-    margin: 10px;
-    width: 45px;
-}
-.medal:hover {
-    transition-duration: 0.5s;
-    margin: 0px;
-    width: 65px;
+.medals {
+    .medal {
+        transition-duration: 0.5s;
+        margin: 10px;
+        width: 45px;
+        &:hover {
+            transition-duration: 0.5s;
+            margin: 0px;
+            width: 65px;
+        }
+    }
 }
 .trophy {
     transition-duration: 0.5s;
     margin: 10px;
     width: 80px;
-}
-.trophy:hover {
-    transition-duration: 0.5s;
-    margin: -10px;
-    width: 120px;
+    &:hover {
+        transition-duration: 0.5s;
+        margin: -10px;
+        width: 120px;
+    }
 }
 </style>
