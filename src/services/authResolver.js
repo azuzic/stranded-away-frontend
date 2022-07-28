@@ -75,7 +75,7 @@ export default {
       localStorage.removeItem("user");
       localStorage.setItem("user", JSON.stringify(user));
       await wait(3);
-      $router.replace({
+      router.replace({
             name: 'User',
             params: { userName: user.fullName },
         })
