@@ -70,9 +70,9 @@ export default {
 
     if (state == "success") {
       this.promptType = true;
-      //Change token in localStorage
-      var user = JSON.parse(localStorage.getItem("user"));
-      user.username = response;
+      //Update token in localStorage
+      var user = response.data;
+      localStorage.removeItem("user");
       localStorage.setItem("user", JSON.stringify(user));
       await wait(3);
     } else {
@@ -89,9 +89,9 @@ export default {
 
     if (state == "success") {
       this.promptType = true;
-      //Change token in localStorage
-      var user = JSON.parse(localStorage.getItem("user"));
-      user.email = response;
+      //Update token in localStorage
+      var user = response.data;
+      localStorage.removeItem("user");
       localStorage.setItem("user", JSON.stringify(user));
       await wait(3);
     } else {

@@ -33,6 +33,9 @@ let Storage = {
   },
 };
 let Auth = {
+  updateToken(userData) {
+    return Service.post("user/token", userData);
+  },
   registerUser(userData) {
     return Service.post("users", userData);
   },

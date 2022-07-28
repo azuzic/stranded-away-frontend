@@ -39,7 +39,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                             <div @click="usernameChange = !usernameChange" v-show="!usernameChange" v-bind="attrs" v-on="on" class="text text-4xl text-red-like-logo">{{ user.username }}</div>
                                             
-                                            <validation-observer ref="observer" v-slot="{}">
+                                            <validation-observer ref="observerUsername" v-slot="{}">
                                                 <form v-show="usernameChange" class="text-red-like-logo" @submit.prevent="changeUserUsername">
                                                     <validation-provider v-slot="{ errors }" name="Username" rules="required|max:16|min:3|alpha_dash">
                                                         <v-text-field 
@@ -76,7 +76,7 @@
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
                                             <div @click="emailChange = !emailChange" v-show="!emailChange" v-bind="attrs" v-on="on"  class="text email text-slate-300">{{ user.email }}</div>
-                                            <validation-observer ref="observer" v-slot="{}">
+                                            <validation-observer ref="observerEmail" v-slot="{}">
                                                 <form v-show="emailChange" class="text-red-like-logo" @submit.prevent="changeUserEmail">
                                                     <validation-provider v-slot="{ errors }" name="Email" rules="required|email">
                                                         <v-text-field 
@@ -113,7 +113,7 @@
                                 </div>
                                 <!--PASSWORD CHANGE-->
                                 <v-overlay class="z-1000" :value="passwordChange">
-                                    <validation-observer ref="observer" v-slot="{}">
+                                    <validation-observer ref="observerPassword" v-slot="{}">
                                         <form class="bg-footer-header rounded-2xl" :class="$vuetify.breakpoint.mobile ? 'p-6 w-80' : 'p-8 w-96'" @submit.prevent="changeUserPassword">
                                             <h1 class="text-center font-bold text-3xl mb-4">
                                             Change password
@@ -226,6 +226,7 @@ import {
 
 import rotatingLogo from "@/components/rotatingLogo.vue";
 import alert from "@/components/alert.vue";
+import { el } from "vuetify/lib/locale";
 
 setInteractionMode("eager");
 
@@ -309,80 +310,89 @@ export default {
         }
     },
     async changeUserPassword() {
-        this.$refs.observer.validate();
-        this.submitting = true;
-        console.log("Validated successfully!");
+        let isValid = this.$refs.observerPassword.validate();
+        if (isValid) {
+            this.submitting = true;
+            console.log("Validated successfully!");
 
-        let userData = {
-            old_password: this.oldPassword,
-            new_password: this.newPassword,
-        };
-        let response = {};
-        try {
-            response = await Auth.changeUserPassword(userData);
-            console.log("Request sent successfully!");
-            this.submitting = false;
-            this.authResolver.changePasswordHandler("success", response);
-            await wait(3);
-            this.passwordChange = false;
-        } catch (e) {
-            this.submitting = false;
-            this.authResolver.changePasswordHandler("failed", response);
-            if (e.response.data.error == "Cannot change password!") console.log("Cannot change password!");
-            console.error(e);
+            let userData = {
+                username: this.user.username,
+                old_password: this.oldPassword,
+                new_password: this.newPassword,
+            };
+            let response = {};
+            try {
+                response = await Auth.changeUserPassword(userData);  
+                console.log("Request sent successfully!");
+                this.submitting = false;
+                this.authResolver.changePasswordHandler("success", response);
+                await wait(3);
+                this.passwordChange = false;
+            } catch (e) {
+                this.submitting = false;
+                this.authResolver.changePasswordHandler("failed", response);
+                if (e.response.data.error == "Cannot change password!") console.log("Cannot change password!");
+                console.error(e);
+            }
         }
+        else return;
     },
     async changeUserUsername() {
-        this.$refs.observer.validate();
-        this.submitting = true;
-        console.log("Validated successfully!");
-
-        let userData = {
-            old_username: this.user.username,
-            new_username: this.new_username,
-        };
-        let response = {};
-        try {
-            response = await Auth.changeUserUsername(userData);
-            console.log("Request sent successfully!");
-            this.submitting = false;
-            this.authResolver.changeUsernameHandler("success", this.new_username);
-            await wait(3);
-            await this.getUserDetails();
-            this.appGetUserDetails(); 
-            this.usernameChange = false;
-        } catch (e) {
-            this.submitting = false;
-            this.authResolver.changeUsernameHandler("failed", response);
-            if (e.response.data.error == "Cannot change username!") console.log("Cannot change username!");
-            console.error(e);
+        let isValid = this.$refs.observerUsername.validate();
+            if (isValid) {
+            this.submitting = true;
+            console.log("Validated successfully!");
+            let userData = {
+                new_username: this.new_username,
+            };
+            let response = {};
+            try {
+                response = await Auth.changeUserUsername(userData);
+                let token = await Auth.updateToken({username: this.new_username, email: this.user.email});
+                console.log("Request sent successfully!");
+                this.submitting = false;
+                this.authResolver.changeUsernameHandler("success", token);
+                await wait(3);
+                await this.getUserDetails();
+                this.appGetUserDetails(); 
+                this.usernameChange = false;
+            } catch (e) {
+                this.submitting = false;
+                this.authResolver.changeUsernameHandler("failed", response);
+                if (e.response.data.error == "Cannot change username!") console.log("Cannot change username!");
+                console.error(e);
+            }
         }
+        else return;
     },
     async changeUserEmail() {
-        this.$refs.observer.validate();
-        this.submitting = true;
-        console.log("Validated successfully!");
+        let isValid = this.$refs.observerEmail.validate();
+        if (isValid) {
+            this.submitting = true;
+            console.log("Validated successfully!");
 
-        let userData = {
-            username: this.user.username,
-            new_email: this.new_email,
-        };
-        let response = {};
-        try {
-            response = await Auth.changeUserEmail(userData);
-            console.log("Request sent successfully!");
-            this.submitting = false;
-            this.authResolver.changeEmailHandler("success", this.new_email);
-            await wait(3);
-            await this.getUserDetails();
-            this.appGetUserDetails(); 
-            this.emailChange = false;
-        } catch (e) {
-            this.submitting = false;
-            this.authResolver.changeEmailHandler("failed", response);
-            if (e.response.data.error == "Cannot change email!") console.log("Cannot change email!");
-            console.error(e);
+            let userData = {
+                new_email: this.new_email,
+            };
+            let response = {};
+            try {
+                response = await Auth.changeUserEmail(userData);
+                let token = await Auth.updateToken({username: this.user.username, email: this.new_email});
+                console.log("Request sent successfully!");
+                this.submitting = false;
+                this.authResolver.changeEmailHandler("success", token);
+                await wait(3);
+                await this.getUserDetails();
+                this.appGetUserDetails(); 
+                this.emailChange = false;
+            } catch (e) {
+                this.submitting = false;
+                this.authResolver.changeEmailHandler("failed", response);
+                if (e.response.data.error == "Cannot change email!") console.log("Cannot change email!");
+                console.error(e);
+            }
         }
+        else return;
     },
     appGetUserDetails(){
         this.$root.$emit('getUserDetails');
