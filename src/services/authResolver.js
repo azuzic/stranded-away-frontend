@@ -70,6 +70,7 @@ export default {
 
     if (state == "success") {
       this.promptType = true;
+      
       //Update token in localStorage
       var user = response.data;
       localStorage.removeItem("user");
@@ -77,7 +78,7 @@ export default {
       await wait(3);
       router.replace({
             name: 'User',
-            params: { userName: user.fullName },
+            params: { userName: user.username },
         })
     } else {
       this.promptType = false;
