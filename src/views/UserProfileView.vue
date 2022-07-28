@@ -119,7 +119,7 @@
                                             Change password
                                             </h1>
                                             <!--OLD PASSWORD-->
-                                            <validation-provider v-slot="{ errors }" name="Old password" rules="required|password:@New password" >
+                                            <validation-provider v-slot="{ errors }" name="Old password" rules="required|diffPassword:@New password" >
                                                 <v-text-field v-model="oldPassword" :error-messages="errors" dark label="Old password" required type="password" ></v-text-field>
                                             </validation-provider>
                                             <!--OLD PASSWORD END-->
@@ -255,7 +255,7 @@ extend("required", {
   message: "{_field_} can not be empty",
 });
 
-extend("password", {
+extend("diffPassword", {
   params: ["target"],
   validate(value, { target }) {
     return value !== target;
