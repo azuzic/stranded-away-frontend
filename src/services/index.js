@@ -37,7 +37,7 @@ let Auth = {
     return Service.post("user/token", userData);
   },
   registerUser(userData) {
-    return Service.post("users", userData);
+    return Service.post("user", userData);
   },
   authenticateUser(userData) {
     return Service.post("auth", userData);
