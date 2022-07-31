@@ -77,6 +77,9 @@ let Auth = {
   changeUserEmail(userData) {
     return Service.patch("user/email", userData);
   },
+  async getImage() {
+    return await Service.get("image");
+  },
   state: {
     get authenticated() {
       return Auth.authenticated();

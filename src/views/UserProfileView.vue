@@ -120,12 +120,14 @@
                                             </h1>
                                             <!--OLD PASSWORD-->
                                             <validation-provider v-slot="{ errors }" name="Old password" rules="required|diffPassword:@New password" >
-                                                <v-text-field v-model="oldPassword" :error-messages="errors" dark label="Old password" required type="password" ></v-text-field>
+                                                <v-text-field :append-icon="showOldPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append="showOldPassword = !showOldPassword" :type="showOldPassword ? 'text' : 'password'"
+                                                v-model="oldPassword" :error-messages="errors" dark label="Old password" required ></v-text-field>
                                             </validation-provider>
                                             <!--OLD PASSWORD END-->
                                             <!--NEW PASSWORD-->
                                             <validation-provider v-slot="{ errors }" name="New password" rules="required" >
-                                                <v-text-field v-model="newPassword" :error-messages="errors" dark label="New password" required type="password"></v-text-field>
+                                                 <v-text-field :append-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append="showNewPassword = !showNewPassword" :type="showNewPassword ? 'text' : 'password'"
+                                                 v-model="newPassword" :error-messages="errors" dark label="New password" required></v-text-field>
                                             </validation-provider>
                                             <!--NEW PASSWORD END-->
                                             <v-btn v-show="!submitting" class="mr-4 mt-4" width="100%" type="submit" dark>
@@ -196,7 +198,7 @@
                         <v-col>
                             <div class="flex flex-wrap align-center min-w-200px" 
                             :class="$vuetify.breakpoint.mobile ? 'mb-4 justify-center' : 'justify-left'" >
-                                <img v-for="n in 13" :key="n" class="trophy" src="@/assets/user/user_trophy.png">
+                                <img v-for="n in 13" :key="n" class="trophy" :src="imgTest">
                             </div>
                         </v-col>
                         <!--TROPHIES END-->
@@ -293,13 +295,21 @@ export default {
     new_email: "",
     oldPassword: "",
     newPassword: "",
+
+    showOldPassword: false,
+    showNewPassword: false,
+
     submitting: false, //For loading animation
     authResolver,
+
+    imgTest: "",
    }),
   async mounted() {
     await this.getUserDetails();
     this.new_username = this.user.username;
     this.new_email = this.user.email;
+    this.imgTest = await Auth.getImage(); 
+    this.imgTest = "data:image/png;base64," + this.imgTest.data; 
   },
   methods: {
     async getUserDetails() {

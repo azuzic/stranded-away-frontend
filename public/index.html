@@ -41,19 +41,27 @@
   </body>
 </html>
 <style>
-  html {
+html {
     font-family: "Koulen", cursive;
-  }
-  :root {
+}
+:root {
     --firstColor: #0f1119;
     --secondColor: #111011;
     --thirdColor: #15171e;
-    }
-    /*Dark Scrollbar*/
-    ::-webkit-scrollbar { width: 6px ;} 
-    ::-webkit-scrollbar { height: 6px ;} 
-    ::-webkit-scrollbar-track { background: transparent ;}
-    ::-webkit-scrollbar-thumb { background: #192739 ; }
-    ::-webkit-scrollbar-thumb:hover { background: #39516b ; }
-    ::-webkit-scrollbar-corner { background: #0000 ; }
+}
+/*Dark Scrollbar*/
+::-webkit-scrollbar { width: 6px ;} 
+::-webkit-scrollbar { height: 6px ;} 
+::-webkit-scrollbar-track { background: transparent ;}
+::-webkit-scrollbar-thumb { background: #192739 ; }
+::-webkit-scrollbar-thumb:hover { background: #39516b ; }
+::-webkit-scrollbar-corner { background: #0000 ; }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: all 0s 50000s;
+}
+
 </style>
