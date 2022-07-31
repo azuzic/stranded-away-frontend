@@ -48,12 +48,14 @@
               rules="required|password:@PasswordConfirm"
             >
               <v-text-field
+                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showPassword = !showPassword"
+                :type="showPassword ? 'text' : 'password'"
                 v-model="password"
                 :error-messages="errors"
                 dark
                 label="Password"
                 required
-                type="password"
               ></v-text-field>
             </validation-provider>
             <!--PASSWORD CONFIRMATION-->
@@ -63,12 +65,14 @@
               rules="required"
             >
               <v-text-field
+                :append-icon="showPasswordConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showPasswordConfirm = !showPasswordConfirm"
+                :type="showPasswordConfirm ? 'text' : 'password'"
                 v-model="passwordConfirm"
                 :error-messages="errors"
                 dark
                 label="Password confirm"
                 required
-                type="password"
               ></v-text-field>
             </validation-provider>
 
@@ -173,6 +177,8 @@ export default {
     passwordConfirm: "",
     submitting: false, //For loading animation
     authResolver,
+    showPassword: false,
+    showPasswordConfirm: false,
   }),
 
   methods: {

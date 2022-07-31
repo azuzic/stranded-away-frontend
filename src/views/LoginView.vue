@@ -31,12 +31,14 @@
               rules="required"
             >
               <v-text-field
+                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showPassword = !showPassword"
+                :type="showPassword ? 'text' : 'password'"
                 v-model="password"
                 :error-messages="errors"
                 dark
                 label="Password"
                 required
-                type="password"
               ></v-text-field>
             </validation-provider>
             <validation-provider v-slot="{ errors }" name="checkboxRememberMe">
@@ -124,6 +126,7 @@ export default {
     checkboxRememberMe: null,
     authResolver,
     submitting: false,
+    showPassword: false,
   }),
 
   methods: {
