@@ -3,7 +3,7 @@ import axios from "axios";
 let Service = axios.create({
   //baseURL: "https://stranded-away.herokuapp.com/",
   baseURL: "http://localhost:3000/",
-  timeout: 1000,
+  timeout: 30000,
 });
 // prije svakog poslanog requesta na backend izvrši:
 Service.interceptors.request.use((request) => {

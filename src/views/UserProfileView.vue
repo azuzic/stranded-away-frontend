@@ -402,6 +402,31 @@
               >
                 <img v-for="n in 13" :key="n" class="trophy" :src="imgTest" />
               </div>
+              <div>
+                <v-file-input
+                    accept="image/png, image/jpeg, image/bmp"
+                    placeholder="Pick an avatar"
+                    prepend-icon="mdi-camera"
+                    label="Image"
+                    v-model="file"
+                    dark
+                ></v-file-input>
+                <v-btn
+                :loading="imageUploading"
+                color="blue-grey"
+                class="ma-2 white--text"
+                @click="uploadImage()"
+                >
+                Upload
+                <v-icon
+                    right
+                    dark
+                >
+                    mdi-cloud-upload
+                </v-icon>
+                </v-btn>
+              </div>
+              <div id="blah">as</div>
             </v-col>
             <!--TROPHIES END-->
           </v-row>
@@ -505,6 +530,9 @@ export default {
     authResolver,
 
     imgTest: "",
+    file: [],
+    fileImg: "",
+    imageUploading: false,
   }),
   async mounted() {
     await this.getUserDetails();
@@ -514,6 +542,23 @@ export default {
     this.imgTest = "data:image/png;base64," + this.imgTest.data;
   },
   methods: {
+    async encodeImageFileAsURL(file) {
+        let reader = new FileReader();
+        return await new Promise((resolve, reject) => {
+            reader.onloadend = async () => {
+                try {
+                    let response = reader.result;
+                    resolve(response);
+                } catch (err) {
+                    reject(err);
+                }
+            };
+            reader.onerror = (error) => {
+                reject(error);
+            };
+            reader.readAsDataURL(file);
+        });
+    },
     async getUserDetails() {
       if (this.auth.authenticated) {
         let userData = Auth.getUserData();
@@ -614,6 +659,24 @@ export default {
     },
     appGetUserDetails() {
       this.$root.$emit("getUserDetails");
+    },
+    async uploadImage() {
+        this.fileImg = await this.encodeImageFileAsURL(this.file);
+        this.imageUploading = true;
+        try {
+          let imageData = {
+            name: this.file.name,
+            img: this.fileImg,
+          }
+          console.log("Uploading image...");
+          let response = await Auth.postImage(imageData);
+          console.log(response.data);
+          this.imageUploading = false;
+        }
+        catch (e) {
+            console.log("Uploding failed: " + e);       
+            this.imageUploading = false; 
+        }
     },
   },
   computed: {
