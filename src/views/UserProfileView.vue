@@ -1,480 +1,295 @@
 <template>
-  <v-container>
-    <v-row no-gutters>
-      <v-col sm="0" md="1" lg="1" xl="2"></v-col>
-      <v-col
-        sm="12"
-        md="10"
-        lg="10"
-        xl="8"
-        class="bg-background-cards h-full pb-16 mb-16"
-      >
-        <!--COVER IMAGE-->
-        <div>
-          <v-img class="relative" :src="coverImage" height=" 400px">
-            <div v-show="!showCoverImage" class="absolute bottom-0 right-0">
-              <v-btn
-                @click="showCoverImage = !showCoverImage"
-                class="m-2"
-                fab
-                dark
-                x-small
-              >
-                <v-icon dark> mdi-pencil </v-icon>
-              </v-btn>
-            </div>
-            <div v-show="showCoverImage" class="h-full w-full">
-              <div class="divCenter bg-transparent-50 px-16 pb-4 rounded-2xl">
-                <v-file-input
-                  class="justify-center"
-                  hide-input
-                  @change="previewCoverImage()"
-                  accept="image/png, image/jpeg, image/bmp"
-                  placeholder="Pick an avatar"
-                  prepend-icon="mdi-image-plus"
-                  label="CoverImage"
-                  v-model="coverImageUpload"
-                  dark
-                >
-                </v-file-input>
-                <div class="flex justify-center">
-                  <v-btn
-                    :loading="imageCoverUploading"
-                    light
-                    class="ma-2"
-                    @click="uploadCoverImage()"
-                  >
-                    Upload
-                    <v-icon right dark> mdi-cloud-upload </v-icon>
-                  </v-btn>
-                </div>
-                <v-btn
-                  v-show="!imageCoverUploading"
-                  class="absolute top-0 right-0 m-1"
-                  icon
-                  @click="
-                    (showCoverImage = !showCoverImage),
-                      (coverImage = saveCoverImage)
-                  "
-                >
-                  <v-icon class="mb-2 ml-1" color="white">{{
-                    "mdi-close-circle"
-                  }}</v-icon>
-                </v-btn>
-                <!--ALERT-->
-                <div
-                  v-show="authResolver.coverImageChangeRequest"
-                  class="bg-footer-header rounded mt-2 animate__animated animate__fadeInUp"
-                  :class="$vuetify.breakpoint.mobile ? 'w-64' : 'w-84'"
-                >
-                  <alert
-                    :activator="authResolver.coverImageChangeRequest"
-                    :text="
-                      authResolver.promptType
-                        ? 'Cover image successfully uploaded!'
-                        : !coverImageUpload.name
-                        ? 'Please choose image.'
-                        : 'Error while uploading cover image. Please check your input for errors or contact support.'
-                    "
-                    :type="authResolver.promptType ? 'success' : 'error'"
-                  >
-                  </alert>
-                </div>
-                <!--ALERT END-->
-              </div>
-            </div>
-          </v-img>
-        </div>
-        <!--COVER IMAGE END-->
-        <v-container class="bg-footer-header min-h-100px">
-          <div class="flex flex-wrap min-h-100px">
-            <!--AVATAR-->
-            <div
-              class="avatar"
-              :class="
-                $vuetify.breakpoint.mobile
-                  ? 'min-h-75px min-w-full'
-                  : 'ml-3 min-h-100px min-w-200px'
-              "
-            >
-              <button
-                class="relative cursor-default"
-                :class="
-                  $vuetify.breakpoint.mobile
-                    ? 'justify-center flex align-center w-full'
-                    : ''
-                "
-              >
-                <v-avatar
-                  v-show="!authResolver.avatarImageChangeRequest"
-                  class="absolute avatar-image"
-                  size="160"
-                >
-                  <v-img :src="avatarImage"></v-img>
-                  <div
-                    v-show="!showAvatarImage"
-                    @click="
-                      (showAvatarImage = !showAvatarImage),
-                        (avatarImage = saveAvatarImage)
-                    "
-                    class="absolute avatar-text text-white h-full w-full cursor-pointer"
-                  >
-                    <div class="h-full w-full">Change avatar!</div>
-                  </div>
-                  <div
-                    v-show="showAvatarImage"
-                    class="divCenter bg-transparent-50 p-64 rounded-2xl"
-                  >
-                    <v-file-input
-                      class="justify-center mb-2 ml-2"
-                      hide-input
-                      @change="previewAvatarImage()"
-                      accept="image/png, image/jpeg, image/bmp"
-                      placeholder="Pick an avatar"
-                      prepend-icon="mdi-image-plus"
-                      label="AvatarImage"
-                      v-model="avatarImageUpload"
-                      dark
-                    >
-                    </v-file-input>
-                    <div class="flex justify-center">
-                      <v-btn
-                        :loading="imageAvatarUploading"
-                        light
-                        x-small
-                        class="text-xs mb-1 bg-transparent"
-                        @click="uploadAvatarImage()"
-                      >
-                        Upload
-                        <v-icon right dark small> mdi-cloud-upload </v-icon>
-                      </v-btn>
-                    </div>
-                    <v-btn
-                      v-show="!imageAvatarUploading"
-                      class="justify-center w-full"
-                      icon
-                      @click="
-                        (showAvatarImage = !showAvatarImage),
-                          (avatarImage = saveAvatarImage)
-                      "
-                    >
-                      <v-icon color="white">{{ "mdi-close-circle" }}</v-icon>
-                    </v-btn>
-                  </div>
-                </v-avatar>
-                <!--ALERT-->
-                <div
-                  v-show="authResolver.avatarImageChangeRequest"
-                  class="bg-footer-header rounded mt-2 animate__animated animate__fadeInUp"
-                  :class="$vuetify.breakpoint.mobile ? 'w-64' : 'w-84 mr-8'"
-                >
-                  <alert
-                    :activator="authResolver.avatarImageChangeRequest"
-                    :text="
-                      authResolver.promptType
-                        ? 'Avatar image successfully uploaded!'
-                        : !avatarImageUpload.name
-                        ? 'Please choose image.'
-                        : 'Error while uploading avatar image. Please check your input for errors or contact support.'
-                    "
-                    :type="authResolver.promptType ? 'success' : 'error'"
-                  >
-                  </alert>
-                </div>
-                <!--ALERT END-->
-              </button>
-            </div>
-            <!--AVATAR END-->
-            <!--USERNAME, EMAIL, PASSWORD-->
-            <div
-              class="grow flex align-center"
-              :class="$vuetify.breakpoint.mobile ? 'text-center mb-4' : ''"
-            >
-              <div
-                class="name-email"
-                :class="$vuetify.breakpoint.mobile ? 'grow' : ''"
-              >
-                <!--USERNAME-->
-                <div class="text text-4xl text-red-like-logo">
-                  {{ user.username }}
-                </div>
-                <!--USERNAME END-->
-                <!--EMAIL-->
-                <v-tooltip top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <div
-                      @click="emailChange = !emailChange"
-                      v-show="!emailChange"
-                      v-bind="attrs"
-                      v-on="on"
-                      class="text email text-slate-300"
-                    >
-                      {{ user.email }}
-                    </div>
-                    <validation-observer ref="observerEmail" v-slot="{}">
-                      <form
-                        v-show="emailChange"
-                        class="text-red-like-logo"
-                        @submit.prevent="changeUserEmail"
-                      >
-                        <validation-provider
-                          v-slot="{ errors }"
-                          name="Email"
-                          rules="required|email"
-                        >
-                          <v-text-field
-                            v-show="!authResolver.emailChangeRequest"
-                            x-small
-                            v-model="new_email"
-                            :error-messages="errors"
-                            dark
-                            label="Email"
-                            required
-                          >
-                            <v-btn
-                              v-show="!submitting"
-                              @click="emailChange = !emailChange"
-                              class="exit"
-                              icon
-                              small
-                              slot="prepend"
-                            >
-                              <v-icon> mdi-close-circle </v-icon>
+    <v-container>
+        <v-row no-gutters>
+            <v-col sm="0" md="1" lg="1" xl="2"></v-col>
+            <v-col sm="12" md="10" lg="10" xl="8" class="bg-background-cards h-full pb-16 mb-16">
+                <!--COVER IMAGE-->
+                <div>
+                    <v-img class="relative" :src="coverImage ? coverImage : require('@/assets/user/user_cover.jpg')"
+                        height=" 400px">
+                        <div v-show="!showCoverImage" class="absolute bottom-0 right-0">
+                            <v-btn @click="showCoverImage = !showCoverImage" class="m-2" fab dark x-small>
+                                <v-icon dark> mdi-pencil </v-icon>
                             </v-btn>
-                            <v-btn
-                              v-show="!submitting"
-                              class="send"
-                              icon
-                              small
-                              slot="append"
-                              type="submit"
-                            >
-                              <v-icon> mdi-send </v-icon>
-                            </v-btn>
-                          </v-text-field>
-                          <!--ALERT-->
-                          <div
-                            v-show="authResolver.emailChangeRequest"
-                            class="bg-footer-header rounded mt-2 animate__animated animate__fadeInUp"
-                          >
-                            <alert
-                              :activator="authResolver.emailChangeRequest"
-                              :text="
-                                authResolver.promptType
-                                  ? 'Email successfully changed!'
-                                  : 'Error changing email. Please check your input for errors or contact support.'
-                              "
-                              :type="
-                                authResolver.promptType ? 'success' : 'error'
-                              "
-                            >
-                            </alert>
-                          </div>
-                          <!--ALERT END-->
-                        </validation-provider>
-                      </form>
-                    </validation-observer>
-                  </template>
-                  <span>Change email!</span>
-                </v-tooltip>
-                <!--EMAIL END-->
-                <div
-                  @click="passwordChange = !passwordChange"
-                  class="password text-xs text-slate-500"
-                >
-                  Change Password
+                        </div>
+                        <div v-show="showCoverImage" class="h-full w-full">
+                            <div class="divCenter bg-transparent-50 px-16 pb-4 rounded-2xl">
+                                <v-file-input class="justify-center" hide-input @change="previewCoverImage()"
+                                    accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar"
+                                    prepend-icon="mdi-image-plus" label="CoverImage" v-model="coverImageUpload" dark>
+                                </v-file-input>
+                                <div class="flex justify-center">
+                                    <v-btn :loading="imageCoverUploading" light class="ma-2"
+                                        @click="uploadCoverImage()">
+                                        Upload
+                                        <v-icon right dark> mdi-cloud-upload </v-icon>
+                                    </v-btn>
+                                </div>
+                                <v-btn v-show="!imageCoverUploading" class="absolute top-0 right-0 m-1" icon @click="
+                                  (showCoverImage = !showCoverImage),
+                                    (coverImage = saveCoverImage)
+                                ">
+                                    <v-icon class="mb-2 ml-1" color="white">{{
+                                    "mdi-close-circle"
+                                    }}</v-icon>
+                                </v-btn>
+                                <!--ALERT-->
+                                <div v-show="authResolver.coverImageChangeRequest"
+                                    class="bg-footer-header rounded mt-2 animate__animated animate__fadeInUp"
+                                    :class="$vuetify.breakpoint.mobile ? 'w-64' : 'w-84'">
+                                    <alert :activator="authResolver.coverImageChangeRequest" :text="
+                                      authResolver.promptType
+                                        ? 'Cover image successfully uploaded!'
+                                        : !coverImageUpload.name
+                                        ? 'Please choose image.'
+                                        : 'Error while uploading cover image. Please check your input for errors or contact support.'
+                                    " :type="authResolver.promptType ? 'success' : 'error'">
+                                    </alert>
+                                </div>
+                                <!--ALERT END-->
+                            </div>
+                        </div>
+                    </v-img>
                 </div>
-              </div>
-              <!--PASSWORD CHANGE-->
-              <v-overlay class="z-1000" :value="passwordChange">
-                <validation-observer ref="observerPassword" v-slot="{}">
-                  <form
-                    class="bg-footer-header rounded-2xl"
-                    :class="
-                      $vuetify.breakpoint.mobile ? 'p-6 w-80' : 'p-8 w-96'
-                    "
-                    @submit.prevent="changeUserPassword"
-                  >
-                    <h1 class="text-center font-bold text-3xl mb-4">
-                      Change password
-                    </h1>
-                    <!--OLD PASSWORD-->
-                    <validation-provider
-                      v-slot="{ errors }"
-                      name="Old password"
-                      rules="required|diffPassword:@New password"
-                    >
-                      <v-text-field
-                        :append-icon="
-                          showOldPassword ? 'mdi-eye' : 'mdi-eye-off'
-                        "
-                        @click:append="showOldPassword = !showOldPassword"
-                        :type="showOldPassword ? 'text' : 'password'"
-                        v-model="oldPassword"
-                        :error-messages="errors"
-                        dark
-                        label="Old password"
-                        required
-                      >
-                      </v-text-field>
-                    </validation-provider>
-                    <!--OLD PASSWORD END-->
-                    <!--NEW PASSWORD-->
-                    <validation-provider
-                      v-slot="{ errors }"
-                      name="New password"
-                      rules="required"
-                    >
-                      <v-text-field
-                        :append-icon="
-                          showNewPassword ? 'mdi-eye' : 'mdi-eye-off'
-                        "
-                        @click:append="showNewPassword = !showNewPassword"
-                        :type="showNewPassword ? 'text' : 'password'"
-                        v-model="newPassword"
-                        :error-messages="errors"
-                        dark
-                        label="New password"
-                        required
-                      >
-                      </v-text-field>
-                    </validation-provider>
-                    <!--NEW PASSWORD END-->
-                    <v-btn
-                      v-show="!submitting"
-                      class="mr-4 mt-4"
-                      width="100%"
-                      type="submit"
-                      dark
-                    >
-                      <span>CHANGE PASSWORD</span>
-                    </v-btn>
-                    <rotatingLogo
-                      v-show="submitting"
-                      :height="80"
-                    ></rotatingLogo>
-                    <v-btn
-                      v-show="!submitting"
-                      class="absolute top-0 right-0 m-1"
-                      icon
-                      @click="passwordChange = !passwordChange"
-                    >
-                      <v-icon color="grey">{{ "mdi-exit-to-app" }}</v-icon>
-                    </v-btn>
-                  </form>
-                </validation-observer>
-                <!--ALERT-->
-                <div
-                  v-show="authResolver.passwordChangeRequest"
-                  class="bg-footer-header rounded mt-2 animate__animated animate__fadeInUp"
-                  :class="$vuetify.breakpoint.mobile ? 'w-80' : 'w-96'"
-                >
-                  <alert
-                    :activator="authResolver.passwordChangeRequest"
-                    :text="
-                      authResolver.promptType
-                        ? 'Password successfully changed!'
-                        : 'Error changing password. Please check your input for errors or contact support.'
-                    "
-                    :type="authResolver.promptType ? 'success' : 'error'"
-                  >
-                  </alert>
-                </div>
-                <!--ALERT END-->
-              </v-overlay>
-              <!--PASSWORD CHANGE END-->
-            </div>
-            <!--USERNAME, EMAIL, PASSWORD END-->
-            <!--MEDALS-->
-            <div
-              v-show="
-                !authResolver.usernameChangeRequest &&
-                !authResolver.emailChangeRequest
-              "
-              class="medals flex flex-wrap align-center min-w-200px overfow-hidden"
-              :class="
-                $vuetify.breakpoint.mobile
-                  ? 'mb-4 justify-center'
-                  : 'justify-left'
-              "
-            >
-              <img
-                v-for="n in 10"
-                :key="n"
-                class="medal"
-                src="@/assets/user/user_medal.png"
-              />
-            </div>
-            <!--MEDALS END-->
-          </div>
-        </v-container>
-        <v-container>
-          <div class="pl-4 pt-2 pr-4">
-            <p class="text-xl text-red-like-logo">About me</p>
-            <p class="text-justify text-slate-200">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-              semper diam facilisis nisl scelerisque aliquam. Donec rhoncus,
-              augue in facilisis tincidunt, arcu arcu eleifend velit, et
-              interdum nibh mauris et purus. Nunc condimentum velit a lorem
-              condimentum, non imperdiet libero blandit. Mauris at dolor neque.
-              Pellentesque porta varius porta. Suspendisse potenti. Fusce
-              tristique a dui a commodo. Phasellus vitae ante ligula.
-              Suspendisse bibendum metus eu eleifend sagittis. Nunc euismod
-              malesuada congue. Quisque eleifend nisl vitae ex fermentum, tempus
-              cursus erat posuere. Nulla urna velit, elementum ac molestie vel,
-              ornare et nulla. Integer convallis non odio eget malesuada.
-            </p>
-          </div>
-          <v-row class="pr-4">
-            <!--PLAYED GAMES-->
-            <v-col cols="12" class="ml-4 text-2xl text-red-like-logo">
-              Played games
+                <!--COVER IMAGE END-->
+                <v-container class="bg-footer-header min-h-100px">
+                    <div class="flex flex-wrap min-h-100px">
+                        <!--AVATAR-->
+                        <div class="avatar" :class="
+                          $vuetify.breakpoint.mobile
+                            ? 'min-h-75px min-w-full'
+                            : 'ml-3 min-h-100px min-w-200px'
+                        ">
+                            <button class="relative cursor-default" :class="
+                              $vuetify.breakpoint.mobile
+                                ? 'justify-center flex align-center w-full'
+                                : ''
+                            ">
+                                <v-avatar v-show="!authResolver.avatarImageChangeRequest" class="absolute avatar-image"
+                                    size="160">
+                                    <v-img :src="avatarImage ? avatarImage : require('@/assets/default-user-icon.jpg')">
+                                    </v-img>
+                                    <div v-show="!showAvatarImage" @click="
+                                      (showAvatarImage = !showAvatarImage),
+                                        (avatarImage = saveAvatarImage)
+                                    " class="absolute avatar-text text-white h-full w-full cursor-pointer">
+                                        <div class="h-full w-full">Change avatar!</div>
+                                    </div>
+                                    <div v-show="showAvatarImage" class="divCenter bg-transparent-50 p-64 rounded-2xl">
+                                        <v-file-input class="justify-center mb-2 ml-2" hide-input
+                                            @change="previewAvatarImage()" accept="image/png, image/jpeg, image/bmp"
+                                            placeholder="Pick an avatar" prepend-icon="mdi-image-plus"
+                                            label="AvatarImage" v-model="avatarImageUpload" dark>
+                                        </v-file-input>
+                                        <div class="flex justify-center">
+                                            <v-btn :loading="imageAvatarUploading" light x-small
+                                                class="text-xs mb-1 bg-transparent" @click="uploadAvatarImage()">
+                                                Upload
+                                                <v-icon right dark small> mdi-cloud-upload </v-icon>
+                                            </v-btn>
+                                        </div>
+                                        <v-btn v-show="!imageAvatarUploading" class="justify-center w-full" icon @click="
+                                          (showAvatarImage = !showAvatarImage),
+                                            (avatarImage = saveAvatarImage)
+                                        ">
+                                            <v-icon color="white">{{ "mdi-close-circle" }}</v-icon>
+                                        </v-btn>
+                                    </div>
+                                </v-avatar>
+                                <!--ALERT-->
+                                <div v-show="authResolver.avatarImageChangeRequest"
+                                    class="bg-footer-header rounded mt-2 animate__animated animate__fadeInUp"
+                                    :class="$vuetify.breakpoint.mobile ? 'w-64' : 'w-84 mr-8'">
+                                    <alert :activator="authResolver.avatarImageChangeRequest" :text="
+                                      authResolver.promptType
+                                        ? 'Avatar image successfully uploaded!'
+                                        : !avatarImageUpload.name
+                                        ? 'Please choose image.'
+                                        : 'Error while uploading avatar image. Please check your input for errors or contact support.'
+                                    " :type="authResolver.promptType ? 'success' : 'error'">
+                                    </alert>
+                                </div>
+                                <!--ALERT END-->
+                            </button>
+                        </div>
+                        <!--AVATAR END-->
+                        <!--USERNAME, EMAIL, PASSWORD-->
+                        <div class="grow flex align-center"
+                            :class="$vuetify.breakpoint.mobile ? 'text-center mb-4' : ''">
+                            <div class="name-email" :class="$vuetify.breakpoint.mobile ? 'grow' : ''">
+                                <!--USERNAME-->
+                                <div class="text text-4xl text-red-like-logo">
+                                    {{ user.username }}
+                                </div>
+                                <!--USERNAME END-->
+                                <!--EMAIL-->
+                                <v-tooltip top>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <div @click="emailChange = !emailChange" v-show="!emailChange" v-bind="attrs"
+                                            v-on="on" class="text email text-slate-300">
+                                            {{ user.email }}
+                                        </div>
+                                        <validation-observer ref="observerEmail" v-slot="{}">
+                                            <form v-show="emailChange" class="text-red-like-logo"
+                                                @submit.prevent="changeUserEmail">
+                                                <validation-provider v-slot="{ errors }" name="Email"
+                                                    rules="required|email">
+                                                    <v-text-field v-show="!authResolver.emailChangeRequest" x-small
+                                                        v-model="new_email" :error-messages="errors" dark label="Email"
+                                                        required>
+                                                        <v-btn v-show="!submitting" @click="emailChange = !emailChange"
+                                                            class="exit" icon small slot="prepend">
+                                                            <v-icon> mdi-close-circle </v-icon>
+                                                        </v-btn>
+                                                        <v-btn v-show="!submitting" class="send" icon small
+                                                            slot="append" type="submit">
+                                                            <v-icon> mdi-send </v-icon>
+                                                        </v-btn>
+                                                    </v-text-field>
+                                                    <!--ALERT-->
+                                                    <div v-show="authResolver.emailChangeRequest"
+                                                        class="bg-footer-header rounded mt-2 animate__animated animate__fadeInUp">
+                                                        <alert :activator="authResolver.emailChangeRequest" :text="
+                                                          authResolver.promptType
+                                                            ? 'Email successfully changed!'
+                                                            : 'Error changing email. Please check your input for errors or contact support.'
+                                                        " :type="
+                                                          authResolver.promptType ? 'success' : 'error'
+                                                        ">
+                                                        </alert>
+                                                    </div>
+                                                    <!--ALERT END-->
+                                                </validation-provider>
+                                            </form>
+                                        </validation-observer>
+                                    </template>
+                                    <span>Change email!</span>
+                                </v-tooltip>
+                                <!--EMAIL END-->
+                                <div @click="passwordChange = !passwordChange" class="password text-xs text-slate-500">
+                                    Change Password
+                                </div>
+                            </div>
+                            <!--PASSWORD CHANGE-->
+                            <v-overlay class="z-1000" :value="passwordChange">
+                                <validation-observer ref="observerPassword" v-slot="{}">
+                                    <form class="bg-footer-header rounded-2xl" :class="
+                                      $vuetify.breakpoint.mobile ? 'p-6 w-80' : 'p-8 w-96'
+                                    " @submit.prevent="changeUserPassword">
+                                        <h1 class="text-center font-bold text-3xl mb-4">
+                                            Change password
+                                        </h1>
+                                        <!--OLD PASSWORD-->
+                                        <validation-provider v-slot="{ errors }" name="Old password"
+                                            rules="required|diffPassword:@New password">
+                                            <v-text-field :append-icon="
+                                              showOldPassword ? 'mdi-eye' : 'mdi-eye-off'
+                                            " @click:append="showOldPassword = !showOldPassword"
+                                                :type="showOldPassword ? 'text' : 'password'" v-model="oldPassword"
+                                                :error-messages="errors" dark label="Old password" required>
+                                            </v-text-field>
+                                        </validation-provider>
+                                        <!--OLD PASSWORD END-->
+                                        <!--NEW PASSWORD-->
+                                        <validation-provider v-slot="{ errors }" name="New password" rules="required">
+                                            <v-text-field :append-icon="
+                                              showNewPassword ? 'mdi-eye' : 'mdi-eye-off'
+                                            " @click:append="showNewPassword = !showNewPassword"
+                                                :type="showNewPassword ? 'text' : 'password'" v-model="newPassword"
+                                                :error-messages="errors" dark label="New password" required>
+                                            </v-text-field>
+                                        </validation-provider>
+                                        <!--NEW PASSWORD END-->
+                                        <v-btn v-show="!submitting" class="mr-4 mt-4" width="100%" type="submit" dark>
+                                            <span>CHANGE PASSWORD</span>
+                                        </v-btn>
+                                        <rotatingLogo v-show="submitting" :height="80"></rotatingLogo>
+                                        <v-btn v-show="!submitting" class="absolute top-0 right-0 m-1" icon
+                                            @click="passwordChange = !passwordChange">
+                                            <v-icon color="grey">{{ "mdi-exit-to-app" }}</v-icon>
+                                        </v-btn>
+                                    </form>
+                                </validation-observer>
+                                <!--ALERT-->
+                                <div v-show="authResolver.passwordChangeRequest"
+                                    class="bg-footer-header rounded mt-2 animate__animated animate__fadeInUp"
+                                    :class="$vuetify.breakpoint.mobile ? 'w-80' : 'w-96'">
+                                    <alert :activator="authResolver.passwordChangeRequest" :text="
+                                      authResolver.promptType
+                                        ? 'Password successfully changed!'
+                                        : 'Error changing password. Please check your input for errors or contact support.'
+                                    " :type="authResolver.promptType ? 'success' : 'error'">
+                                    </alert>
+                                </div>
+                                <!--ALERT END-->
+                            </v-overlay>
+                            <!--PASSWORD CHANGE END-->
+                        </div>
+                        <!--USERNAME, EMAIL, PASSWORD END-->
+                        <!--MEDALS-->
+                        <div v-show="
+                          !authResolver.usernameChangeRequest &&
+                          !authResolver.emailChangeRequest
+                        " class="medals flex flex-wrap align-center min-w-200px overfow-hidden" :class="
+                          $vuetify.breakpoint.mobile
+                            ? 'mb-4 justify-center'
+                            : 'justify-left'
+                        ">
+                            <img v-for="n in 10" :key="n" class="medal" src="@/assets/user/user_medal.png" />
+                        </div>
+                        <!--MEDALS END-->
+                    </div>
+                </v-container>
+                <v-container>
+                    <div class="pl-4 pt-2 pr-4">
+                        <p class="text-xl text-red-like-logo">About me</p>
+                        <p class="text-justify text-slate-200">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
+                            semper diam facilisis nisl scelerisque aliquam. Donec rhoncus,
+                            augue in facilisis tincidunt, arcu arcu eleifend velit, et
+                            interdum nibh mauris et purus. Nunc condimentum velit a lorem
+                            condimentum, non imperdiet libero blandit. Mauris at dolor neque.
+                            Pellentesque porta varius porta. Suspendisse potenti. Fusce
+                            tristique a dui a commodo. Phasellus vitae ante ligula.
+                            Suspendisse bibendum metus eu eleifend sagittis. Nunc euismod
+                            malesuada congue. Quisque eleifend nisl vitae ex fermentum, tempus
+                            cursus erat posuere. Nulla urna velit, elementum ac molestie vel,
+                            ornare et nulla. Integer convallis non odio eget malesuada.
+                        </p>
+                    </div>
+                    <v-row class="pr-4">
+                        <!--PLAYED GAMES-->
+                        <v-col cols="12" class="ml-4 text-2xl text-red-like-logo">
+                            Played games
+                        </v-col>
+                        <v-row class="ml-4 mr-1 justify-left w-full">
+                            <v-col v-for="gameCard in store.gameCards" :key="gameCard.id" :cols="width">
+                                <gameCard :availability="''" :title="gameCard.title" :text="gameCard.text"
+                                    :imageSrc="gameCard.imageSrc" :gName="gameCard.gameName"></gameCard>
+                            </v-col>
+                        </v-row>
+                        <!--PLAYED GAMES END-->
+                        <!--TROPHIES-->
+                        <v-col cols="12" class="ml-4 text-2xl text-red-like-logo">
+                            Throphies
+                        </v-col>
+                        <v-col>
+                            <div class="flex flex-wrap align-center min-w-200px" :class="
+                              $vuetify.breakpoint.mobile
+                                ? 'mb-4 justify-center'
+                                : 'justify-left'
+                            ">
+                                <img v-for="n in 13" :key="n" class="trophy" src="@/assets/user/user_trophy.png" />
+                            </div>
+                        </v-col>
+                        <!--TROPHIES END-->
+                    </v-row>
+                </v-container>
+                <br /><br /><br /><br />
             </v-col>
-            <v-row class="ml-4 mr-1 justify-left w-full">
-              <v-col
-                v-for="gameCard in store.gameCards"
-                :key="gameCard.id"
-                :cols="width"
-              >
-                <gameCard
-                  :availability="''"
-                  :title="gameCard.title"
-                  :text="gameCard.text"
-                  :imageSrc="gameCard.imageSrc"
-                  :gName="gameCard.gameName"
-                ></gameCard>
-              </v-col>
-            </v-row>
-            <!--PLAYED GAMES END-->
-            <!--TROPHIES-->
-            <v-col cols="12" class="ml-4 text-2xl text-red-like-logo">
-              Throphies
-            </v-col>
-            <v-col>
-              <div
-                class="flex flex-wrap align-center min-w-200px"
-                :class="
-                  $vuetify.breakpoint.mobile
-                    ? 'mb-4 justify-center'
-                    : 'justify-left'
-                "
-              >
-                <img
-                  v-for="n in 13"
-                  :key="n"
-                  class="trophy"
-                  src="@/assets/user/user_trophy.png"
-                />
-              </div>
-            </v-col>
-            <!--TROPHIES END-->
-          </v-row>
-        </v-container>
-        <br /><br /><br /><br />
-      </v-col>
-      <v-col sm="0" md="1" lg="1" xl="2"></v-col>
-    </v-row>
-  </v-container>
+            <v-col sm="0" md="1" lg="1" xl="2"></v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
@@ -620,8 +435,8 @@ export default {
     async getUserDetails() {
       if (this.auth.authenticated) {
         let userData = Auth.getUserData();
-        this.user = await Auth.getUserDataFromDB(userData.username);
-        this.user = this.user.data.userData;
+          let result = await Auth.getUserDataFromDB(userData.username);
+          this.user = result.data.userData;
       }
     },
     async changeUserPassword() {
