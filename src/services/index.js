@@ -33,50 +33,52 @@ let Storage = {
   },
 };
 let Auth = {
-  updateToken(userData) {
-    return Service.post("user/token", userData);
+  //GET CURRENT USER
+  getCurrentUser() {
+    return JSON.parse(localStorage.getItem("user"));
   },
+  getCurrentUserData() {
+    let user = this.getCurrentUser();
+    let currentUserData = {
+      username: user.username,
+      email: user.email,
+    };
+    return currentUserData;
+  },
+  async getUserDetails(username) {
+    return await Service.get(`user?username=${username}`);
+  },
+  //REGISTRATION AND AUTHENTICATION
   registerUser(userData) {
     return Service.post("user", userData);
   },
   authenticateUser(userData) {
     return Service.post("auth", userData);
   },
-  signOut() {
-    localStorage.removeItem("user");
-  },
-  getUser() {
-    return JSON.parse(localStorage.getItem("user"));
-  },
-  getUserToken() {
-    let user = this.getUser();
-    if (user && user.token) return user.token;
-    else return false;
-  },
   authenticated() {
-    let user = Auth.getUser();
+    let user = Auth.getCurrentUser();
     if (user && user.token) {
       return true;
     } else return false;
   },
-  getUserData() {
-    let user = this.getUser();
-    let userData = {
-      username: user.username,
-      email: user.email,
-      //Plus profile picture treba dodati
-    };
-    return userData;
+  signOut() {
+    localStorage.removeItem("user");
   },
-  async getUserDataFromDB() {
-    let user = this.getUser();
-    return await Service.get(`user?username=${user.username}`);
+  //TOKEN
+  getUserToken() {
+    let user = this.getCurrentUser();
+    if (user && user.token) return user.token;
+    else return false;
+  },
+  updateToken(userData) {
+    return Service.post("user/token", userData);
+  },
+  //CHANGE USER DATA
+  changeUserUsername(userData) {
+    return Service.patch("user/username", userData);
   },
   changeUserPassword(userData) {
     return Service.patch("user/password", userData);
-  },
-  changeUserUsername(userData) {
-    return Service.patch("user/username", userData);
   },
   changeUserEmail(userData) {
     return Service.patch("user/email", userData);
@@ -87,6 +89,7 @@ let Auth = {
   changeUserProfileAvatarImage(userData) {
     return Service.patch("user/profile/avatarImage", userData);
   },
+  //IMAGE MANIPULATION
   async postImage(imageData) {
     return await Service.post("upload/image", imageData);
   },
@@ -96,6 +99,7 @@ let Auth = {
   async removeImage(imageID) {
     return await Service.delete(`remove/image?id=${imageID}`);
   },
+
   state: {
     get authenticated() {
       return Auth.authenticated();

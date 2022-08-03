@@ -49,7 +49,7 @@ router.beforeEach((to, from, next) => {
   const publicPages = ["/login", "/register", "/"];
   const userRequired = !publicPages.includes(to.path);
   document.title = `${to.name} - ${process.env.VUE_APP_TITLE}`;
-  const user = Auth.getUser();
+  const user = Auth.getCurrentUser();
   if (userRequired && !user) {
     next("/login");
     return;

@@ -149,10 +149,12 @@
                   </p>
                   <v-btn
                     @click="
-                      $router.push({
-                        name: 'User',
-                        params: { userName: user.fullName },
-                      })
+                      $router
+                        .push({
+                          name: 'User',
+                          params: { userName: user.fullName },
+                        })
+                        .catch(() => {})
                     "
                     depressed
                     rounded
@@ -171,7 +173,7 @@
                 rounded
                 class="my-4"
                 cols="2"
-                @click="$router.push({ name: 'Login' })"
+                @click="$router.push({ name: 'Login' }).catch(() => {})"
               >
                 <strong class="text-sm">SIGN IN</strong>
               </v-btn>
@@ -258,14 +260,14 @@ export default {
     //this.fetchData("carouselPictures");
 
     this.getUserDetails();
-    this.$root.$on('getUserDetails', () => {
-        this.getUserDetails();
-    })
+    this.$root.$on("getUserDetails", () => {
+      this.getUserDetails();
+    });
   },
   methods: {
     getUserDetails() {
       if (this.auth.authenticated) {
-        let userData = Auth.getUserData();
+        let userData = Auth.getCurrentUserData();
         this.user.fullName = userData.username;
         this.user.email = userData.email;
       }
@@ -277,7 +279,8 @@ export default {
     },
     //Link scroll
     scroll(id) {
-      if (this.$route.name != "home") router.push({ path: "/", replace: true });
+      if (this.$route.name != "home")
+        router.push({ path: "/", replace: true }).catch(() => {});
       if (id == null) return;
       try {
         document.getElementById(id).scrollIntoView({
