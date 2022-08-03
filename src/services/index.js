@@ -1,8 +1,8 @@
 import axios from "axios";
 //vezan uz konkretni backend
 let Service = axios.create({
-  //baseURL: "https://stranded-away.herokuapp.com/",
-  baseURL: "http://localhost:3000/",
+  baseURL: "https://stranded-away.herokuapp.com/",
+  //baseURL: "http://localhost:3000/",
   timeout: 30000,
 });
 // prije svakog poslanog requesta na backend izvrši:
@@ -68,6 +68,10 @@ let Auth = {
     };
     return userData;
   },
+  async getUserDataFromDB() {
+    let user = this.getUser();
+    return await Service.get(`user?username=${user.username}`);
+  },
   changeUserPassword(userData) {
     return Service.patch("user/password", userData);
   },
@@ -77,8 +81,20 @@ let Auth = {
   changeUserEmail(userData) {
     return Service.patch("user/email", userData);
   },
-  async getImage() {
-    return await Service.get("image");
+  changeUserProfileCoverImage(userData) {
+    return Service.patch("user/profile/coverImage", userData);
+  },
+  changeUserProfileAvatarImage(userData) {
+    return Service.patch("user/profile/avatarImage", userData);
+  },
+  async postImage(imageData) {
+    return await Service.post("upload/image", imageData);
+  },
+  async getImage(imageID) {
+    return await Service.get(`download/image?id=${imageID}`);
+  },
+  async removeImage(imageID) {
+    return await Service.delete(`remove/image?id=${imageID}`);
   },
   state: {
     get authenticated() {

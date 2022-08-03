@@ -70,16 +70,16 @@ export default {
 
     if (state == "success") {
       this.promptType = true;
-      
+
       //Update token in localStorage
       var user = response.data;
       localStorage.removeItem("user");
       localStorage.setItem("user", JSON.stringify(user));
       await wait(3);
       router.replace({
-            name: 'User',
-            params: { userName: user.username },
-        })
+        name: "User",
+        params: { userName: user.username },
+      });
     } else {
       this.promptType = false;
       await wait(3);
@@ -104,5 +104,35 @@ export default {
       await wait(3);
     }
     this.emailChangeRequest = false;
+  },
+
+  coverImageChangeRequest: false,
+
+  changeCoverImageHandler: async function (state) {
+    this.coverImageChangeRequest = true;
+
+    if (state == "success") {
+      this.promptType = true;
+      await wait(3);
+    } else {
+      this.promptType = false;
+      await wait(4);
+    }
+    this.coverImageChangeRequest = false;
+  },
+
+  avatarImageChangeRequest: false,
+
+  changeAvatarImageHandler: async function (state) {
+    this.avatarImageChangeRequest = true;
+
+    if (state == "success") {
+      this.promptType = true;
+      await wait(3);
+    } else {
+      this.promptType = false;
+      await wait(4);
+    }
+    this.avatarImageChangeRequest = false;
   },
 };
