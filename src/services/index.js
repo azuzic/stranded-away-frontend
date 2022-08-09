@@ -53,7 +53,7 @@ let Auth = {
     return Service.post("user", userData);
   },
   authenticateUser(userData) {
-    return Service.post("auth", userData);
+    return Service.post("auth/web", userData);
   },
   authenticated() {
     let user = Auth.getCurrentUser();
