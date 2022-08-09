@@ -1,8 +1,8 @@
 import axios from "axios";
 //vezan uz konkretni backend
 let Service = axios.create({
-  baseURL: "https://macroquiet.herokuapp.com/",
-  //baseURL: "http://localhost:3000/",
+  //baseURL: "https://macroquiet.herokuapp.com/",
+  baseURL: "http://localhost:3000/",
   timeout: 30000,
 });
 // prije svakog poslanog requesta na backend izvrši:
