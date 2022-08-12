@@ -120,6 +120,19 @@
                         >
                           MY PROFILE
                         </v-btn>
+                        <v-btn
+                          v-if="user.admin"
+                          @click="
+                            $router.push({
+                              name: 'AdminPanel',
+                            })
+                          "
+                          depressed
+                          rounded
+                          text
+                        >
+                          ADMIN PANEL
+                        </v-btn>
                         <v-divider class="my-3"></v-divider>
                         <v-btn @click="signOut()" depressed rounded text>
                           SIGN OUT
@@ -200,6 +213,20 @@
                     rounded
                   >
                     MY PROFILE
+                  </v-btn>
+                  <v-btn
+                    v-if="user.admin"
+                    class="mt-2"
+                    @click="
+                      $router.push({
+                        name: 'AdminPanel',
+                      })
+                    "
+                    depressed
+                    rounded
+                    color="red"
+                  >
+                    ADMIN PANEL
                   </v-btn>
                 </div>
                 <v-divider class="divider mt-4"></v-divider>
@@ -317,6 +344,7 @@ export default {
     user: {
       username: "",
       email: "",
+      admin: false,
     },
     avatarImage: "",
 
@@ -325,7 +353,9 @@ export default {
   }),
   async mounted() {
     await this.fetchData("gameCards");
+
     await this.getUserDetails();
+
     await this.setUserAvatar();
     (this.avatarMounted = true),
       this.$root.$on("getUserDetails", () => {
@@ -339,8 +369,6 @@ export default {
     async getUserDetails() {
       if (this.auth.authenticated) {
         let userData = Auth.getCurrentUserData();
-        this.user.username = userData.username;
-        this.user.email = userData.email;
         let result = await Auth.getUserDetails(userData.username);
         this.user = result.data.userData;
       }

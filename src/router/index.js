@@ -5,6 +5,7 @@ import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import UserProfileView from "../views/UserProfileView.vue";
 import GamePage from "../components/gamePage.vue";
+import AdminPanel from "../views/AdminPanel.vue";
 
 import { Auth } from "@/services";
 
@@ -36,6 +37,11 @@ const routes = [
     name: "GamePage",
     component: GamePage,
     props: true,
+  },
+  {
+    path: "/admin-panel",
+    name: "AdminPanel",
+    component: AdminPanel,
   },
 ];
 

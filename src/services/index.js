@@ -1,8 +1,8 @@
 import axios from "axios";
 //vezan uz konkretni backend
 let Service = axios.create({
-  baseURL: "https://macroquiet.herokuapp.com/",
-  //baseURL: "http://localhost:3000/",
+  //baseURL: "https://macroquiet.herokuapp.com/",
+  baseURL: "http://localhost:3000/",
   timeout: 30000,
 });
 // prije svakog poslanog requesta na backend izvrši:
@@ -37,11 +37,13 @@ let Auth = {
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
   },
+  //Get user from localStorage
   getCurrentUserData() {
     let user = this.getCurrentUser();
     let currentUserData = {
       username: user.username,
       email: user.email,
+      admin: user.admin,
     };
     return currentUserData;
   },
