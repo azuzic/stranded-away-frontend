@@ -357,6 +357,7 @@ export default {
     await this.getUserDetails();
 
     await this.setUserAvatar();
+
     (this.avatarMounted = true),
       this.$root.$on("getUserDetails", () => {
         this.getUserDetails();

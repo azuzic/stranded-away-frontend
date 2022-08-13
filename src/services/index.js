@@ -5,7 +5,7 @@ let Service = axios.create({
   baseURL: "http://localhost:3000/",
   timeout: 30000,
 });
-// prije svakog poslanog requesta na backend izvrši:
+// Prije svakog poslanog requesta na backend pošalji Token u headeru:
 Service.interceptors.request.use((request) => {
   let token = Auth.getUserToken();
   try {
@@ -105,6 +105,11 @@ let Auth = {
   state: {
     get authenticated() {
       return Auth.authenticated();
+    },
+  },
+  currentUser: {
+    get getCurrentUserData() {
+      return Auth.getCurrentUserData();
     },
   },
 };
