@@ -1,11 +1,10 @@
 import axios from "axios";
-//vezan uz konkretni backend
 let Service = axios.create({
   //baseURL: "https://macroquiet.herokuapp.com/",
-  baseURL: "http://localhost:3000/",
+  baseURL: "http://192.168.5.24:3000/",
   timeout: 30000,
 });
-// Prije svakog poslanog requesta na backend pošalji Token u headeru:
+//Before each sent request to the backend, send the Token in the header:
 Service.interceptors.request.use((request) => {
   let token = Auth.getUserToken();
   try {
@@ -26,18 +25,15 @@ Service.interceptors.response.use(
   }
 );
 */
-//Vezani uz pojedine rute
-let Storage = {
-  getAll(data) {
-    return Service.get(`storage?data=${data}`);
-  },
-};
 let Auth = {
-  //GET CURRENT USER
+  //Get/delete current user from localStorage
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
   },
-  //Get user from localStorage
+  signOut() {
+    localStorage.removeItem("user");
+  },
+  //Extract user data from local storage
   getCurrentUserData() {
     let user = this.getCurrentUser();
     let currentUserData = {
@@ -47,6 +43,7 @@ let Auth = {
     };
     return currentUserData;
   },
+  //Get all user data from database
   async getUserDetails(username) {
     return await Service.get(`user?username=${username}`);
   },
@@ -63,22 +60,17 @@ let Auth = {
       return true;
     } else return false;
   },
-  signOut() {
-    localStorage.removeItem("user");
-  },
+
   //TOKEN
   getUserToken() {
     let user = this.getCurrentUser();
     if (user && user.token) return user.token;
     else return false;
   },
-  updateToken(userData) {
+  /*updateToken(userData) {
     return Service.post("user/token", userData);
-  },
+  },*/
   //CHANGE USER DATA
-  changeUserUsername(userData) {
-    return Service.patch("user/username", userData);
-  },
   changeUserPassword(userData) {
     return Service.patch("user/password", userData);
   },
@@ -114,4 +106,4 @@ let Auth = {
   },
 };
 
-export { Storage, Auth };
+export { Auth };

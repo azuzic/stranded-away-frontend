@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-24">
+  <div class="mt-16">
     <v-card dark>
       <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
         <v-list-item class="px-2">
@@ -23,48 +23,18 @@
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item-title>{{ item.title }} </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
     </v-card>
-
-    <!--
-    <v-row justify="start" align="center">
-      <v-col :cols="width" align-self="center">
-        <h1 class="text-center font-bold text-4xl">TIMELINE NEWS</h1>
-
-        <v-card class="mx-auto" max-width="300" tile dark>
-          <v-list dense>
-            <v-subheader>REPORTS</v-subheader>
-            <v-list-item-group v-model="selectedItem" color="red">
-              <v-list-item v-for="(item, i) in items" :key="i">
-                <v-list-item-icon>
-                  <v-icon v-text="item.icon"></v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.text"></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
-          <v-pagination
-            v-model="page"
-            :length="4"
-            prev-icon="mdi-menu-left"
-            next-icon="mdi-menu-right"
-          ></v-pagination>
-        </v-card>
-      </v-col>
-    </v-row>
-    -->
   </div>
 </template>
 <script>
 import router from "@/router";
 import store from "@/store";
-import { Storage, Auth } from "@/services";
+import { Auth } from "@/services";
 export default {
   name: "AdminPanel",
   components: {},

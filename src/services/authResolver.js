@@ -4,6 +4,10 @@ let wait = function (seconds) {
     setTimeout(resolveFn, seconds * 1000);
   });
 };
+function updateToken(data) {
+  if (localStorage.user) localStorage.removeItem("user");
+  localStorage.setItem("user", JSON.stringify(data));
+}
 export default {
   loginRequest: false,
   promptType: false,
@@ -16,8 +20,8 @@ export default {
       await wait(3);
       console.log("Success");
       //Save token to localStorage
-      let user = response.data;
-      localStorage.setItem("user", JSON.stringify(user));
+      let tokenData = response.data;
+      updateToken(tokenData);
 
       //Redirect to user profile page
       router.replace({ name: "Home" });
@@ -63,30 +67,6 @@ export default {
     this.passwordChangeRequest = false;
   },
 
-  usernameChangeRequest: false,
-
-  changeUsernameHandler: async function (state, response) {
-    this.usernameChangeRequest = true;
-
-    if (state == "success") {
-      this.promptType = true;
-
-      //Update token in localStorage
-      var user = response.data;
-      localStorage.removeItem("user");
-      localStorage.setItem("user", JSON.stringify(user));
-      await wait(3);
-      router.replace({
-        name: "User",
-        params: { userName: user.username },
-      });
-    } else {
-      this.promptType = false;
-      await wait(3);
-    }
-    this.usernameChangeRequest = false;
-  },
-
   emailChangeRequest: false,
 
   changeEmailHandler: async function (state, response) {
@@ -94,10 +74,9 @@ export default {
 
     if (state == "success") {
       this.promptType = true;
-      //Update token in localStorage
-      var user = response.data;
-      localStorage.removeItem("user");
-      localStorage.setItem("user", JSON.stringify(user));
+      var tokenData = response.data;
+      //Update token in localStorage after email change
+      updateToken(tokenData);
       await wait(3);
     } else {
       this.promptType = false;

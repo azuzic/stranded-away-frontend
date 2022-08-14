@@ -310,7 +310,7 @@
 <script>
 import router from "@/router";
 import store from "@/store";
-import { Storage, Auth } from "@/services";
+import { Auth } from "@/services";
 
 export default {
   name: "App",
@@ -352,8 +352,6 @@ export default {
     avatarMounted: false,
   }),
   async mounted() {
-    await this.fetchData("gameCards");
-
     await this.getUserDetails();
 
     await this.setUserAvatar();
@@ -362,10 +360,12 @@ export default {
       this.$root.$on("getUserDetails", () => {
         this.getUserDetails();
       });
+
     this.$root.$on("setUserAvatar", () => {
       this.getUserDetails();
     });
   },
+
   methods: {
     async getUserDetails() {
       if (this.auth.authenticated) {
@@ -379,11 +379,6 @@ export default {
         this.avatarImage = await Auth.getImage(this.user.profile.avatarImageID);
         this.avatarImage = this.avatarImage.data.img;
       }
-    },
-    //Backend fetcher
-    async fetchData(data) {
-      const response = await Storage.getAll(data);
-      store[data] = response.data;
     },
     //Link scroll
     scroll(id) {
