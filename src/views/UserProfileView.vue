@@ -219,7 +219,7 @@
                 :class="$vuetify.breakpoint.mobile ? 'grow' : ''"
               >
                 <!--USERNAME-->
-                <div class="text text-4xl text-red-like-logo">
+                <div class="text-4xl text-red-like-logo">
                   {{ user.username }}
                 </div>
                 <!--USERNAME END-->
@@ -411,10 +411,7 @@
             <!--USERNAME, EMAIL, PASSWORD END-->
             <!--MEDALS-->
             <div
-              v-show="
-                !authResolver.usernameChangeRequest &&
-                !authResolver.emailChangeRequest
-              "
+              v-show="!authResolver.emailChangeRequest"
               class="medals flex flex-wrap align-center min-w-200px overfow-hidden"
               :class="
                 $vuetify.breakpoint.mobile
@@ -737,7 +734,6 @@ export default {
       username: "",
       email: "",
     },
-    usernameChange: false,
     emailChange: false,
     passwordChange: false,
 

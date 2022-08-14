@@ -43,7 +43,7 @@ let Auth = {
     };
     return currentUserData;
   },
-  //Get all user data from database
+  //Get ALL user data from database (including profile picture and settings)
   async getUserDetails(username) {
     return await Service.get(`user?username=${username}`);
   },
@@ -67,9 +67,6 @@ let Auth = {
     if (user && user.token) return user.token;
     else return false;
   },
-  /*updateToken(userData) {
-    return Service.post("user/token", userData);
-  },*/
   //CHANGE USER DATA
   changeUserPassword(userData) {
     return Service.patch("user/password", userData);
