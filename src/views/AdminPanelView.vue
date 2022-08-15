@@ -82,13 +82,9 @@
           <v-container v-if="currentPanelItem == 1">
             <h2 class="text-3xl text-center">ADD NEW POST</h2>
             <validation-observer ref="observer" v-slot="{}">
-              <v-form ref="form" lazy-validation>
+              <v-form ref="form" lazy-validation class="mb-2">
                 <!--TITLE-->
-                <validation-provider
-                  v-slot="{ errors }"
-                  name="Title"
-                  class="mb-2"
-                >
+                <validation-provider v-slot="{ errors }" name="Title">
                   <v-text-field
                     v-model="post.title"
                     :counter="25"
@@ -98,13 +94,16 @@
                   ></v-text-field>
                 </validation-provider>
                 <!--/TITLE-->
+                <!--TEXT-->
                 <validation-provider
                   v-slot="{ errors }"
                   name="Text"
                   rules="required"
                 >
                   <v-textarea
+                    class="mt-2 mb-2"
                     clearable
+                    filled
                     :counter="2000"
                     auto-grow
                     label="Text"
@@ -113,15 +112,38 @@
                     :error-messages="errors"
                   ></v-textarea>
                 </validation-provider>
+                <!--/TEXT-->
+                <!--ICON-->
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="Icon"
+                  rules="required"
+                >
+                  <v-select
+                    v-model="selectedIcon"
+                    :items="availableIcons"
+                    label="Icon"
+                    prepend-icon="mdi-robot"
+                    :error-messages="errors"
+                  >
+                  </v-select>
+                </validation-provider>
+
+                <div class="text-center">
+                  <v-icon size="40"> {{ selectedIcon }} </v-icon>
+                </div>
+                <!--/ICON-->
+                <!--IMAGE-->
                 <validation-provider v-slot="{ errors }" name="Image">
                   <v-file-input
                     label="Image"
                     filled
-                    prepend-icon="mdi-camera"
+                    prepend-icon="mdi-image"
                     :error-messages="errors"
                     class="mt-2"
                   ></v-file-input>
                 </validation-provider>
+                <!--/IMAGE-->
                 <v-checkbox
                   v-model="postphoneCheckbox"
                   label="Postphone post"
@@ -176,7 +198,7 @@ export default {
       { title: "Users", icon: "mdi-account-group-outline" },
     ],
     mini: true,
-    currentPanelItem: 1,
+    currentPanelItem: 0,
 
     auth: Auth.state,
     user: {
@@ -188,7 +210,8 @@ export default {
     avatarImage: "",
     //mount loading
     avatarMounted: false,
-    //Post
+
+    //Post |Timeline|
     post: {
       title: "",
       text: "",
@@ -197,8 +220,17 @@ export default {
       date: "",
     },
     postphoneCheckbox: null,
+    availableIcons: [
+      { text: "General news", value: "mdi-newspaper-variant" },
+      { text: "Youtube video", value: "mdi-youtube" },
+      { text: "Game news", value: "mdi-controller" },
+      { text: "New Achievement", value: "mdi-trophy" },
+      { text: "Celebration", value: "mdi-party-popper" },
+    ],
+    selectedIcon: "mdi-newspaper-variant",
   }),
   async mounted() {
+    console.log(this.availableIcons);
     await this.getUserDetails();
 
     await this.setUserAvatar();
