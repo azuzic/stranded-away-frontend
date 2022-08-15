@@ -89,27 +89,56 @@
             their lifelong dreams.
           </h2>
           <h2>
-            Meet <span class="text-red-like-logo">@blaskec</span> and
-            <span class="text-red-like-logo">@zuza</span> now!
+            Meet
+            <router-link :to="{ name: 'User', params: { userName: 'blaskec' } }"
+              ><span class="text-red-like-logo">@blaskec</span></router-link
+            >
+            and
+            <router-link :to="{ name: 'User', params: { userName: 'zuza' } }"
+              ><span class="text-red-like-logo">@zuza</span></router-link
+            >
+            now!
           </h2>
         </v-col>
       </v-row>
       <v-row justify="center">
         <v-col :cols="$vuetify.breakpoint.mobile ? '6' : '2'">
-          <v-img
-            class="align-end"
-            height="300px"
-            src="@/assets/portraits/Portret_Luka_Big-noBG.png"
-          >
-          </v-img>
+          <router-link :to="{ name: 'User', params: { userName: 'blaskec' } }">
+            <figure class="hover11">
+              <v-tooltip bottom color="#EF5350">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-img
+                    class="align-end"
+                    height="300px"
+                    src="@/assets/portraits/Portret_Luka_Big-noBG.png"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                  </v-img>
+                </template>
+                <span>Blaskec</span>
+              </v-tooltip>
+            </figure>
+          </router-link>
         </v-col>
         <v-col :cols="$vuetify.breakpoint.mobile ? '6' : '2'">
-          <v-img
-            class="align-end"
-            height="300"
-            src="@/assets/portraits/Portret_Alesandro_Big-noBG.png"
-          >
-          </v-img>
+          <router-link :to="{ name: 'User', params: { userName: 'zuza' } }">
+            <figure class="hover11">
+              <v-tooltip bottom color="#EF5350">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-img
+                    class="align-end"
+                    height="300px"
+                    src="@/assets/portraits/Portret_Alesandro_Big-noBG.png"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                  </v-img>
+                </template>
+                <span>Zuza</span>
+              </v-tooltip>
+            </figure>
+          </router-link>
         </v-col>
       </v-row>
     </v-container>
@@ -172,7 +201,7 @@ export default {
         icon: "mdi-newspaper-variant",
         date: "3 July, 2021",
         title: "MacroQuiet is born!",
-        text: "Bring the Champagne!",
+        text: "Bring in the Champagne!",
       },
       {
         color: "red lighten-1",
@@ -248,5 +277,13 @@ export default {
 }
 .theme--light.v-timeline:before {
   background: rgba(250, 251, 251, 255);
+}
+.hover11 {
+  opacity: 1;
+  -webkit-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+}
+.hover11 :hover {
+  opacity: 0.5;
 }
 </style>

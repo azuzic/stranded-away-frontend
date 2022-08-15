@@ -80,7 +80,7 @@
             </v-row>
           </v-container>
           <v-container v-if="currentPanelItem == 1">
-            <h2 class="text-3xl">Add a new post to timeline</h2>
+            <h2 class="text-3xl text-center">ADD NEW POST</h2>
             <validation-observer ref="observer" v-slot="{}">
               <v-form ref="form" lazy-validation>
                 <!--TITLE-->
@@ -181,7 +181,7 @@ export default {
     auth: Auth.state,
     user: {
       username: Auth.currentUser.username,
-      email: Auth.email,
+      email: Auth.currentUser.email,
       admin: true,
     },
 
