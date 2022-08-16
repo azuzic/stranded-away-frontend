@@ -2,7 +2,7 @@
 
 VUE.js front-end aplikacije za MacroQuiet Game Development - 2 people Indie Game Development Studio.
 
-![MacroQuiet Logo](/public/android-chrome-192x192.png?raw=true "Title")
+![MacroQuiet Logo](/public/macroquiet_md.png?raw=true "Title")
 
 
 ### Poveznica na aplikaciju
