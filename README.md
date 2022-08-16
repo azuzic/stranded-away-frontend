@@ -1,9 +1,7 @@
 # "MacroQuiet Front-end"
+VUE.js front-end aplikacije za MacroQuiet Game Development - 2 people Indie Game Development Studio.  
+
 ![MacroQuiet Logo](/public/macroquiet-md.png?raw=true "Title")
-
-VUE.js front-end aplikacije za MacroQuiet Game Development - 2 people Indie Game Development Studio.
-
-
 ### Poveznica na aplikaciju
 - https://macroquiet.com/
 - [![Netlify Status](https://api.netlify.com/api/v1/badges/39d55394-c535-4ddd-82b0-c644e5c8b30f/deploy-status)](https://app.netlify.com/sites/macroquiet/deploys)
