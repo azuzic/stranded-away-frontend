@@ -1,16 +1,17 @@
 <template>
-  <v-container class="mt-16 md:pl-32 md:pr-32">
+  <v-container class="mt-16 md:pl-24 md:pr-24">
     <h1 class="text-4xl mt-4">ADMIN PANEL</h1>
     <h2 class="mb-4">
       Welcome back, <b class="text-red-like-logo">{{ user.username }}</b>
     </h2>
     <v-card dark>
       <v-row justify="start">
-        <v-col :cols="4">
+        <v-col :cols="$vuetify.breakpoint.mobile ? 0 : 2">
           <v-navigation-drawer
             v-model="drawer"
             :mini-variant.sync="mini"
             permanent
+            expand-on-hover
           >
             <v-list-item class="px-2">
               <v-list-item-avatar>
@@ -52,8 +53,8 @@
             </v-list>
           </v-navigation-drawer>
         </v-col>
-        <v-col align-self="center" :cols="5">
-          <!--Timeline-->
+        <v-col align-self="center" :cols="$vuetify.breakpoint.mobile ? 12 : 5">
+          <!--***CAROUSEL EDITOR***-->
           <v-container v-if="currentPanelItem == 0">
             <v-row>
               <v-col v-for="n in 9" :key="n" class="d-flex child-flex" cols="4">
@@ -79,108 +80,211 @@
               </v-col>
             </v-row>
           </v-container>
+          <!--***/CAROUSEL EDITOR***-->
+          <!--***TIMELINE EDITOR***-->
           <v-container v-if="currentPanelItem == 1">
-            <h2 class="text-3xl text-center">ADD NEW POST</h2>
-            <validation-observer ref="observer" v-slot="{}">
-              <v-form ref="form" lazy-validation class="mb-2">
-                <!--TITLE-->
-                <validation-provider v-slot="{ errors }" name="Title">
-                  <v-text-field
-                    v-model="post.title"
-                    :counter="25"
-                    label="Title"
-                    :error-messages="errors"
-                    required
-                  ></v-text-field>
-                </validation-provider>
-                <!--/TITLE-->
-                <!--TEXT-->
-                <validation-provider
-                  v-slot="{ errors }"
-                  name="Text"
-                  rules="required"
-                >
-                  <v-textarea
-                    class="mt-2 mb-2"
-                    clearable
-                    filled
-                    :counter="2000"
-                    auto-grow
-                    label="Text"
-                    v-model="post.text"
-                    required
-                    :error-messages="errors"
-                  ></v-textarea>
-                </validation-provider>
-                <!--/TEXT-->
-                <!--ICON-->
-                <validation-provider
-                  v-slot="{ errors }"
-                  name="Icon"
-                  rules="required"
-                >
-                  <v-select
-                    v-model="selectedIcon"
-                    :items="availableIcons"
-                    label="Icon"
-                    prepend-icon="mdi-robot"
-                    :error-messages="errors"
-                  >
-                  </v-select>
-                </validation-provider>
+            <!--<h2 class="text-3xl text-center">ADD NEW POST</h2>-->
+            <v-card class="mx-auto" max-width="500">
+              <v-card-title
+                class="text-h6 font-weight-regular justify-space-between"
+              >
+                <span>{{ currentTitle }}</span>
+                <v-avatar
+                  color="error"
+                  class="subheading white--text"
+                  size="24"
+                  v-text="step"
+                ></v-avatar>
+              </v-card-title>
+              <validation-observer ref="observer" v-slot="{ invalid }">
+                <form class="" @submit.prevent="addNewPost">
+                  <v-window v-model="step">
+                    <!--PAGE 1-->
+                    <v-window-item :value="1">
+                      <v-card-text>
+                        <!--Title-->
+                        <validation-provider
+                          v-slot="{ errors }"
+                          name="Title"
+                          rules="required|max:50|min:3"
+                        >
+                          <v-text-field
+                            v-model="timelinePost.title"
+                            :counter="50"
+                            label="Title"
+                            :error-messages="errors"
+                            required
+                          ></v-text-field>
+                        </validation-provider>
+                        <!--/Title-->
 
-                <div class="text-center">
-                  <v-icon size="40"> {{ selectedIcon }} </v-icon>
-                </div>
-                <!--/ICON-->
-                <!--IMAGE-->
-                <validation-provider v-slot="{ errors }" name="Image">
-                  <v-file-input
-                    label="Image"
-                    filled
-                    prepend-icon="mdi-image"
-                    :error-messages="errors"
-                    class="mt-2"
-                  ></v-file-input>
-                </validation-provider>
-                <!--/IMAGE-->
-                <v-checkbox
-                  v-model="postphoneCheckbox"
-                  label="Postphone post"
-                  required
-                ></v-checkbox>
+                        <!--Text-->
+                        <validation-provider
+                          v-slot="{ errors }"
+                          name="Text"
+                          rules="required"
+                        >
+                          <v-textarea
+                            class="mt-2 mb-2"
+                            clearable
+                            filled
+                            :counter="2000"
+                            auto-grow
+                            label="Text"
+                            v-model="timelinePost.text"
+                            required
+                            :error-messages="errors"
+                          ></v-textarea>
+                        </validation-provider>
+                        <!--/Text-->
+                      </v-card-text>
+                    </v-window-item>
+                    <!--/PAGE 1-->
+                    <!--Icon-->
+                    <v-window-item :value="2">
+                      <v-card-text>
+                        <validation-provider v-slot="{ errors }" name="Icon">
+                          <v-select
+                            v-model="selectedIcon"
+                            :items="availableIcons"
+                            label="Icon"
+                            prepend-icon="mdi-robot"
+                            :error-messages="errors"
+                            data-vv-name="selectedIcon"
+                          >
+                          </v-select>
+                        </validation-provider>
 
-                <v-btn color="success" class="mr-4" @click="addNewPost">
-                  POST
+                        <div class="text-center">
+                          <v-icon size="40"> {{ selectedIcon }} </v-icon>
+                        </div>
+                        <!--/Icon-->
+                        <!--Image-->
+                        <validation-provider v-slot="{ errors }" name="Image">
+                          <v-file-input
+                            v-model="timelinePost.image"
+                            label="Image"
+                            filled
+                            prepend-icon="mdi-image"
+                            :error-messages="errors"
+                            class="mt-2"
+                          ></v-file-input>
+                        </validation-provider>
+                        <!--/Image-->
+                      </v-card-text>
+                    </v-window-item>
+                    <v-window-item :value="3">
+                      <!--Postphone post-->
+                      <validation-provider
+                        v-slot="{ errors }"
+                        name="postphoneCheckbox"
+                      >
+                        <v-checkbox
+                          v-model="postphoneCheckbox"
+                          label="Postphone post"
+                          :error-messages="errors"
+                        ></v-checkbox>
+                      </validation-provider>
+                      <!--/Postphone post-->
+                      <!--New postphoned date-->
+                      <validation-provider
+                        v-if="postphoneCheckbox"
+                        v-slot="{ errors }"
+                        name="select"
+                        rules="required"
+                      >
+                        <v-date-picker
+                          :error-messages="errors"
+                          :min="minDate"
+                          v-model="postphonedDate"
+                          color="green lighten-1"
+                        ></v-date-picker>
+                      </validation-provider>
+                      <v-btn
+                        color="success"
+                        class="mr-4"
+                        @click="addNewPost"
+                        type="submit"
+                        :disabled="invalid"
+                      >
+                        POST
+                      </v-btn>
+
+                      <v-btn color="error" class="mr-4" @click="reset">
+                        Reset Form
+                      </v-btn>
+                    </v-window-item>
+                    <!---New postphones date-->
+                  </v-window>
+                </form>
+              </validation-observer>
+              <v-card-actions>
+                <v-btn :disabled="step === 1" text @click="step--">
+                  Back
                 </v-btn>
-
-                <v-btn color="error" class="mr-4" @click="reset">
-                  Reset Form
+                <v-spacer></v-spacer>
+                <v-btn
+                  :disabled="step === 3"
+                  color="error"
+                  depressed
+                  @click="step++"
+                >
+                  Next
                 </v-btn>
-              </v-form>
-            </validation-observer>
+              </v-card-actions>
+            </v-card>
           </v-container>
+          <!--***/TIMELINE EDITOR***-->
         </v-col>
-        <v-col :cols="2"></v-col>
+        <v-col
+          :cols="$vuetify.breakpoint.mobile ? 12 : 4"
+          v-if="currentPanelItem == 1"
+          align-self="center"
+        >
+          <timelinePost
+            :title="
+              timelinePost.title != '' ? timelinePost.title : 'title goes here '
+            "
+            :text="
+              timelinePost.text != '' ? timelinePost.text : 'Start writing...'
+            "
+            :icon="selectedIcon"
+            :date="currentDate"
+          >
+          </timelinePost>
+        </v-col>
       </v-row>
     </v-card>
   </v-container>
 </template>
 <script>
-import { Auth } from "@/services";
-import { required } from "vee-validate/dist/rules";
 import "animate.css";
+import moment from "moment";
+import { Auth, Admin } from "@/services";
+import { required, max, min } from "vee-validate/dist/rules";
 import {
   extend,
   ValidationObserver,
   ValidationProvider,
   setInteractionMode,
 } from "vee-validate";
+
+import timelinePost from "@/components/timelinePost.vue";
+
 setInteractionMode("eager");
 
 extend("required", {
   ...required,
   message: "{_field_} can not be empty",
+});
+extend("max", {
+  ...max,
+  message: "{_field_} may not be greater than {length} characters",
+});
+
+extend("min", {
+  ...min,
+  message: "{_field_} may not be less than {length} characters",
 });
 
 export default {
@@ -188,9 +292,11 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
+    timelinePost,
   },
   data: () => ({
     drawer: true,
+
     panelItems: [
       { title: "Carousel", icon: "mdi-view-carousel" },
       { title: "Timeline", icon: "mdi-chart-gantt" },
@@ -198,7 +304,7 @@ export default {
       { title: "Users", icon: "mdi-account-group-outline" },
     ],
     mini: true,
-    currentPanelItem: 0,
+    currentPanelItem: 1,
 
     auth: Auth.state,
     user: {
@@ -212,13 +318,15 @@ export default {
     avatarMounted: false,
 
     //Post |Timeline|
-    post: {
+    step: 1,
+    timelinePost: {
       title: "",
       text: "",
-      image: "",
+      image: null,
       author: "",
       date: "",
     },
+    postphonedDate: "",
     postphoneCheckbox: null,
     availableIcons: [
       { text: "General news", value: "mdi-newspaper-variant" },
@@ -228,9 +336,9 @@ export default {
       { text: "Celebration", value: "mdi-party-popper" },
     ],
     selectedIcon: "mdi-newspaper-variant",
+    submittingTimelinePost: false,
   }),
   async mounted() {
-    console.log(this.availableIcons);
     await this.getUserDetails();
 
     await this.setUserAvatar();
@@ -262,16 +370,48 @@ export default {
         this.avatarImage = this.avatarImage.data.img;
       }
     },
-    addNewPost() {
-      console.log("Adding new post to timeline");
-      this.$refs.form.validate();
+    async addNewPost() {
+      const isValid = this.$refs.observer.validate();
+      console.log(isValid);
+      if (isValid) {
+        this.submittingTimelinePost = true;
+        console.log("Validated successfully!");
+        if (postphoneCheckbox) {
+          this.timelinePost.date = this.postphonedDate;
+        }
+        let postData = (this.timelinePost.icon = this.selectedIcon);
+
+        Admin.addNewTimelinePost(postData);
+      }
     },
     reset() {
-      console.log("Resetting timeline form");
-      this.$refs.form.reset();
+      Object.keys(this.timelinePost).forEach((key) => {
+        if (key == "image") this.timelinePost[key] = null;
+        else this.timelinePost[key] = "";
+      });
+      this.selectedIcon = "mdi-newspaper-variant";
+      this.postphoneCheckbox = null;
+      this.$refs.observer.reset();
     },
   },
-  computed: {},
+  computed: {
+    currentTitle() {
+      switch (this.step) {
+        case 1:
+          return "Add new post";
+        case 2:
+          return "Select icon and image";
+        default:
+          return "Postphone post date?";
+      }
+    },
+    currentDate() {
+      let fullFormat = moment().toDate();
+      let month = moment().format("MMMM");
+      let DateOnly = `${fullFormat.getDate()} ${month}, ${fullFormat.getFullYear()}`;
+      return DateOnly;
+    },
+  },
 };
 </script>
 <style></style>

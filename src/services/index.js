@@ -97,4 +97,10 @@ let Auth = {
   },
 };
 
-export { Auth };
+let Admin = {
+  addNewTimelinePost(postData) {
+    return Service.post("admin/timeline", postData);
+  },
+};
+
+export { Auth, Admin };

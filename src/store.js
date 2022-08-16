@@ -42,4 +42,24 @@ export default {
       gameName: "stranded-away",
     },
   ],
+  news: [
+    {
+      icon: "mdi-newspaper-variant",
+      date: "3 July, 2021",
+      title: "MacroQuiet is born!",
+      text: "Bring in the Champagne!",
+    },
+    {
+      icon: "mdi-newspaper-variant",
+      date: "21 July, 2021",
+      title: "Doge game available now!",
+      text: "The great and epic Doge game! Our first game ever. Made in just 2 weeks! Take control of lost doge trying to find his way out of town. Be careful! You will encounter many dogcatchers along the way. Also, those bones look really delicious.",
+    },
+    {
+      icon: "mdi-newspaper-variant",
+      date: "28 May, 2022",
+      title: "Stranded Away coming soon!",
+      text: "2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still in progress!",
+    },
+  ],
 };

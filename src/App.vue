@@ -52,7 +52,7 @@
                 color="secondary"
                 rounded
                 class="my-4"
-                @click="$router.push({ name: 'Login' })"
+                @click="$router.push({ name: 'Login' }).catch(() => {})"
               >
                 <strong class="text-sm">SIGN IN</strong>
               </v-btn>

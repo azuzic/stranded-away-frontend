@@ -184,7 +184,7 @@ export default {
   methods: {
     async submit() {
       const isValid = this.$refs.observer.validate();
-      console.log(isValid);
+
       if (isValid) {
         this.submitting = true;
         console.log("Validated successfully!");
