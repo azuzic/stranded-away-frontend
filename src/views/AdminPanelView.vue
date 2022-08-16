@@ -174,47 +174,57 @@
                       </v-card-text>
                     </v-window-item>
                     <v-window-item :value="3">
-                      <!--Postphone post-->
-                      <validation-provider
-                        v-slot="{ errors }"
-                        name="postphoneCheckbox"
-                      >
-                        <v-checkbox
-                          v-model="postphoneCheckbox"
-                          label="Postphone post"
-                          :error-messages="errors"
-                        ></v-checkbox>
-                      </validation-provider>
-                      <!--/Postphone post-->
-                      <!--New postphoned date-->
-                      <validation-provider
-                        v-if="postphoneCheckbox"
-                        v-slot="{ errors }"
-                        name="select"
-                        rules="required"
-                      >
-                        <v-date-picker
-                          :error-messages="errors"
-                          :min="minDate"
-                          v-model="postphonedDate"
-                          color="green lighten-1"
-                        ></v-date-picker>
-                      </validation-provider>
-                      <v-btn
-                        color="success"
-                        class="mr-4"
-                        @click="addNewPost"
-                        type="submit"
-                        :disabled="invalid"
-                      >
-                        POST
-                      </v-btn>
-
-                      <v-btn color="error" class="mr-4" @click="reset">
-                        Reset Form
-                      </v-btn>
+                      <v-card-text>
+                        <v-row>
+                          <!--Postpone post-->
+                          <validation-provider
+                            v-slot="{ errors }"
+                            name="postponeCheckbox"
+                          >
+                            <v-checkbox
+                              v-model="postponeCheckbox"
+                              label="Postpone post"
+                              :error-messages="errors"
+                            ></v-checkbox>
+                          </validation-provider>
+                        </v-row>
+                        <v-row>
+                          <!--/Postpone post-->
+                          <!--New postponed date-->
+                          <validation-provider
+                            v-if="postponeCheckbox"
+                            v-slot="{ errors }"
+                            name="select"
+                            rules="required"
+                          >
+                            <v-date-picker
+                              v-model="postponedDate"
+                              :min="datePickerFormatter"
+                              :max="'2022-08-31'"
+                              :error-messages="errors"
+                              color="error"
+                            ></v-date-picker>
+                          </validation-provider>
+                          <!---/New postpones date-->
+                        </v-row>
+                        <v-row>
+                          <!--Post and Reset buttons-->
+                          <v-btn
+                            color="success"
+                            class="mt-2 mr-4"
+                            @click="addNewPost"
+                            type="submit"
+                            :disabled="invalid"
+                          >
+                            post
+                          </v-btn>
+                          <v-btn color="error" class="mt-2 mr-4" @click="reset">
+                            Reset Form
+                          </v-btn>
+                          <!--/Post and Reset buttons-->
+                        </v-row>
+                      </v-card-text>
                     </v-window-item>
-                    <!---New postphones date-->
                   </v-window>
                 </form>
               </validation-observer>
@@ -323,11 +333,11 @@ export default {
       title: "",
       text: "",
       image: null,
-      author: "",
+      author: Auth.currentUser.username,
       date: "",
     },
-    postphonedDate: "",
-    postphoneCheckbox: null,
+    postponedDate: "",
+    postponeCheckbox: null,
     availableIcons: [
       { text: "General news", value: "mdi-newspaper-variant" },
       { text: "Youtube video", value: "mdi-youtube" },
@@ -370,17 +380,42 @@ export default {
         this.avatarImage = this.avatarImage.data.img;
       }
     },
+    postponedDateFormatter(unformattedDate) {
+      let day = unformattedDate.slice(-2);
+      let month = unformattedDate.slice(5, 7);
+      let year = unformattedDate.slice(0, 4);
+      let monthsNames = {
+        "01": "January",
+        "02": "February",
+        "03": "March",
+        "04": "April",
+        "05": "May",
+        "06": "June",
+        "07": "July",
+        "08": "August",
+        "09": "September",
+        10: "October",
+        11: "November",
+        12: "December",
+      };
+      let formattedDate = day + " " + monthsNames[month] + ", " + year;
+      console.log(formattedDate);
+      return formattedDate;
+    },
     async addNewPost() {
       const isValid = this.$refs.observer.validate();
       console.log(isValid);
       if (isValid) {
         this.submittingTimelinePost = true;
         console.log("Validated successfully!");
-        if (postphoneCheckbox) {
-          this.timelinePost.date = this.postphonedDate;
-        }
-        let postData = (this.timelinePost.icon = this.selectedIcon);
-
+        console.log(this.postponedDate);
+        if (this.postponeCheckbox) {
+          this.timelinePost.date = this.postponedDateFormatter(
+            this.postponedDate
+          );
+        } else this.timelinePost.date = this.currentDate;
+        this.timelinePost.icon = this.selectedIcon;
+        let postData = this.timelinePost;
         Admin.addNewTimelinePost(postData);
       }
     },
@@ -390,7 +425,8 @@ export default {
         else this.timelinePost[key] = "";
       });
       this.selectedIcon = "mdi-newspaper-variant";
-      this.postphoneCheckbox = null;
+      this.postponeCheckbox = null;
+      this.postponedDate = "";
       this.$refs.observer.reset();
     },
   },
@@ -402,14 +438,24 @@ export default {
         case 2:
           return "Select icon and image";
         default:
-          return "Postphone post date?";
+          return "Postpone post";
       }
     },
     currentDate() {
-      let fullFormat = moment().toDate();
+      let unformattedDate = moment().toDate();
+
       let month = moment().format("MMMM");
-      let DateOnly = `${fullFormat.getDate()} ${month}, ${fullFormat.getFullYear()}`;
-      return DateOnly;
+      let formattedDate = `${unformattedDate.getDate()} ${month}, ${unformattedDate.getFullYear()}`;
+
+      return formattedDate;
+    },
+    datePickerFormatter() {
+      let unformattedDate = moment().toDate();
+      let formattedDate = `${unformattedDate.getFullYear()}-0${
+        unformattedDate.getMonth() + 1
+      }-${unformattedDate.getDate() + 1}`;
+
+      return formattedDate;
     },
   },
 };
