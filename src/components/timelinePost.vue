@@ -1,5 +1,5 @@
 <template>
-  <v-card color="red lighten-1" dark max-width="900">
+  <v-card color="red lighten-1" dark min-width="350" max-width="900">
     <v-card-title>
       <v-icon size="32">
         {{ icon }}

@@ -75,13 +75,13 @@ let Auth = {
 
   //IMAGE MANIPULATION
   async postImage(imageData) {
-    return await Service.post("upload/image", imageData);
+    return await Service.post("image/upload", imageData);
   },
   async getImage(imageID) {
-    return await Service.get(`download/image?id=${imageID}`);
+    return await Service.get(`image/download?id=${imageID}`);
   },
   async removeImage(imageID) {
-    return await Service.delete(`remove/image?id=${imageID}`);
+    return await Service.delete(`image/remove?id=${imageID}`);
   },
 
   //Getters
@@ -100,6 +100,14 @@ let Auth = {
 let Admin = {
   addNewTimelinePost(postData) {
     return Service.post("admin/timeline", postData);
+  },
+  fetchData(dataName) {
+    return Service.get(`admin/data?d=${dataName}`);
+  },
+  data: {
+    get getTimelinePosts() {
+      return Admin.fetchData("timeline");
+    },
   },
 };
 

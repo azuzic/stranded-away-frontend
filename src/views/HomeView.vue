@@ -172,6 +172,7 @@
 import gameCard from "@/components/gameCard.vue";
 import timelinePost from "@/components/timelinePost.vue";
 import store from "@/store";
+import { Admin } from "@/services";
 
 export default {
   name: "Home",
@@ -181,11 +182,14 @@ export default {
   },
   data: () => ({
     store,
-    news: store.news,
+    news: Admin.data.getTimelinePosts,
   }),
-  computed: {
-    reversedNews() {
-      return this.news.reverse();
+
+  asyncComputed: {
+    async reversedNews() {
+      let result = await this.news;
+      console.log(result.data);
+      return result.data.reverse();
     },
     width() {
       switch (this.$vuetify.breakpoint.name) {

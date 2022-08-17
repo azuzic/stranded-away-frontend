@@ -245,7 +245,6 @@
                           <v-btn
                             color="success"
                             class="mt-2 mr-4"
-                            @click="addNewPost"
                             type="submit"
                             :disabled="invalid"
                           >
@@ -302,6 +301,7 @@
 </template>
 <script>
 import "animate.css";
+import router from "@/router";
 import moment from "moment";
 import { Auth, Admin } from "@/services";
 import { required, max, min } from "vee-validate/dist/rules";
@@ -349,7 +349,7 @@ export default {
       { title: "Users", icon: "mdi-account-group-outline" },
     ],
     mini: true,
-    currentPanelItem: 1,
+    currentPanelItem: 0,
 
     auth: Auth.state,
     user: {
@@ -414,7 +414,7 @@ export default {
         let userData = Auth.getCurrentUserData();
         let result = await Auth.getUserDetails(userData.username);
         this.user = result.data.userData;
-        this.timelinePost.author = result.data.userData;
+        this.timelinePost.author = result.data.userData.username;
       }
     },
     async setUserAvatar() {
@@ -458,6 +458,7 @@ export default {
         let postData = this.timelinePost;
 
         Admin.addNewTimelinePost(postData);
+        router.go();
       }
     },
     reset() {
@@ -466,7 +467,6 @@ export default {
         else this.timelinePost[key] = "";
       });
       this.selectedIcon = "mdi-newspaper-variant";
-      this.postponeCheckbox = null;
       this.hideAuthorCheckbox = null;
       this.postponedDate = this.formatDate(this.date);
       this.$refs.observer.reset();
@@ -480,7 +480,7 @@ export default {
         case 2:
           return "Select icon and image";
         default:
-          return "Additional options";
+          return "Pick post date";
       }
     },
     formattedDate() {
@@ -502,7 +502,6 @@ export default {
         12: "December",
       };
       let formattedDate = day + " " + monthsNames[month] + ", " + year;
-      console.log(formattedDate);
       return formattedDate;
     },
     datePickerFormat() {

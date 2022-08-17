@@ -42,6 +42,7 @@ export default {
       gameName: "stranded-away",
     },
   ],
+
   news: [
     {
       icon: "mdi-newspaper-variant",
