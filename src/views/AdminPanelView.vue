@@ -175,39 +175,72 @@
                     </v-window-item>
                     <v-window-item :value="3">
                       <v-card-text>
-                        <v-row>
-                          <!--Postpone post-->
+                        <v-row align="center" justify="center">
+                          <!--/Postpone post-->
+                          <!--New postponed date-->
+                          <v-menu
+                            ref="menu"
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            :return-value.sync="date"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="auto"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="date"
+                                label="Post date"
+                                prepend-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
+                            <validation-provider
+                              v-slot="{ errors }"
+                              name="select"
+                              rules="required"
+                            >
+                              <v-date-picker
+                                v-model="date"
+                                :min="datePickerFormat"
+                                :error-messages="errors"
+                                color="error"
+                                scrollable
+                                no-title
+                                dark
+                              >
+                                <v-spacer></v-spacer>
+                                <v-btn text color="error" @click="menu = false">
+                                  Cancel
+                                </v-btn>
+                                <v-btn
+                                  text
+                                  color="success"
+                                  @click="$refs.menu.save(date)"
+                                >
+                                  OK
+                                </v-btn>
+                              </v-date-picker>
+                            </validation-provider>
+                          </v-menu>
+
+                          <!---/New postpones date-->
+                        </v-row>
+                        <v-row align="center" justify="center">
                           <validation-provider
                             v-slot="{ errors }"
-                            name="postponeCheckbox"
+                            name="hideAuthorCheckbox"
                           >
                             <v-checkbox
-                              v-model="postponeCheckbox"
-                              label="Postpone post"
+                              v-model="hideAuthorCheckbox"
+                              label="Hide author"
                               :error-messages="errors"
                             ></v-checkbox>
                           </validation-provider>
                         </v-row>
-                        <v-row>
-                          <!--/Postpone post-->
-                          <!--New postponed date-->
-                          <validation-provider
-                            v-if="postponeCheckbox"
-                            v-slot="{ errors }"
-                            name="select"
-                            rules="required"
-                          >
-                            <v-date-picker
-                              v-model="postponedDate"
-                              :min="datePickerFormatter"
-                              :max="'2022-08-31'"
-                              :error-messages="errors"
-                              color="error"
-                            ></v-date-picker>
-                          </validation-provider>
-                          <!---/New postpones date-->
-                        </v-row>
-                        <v-row>
+                        <v-row align="center" justify="center">
                           <!--Post and Reset buttons-->
                           <v-btn
                             color="success"
@@ -259,7 +292,7 @@
               timelinePost.text != '' ? timelinePost.text : 'Start writing...'
             "
             :icon="selectedIcon"
-            :date="currentDate"
+            :date="formattedDate"
           >
           </timelinePost>
         </v-col>
@@ -272,6 +305,7 @@ import "animate.css";
 import moment from "moment";
 import { Auth, Admin } from "@/services";
 import { required, max, min } from "vee-validate/dist/rules";
+import rotatingLogo from "@/components/rotatingLogo.vue";
 import {
   extend,
   ValidationObserver,
@@ -303,6 +337,7 @@ export default {
     ValidationProvider,
     ValidationObserver,
     timelinePost,
+    rotatingLogo,
   },
   data: () => ({
     drawer: true,
@@ -318,8 +353,8 @@ export default {
 
     auth: Auth.state,
     user: {
-      username: Auth.currentUser.username,
-      email: Auth.currentUser.email,
+      username: "",
+      email: "",
       admin: true,
     },
 
@@ -333,11 +368,18 @@ export default {
       title: "",
       text: "",
       image: null,
-      author: Auth.currentUser.username,
+      author: "",
       date: "",
     },
-    postponedDate: "",
-    postponeCheckbox: null,
+
+    date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .substr(0, 10),
+
+    menu: false,
+
+    hideAuthorCheckbox: null,
+
     availableIcons: [
       { text: "General news", value: "mdi-newspaper-variant" },
       { text: "Youtube video", value: "mdi-youtube" },
@@ -346,7 +388,7 @@ export default {
       { text: "Celebration", value: "mdi-party-popper" },
     ],
     selectedIcon: "mdi-newspaper-variant",
-    submittingTimelinePost: false,
+    submitting: false,
   }),
   async mounted() {
     await this.getUserDetails();
@@ -372,6 +414,7 @@ export default {
         let userData = Auth.getCurrentUserData();
         let result = await Auth.getUserDetails(userData.username);
         this.user = result.data.userData;
+        this.timelinePost.author = result.data.userData;
       }
     },
     async setUserAvatar() {
@@ -380,7 +423,7 @@ export default {
         this.avatarImage = this.avatarImage.data.img;
       }
     },
-    postponedDateFormatter(unformattedDate) {
+    formatDate(unformattedDate) {
       let day = unformattedDate.slice(-2);
       let month = unformattedDate.slice(5, 7);
       let year = unformattedDate.slice(0, 4);
@@ -399,23 +442,21 @@ export default {
         12: "December",
       };
       let formattedDate = day + " " + monthsNames[month] + ", " + year;
-      console.log(formattedDate);
       return formattedDate;
     },
-    async addNewPost() {
+    addNewPost() {
       const isValid = this.$refs.observer.validate();
       console.log(isValid);
       if (isValid) {
-        this.submittingTimelinePost = true;
+        this.submitting = true;
         console.log("Validated successfully!");
-        console.log(this.postponedDate);
-        if (this.postponeCheckbox) {
-          this.timelinePost.date = this.postponedDateFormatter(
-            this.postponedDate
-          );
-        } else this.timelinePost.date = this.currentDate;
+        this.timelinePost.date = this.formatDate(this.date);
+        if (this.hideAuthorCheckbox) this.timelinePost.author = "MacroQuiet";
+
         this.timelinePost.icon = this.selectedIcon;
+
         let postData = this.timelinePost;
+
         Admin.addNewTimelinePost(postData);
       }
     },
@@ -426,7 +467,8 @@ export default {
       });
       this.selectedIcon = "mdi-newspaper-variant";
       this.postponeCheckbox = null;
-      this.postponedDate = "";
+      this.hideAuthorCheckbox = null;
+      this.postponedDate = this.formatDate(this.date);
       this.$refs.observer.reset();
     },
   },
@@ -438,22 +480,36 @@ export default {
         case 2:
           return "Select icon and image";
         default:
-          return "Postpone post";
+          return "Additional options";
       }
     },
-    currentDate() {
-      let unformattedDate = moment().toDate();
-
-      let month = moment().format("MMMM");
-      let formattedDate = `${unformattedDate.getDate()} ${month}, ${unformattedDate.getFullYear()}`;
-
+    formattedDate() {
+      let day = this.date.slice(-2);
+      let month = this.date.slice(5, 7);
+      let year = this.date.slice(0, 4);
+      let monthsNames = {
+        "01": "January",
+        "02": "February",
+        "03": "March",
+        "04": "April",
+        "05": "May",
+        "06": "June",
+        "07": "July",
+        "08": "August",
+        "09": "September",
+        10: "October",
+        11: "November",
+        12: "December",
+      };
+      let formattedDate = day + " " + monthsNames[month] + ", " + year;
+      console.log(formattedDate);
       return formattedDate;
     },
-    datePickerFormatter() {
+    datePickerFormat() {
       let unformattedDate = moment().toDate();
       let formattedDate = `${unformattedDate.getFullYear()}-0${
         unformattedDate.getMonth() + 1
-      }-${unformattedDate.getDate() + 1}`;
+      }-${unformattedDate.getDate()}`;
 
       return formattedDate;
     },
