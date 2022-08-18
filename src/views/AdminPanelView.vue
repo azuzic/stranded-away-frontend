@@ -8,6 +8,7 @@
       <v-row justify="start">
         <v-col :cols="$vuetify.breakpoint.mobile ? 0 : 2">
           <v-navigation-drawer
+            v-if="!$vuetify.breakpoint.mobile"
             v-model="drawer"
             :mini-variant.sync="mini"
             permanent
@@ -56,31 +57,48 @@
         <v-col align-self="center" :cols="$vuetify.breakpoint.mobile ? 12 : 5">
           <!--***CAROUSEL EDITOR***-->
           <v-container v-if="currentPanelItem == 0">
-            <v-row>
-              <v-col v-for="n in 9" :key="n" class="d-flex child-flex" cols="4">
-                <v-img
-                  :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-                  :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
-                  aspect-ratio="1"
-                  class="grey lighten-2"
+            <h1 class="text-2xl">Current Carousel Images</h1>
+            <v-row align="center" justify="center">
+              <v-col :cols="12" class="mt-4">
+                <draggable
+                  v-model="rows"
+                  class="row no-wrap fill-height align-center sortable-list"
                 >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
+                  <v-flex
+                    v-for="row in rows"
+                    :key="row.index"
+                    class="sortable"
+                    xs12
+                    my-2
+                  >
+                    <draggable
+                      :list="row.items"
+                      :group="{ name: 'row' }"
+                      class="row wrap justify-space-around"
                     >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
+                      <v-flex
+                        v-for="item in row.items"
+                        :key="item.title"
+                        xs3
+                        pa-2
+                      >
+                        <v-card link style="height: 200px" class="text-center">
+                          <v-img
+                            aspect-ratio="1"
+                            :src="require('@/assets/game_images/' + item)"
+                          >
+                          </v-img>
+                          {{ item }}
+                        </v-card>
+                      </v-flex>
+                    </draggable>
+                  </v-flex>
+                </draggable>
               </v-col>
             </v-row>
           </v-container>
           <!--***/CAROUSEL EDITOR***-->
+
           <!--***TIMELINE EDITOR***-->
           <v-container v-if="currentPanelItem == 1">
             <!--<h2 class="text-3xl text-center">ADD NEW POST</h2>-->
@@ -278,6 +296,7 @@
           </v-container>
           <!--***/TIMELINE EDITOR***-->
         </v-col>
+        <!--Timeline post preview-->
         <v-col
           :cols="$vuetify.breakpoint.mobile ? 12 : 4"
           v-if="currentPanelItem == 1"
@@ -295,12 +314,15 @@
           >
           </timelinePost>
         </v-col>
+        <!--/Timeline post preview-->
       </v-row>
     </v-card>
   </v-container>
 </template>
 <script>
 import "animate.css";
+import store from "@/store";
+import draggable from "vuedraggable";
 import router from "@/router";
 import moment from "moment";
 import { Auth, Admin } from "@/services";
@@ -338,9 +360,11 @@ export default {
     ValidationObserver,
     timelinePost,
     rotatingLogo,
+    draggable,
   },
   data: () => ({
     drawer: true,
+    store,
 
     panelItems: [
       { title: "Carousel", icon: "mdi-view-carousel" },
@@ -361,6 +385,16 @@ export default {
     avatarImage: "",
     //mount loading
     avatarMounted: false,
+
+    //Post [Carousel]
+    //Vue draggable
+    enabled: true,
+    rows: [
+      {
+        index: 1,
+        items: store.carouselPictures,
+      },
+    ],
 
     //Post |Timeline|
     step: 1,
@@ -511,6 +545,9 @@ export default {
       }-${unformattedDate.getDate()}`;
 
       return formattedDate;
+    },
+    handleImages(files) {
+      console.log(files);
     },
   },
 };

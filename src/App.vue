@@ -250,7 +250,7 @@
                 rounded
                 class="my-4"
                 cols="2"
-                @click="loginOut()"
+                @click="logOut()"
               >
                 <strong class="text-sm">LOG OUT</strong>
               </v-btn>
@@ -265,7 +265,7 @@
     <router-view />
     <!--Footer-->
     <v-card>
-      <v-footer :padless="padless" bottom fixed>
+      <v-footer padless bottom fixed dark>
         <v-card flat tile width="100%" class="navbarColor text-center">
           <v-card-text
             class="white--text flex justify-center align-center mb-0"
@@ -273,6 +273,7 @@
             <span class="-mb-4"
               ><strong>MacroQuiet Game Development <br /></strong>
               <div>Copyright © {{ new Date().getFullYear() }}</div>
+              <v-divider></v-divider>
               <div class="mb-1">
                 <v-btn
                   text
@@ -336,7 +337,6 @@ export default {
     ],
     //For footer
     items: ["default", "absolute", "fixed"],
-    padless: true,
     variant: "fixed",
 
     //Get authenticated state from services/auth

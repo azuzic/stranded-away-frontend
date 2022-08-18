@@ -160,6 +160,7 @@
               :text="item.text"
               :icon="item.icon"
               :date="item.date"
+              :author="item.author"
             >
             </timelinePost>
           </v-timeline-item> </v-timeline

@@ -221,7 +221,11 @@
                 <!--USERNAME-->
                 <div class="text-4xl text-red-like-logo">
                   {{ user.username }}
+                  <v-chip v-if="user.admin" color="red" text-color="white">
+                    ADMIN</v-chip
+                  >
                 </div>
+
                 <!--USERNAME END-->
                 <!--EMAIL-->
                 <v-tooltip top>
@@ -733,6 +737,7 @@ export default {
     user: {
       username: "",
       email: "",
+      admin: false,
     },
     emailChange: false,
     passwordChange: false,
@@ -779,6 +784,7 @@ export default {
       if (this.auth.authenticated) {
         let result = await Auth.getUserDetails(this.currentUser);
         this.user = result.data.userData;
+        console.log(this.user);
       }
     },
     async setUserCover() {
