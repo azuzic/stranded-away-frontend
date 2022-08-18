@@ -52,9 +52,9 @@
                 color="secondary"
                 rounded
                 class="my-4"
-                @click="$router.push({ name: 'Login' })"
+                @click="$router.push({ name: 'Login' }).catch(() => {})"
               >
-                <strong class="text-sm">SIGN IN</strong>
+                <strong class="text-sm">LOG IN</strong>
               </v-btn>
               <!--User profile icon-->
               <v-col align-self="center" v-else>
@@ -134,8 +134,8 @@
                           ADMIN PANEL
                         </v-btn>
                         <v-divider class="my-3"></v-divider>
-                        <v-btn @click="signOut()" depressed rounded text>
-                          SIGN OUT
+                        <v-btn @click="logOut()" depressed rounded text>
+                          LOG OUT
                         </v-btn>
                       </div>
                     </v-list-item-content>
@@ -242,7 +242,7 @@
                 cols="2"
                 @click="$router.push({ name: 'Login' }).catch(() => {})"
               >
-                <strong class="text-sm">SIGN IN</strong>
+                <strong class="text-sm">LOG IN</strong>
               </v-btn>
               <v-btn
                 v-else
@@ -250,9 +250,9 @@
                 rounded
                 class="my-4"
                 cols="2"
-                @click="signOut()"
+                @click="logOut()"
               >
-                <strong class="text-sm">SIGN OUT</strong>
+                <strong class="text-sm">LOG OUT</strong>
               </v-btn>
             </v-list-item>
           </v-list>
@@ -265,7 +265,7 @@
     <router-view />
     <!--Footer-->
     <v-card>
-      <v-footer :padless="padless" bottom fixed>
+      <v-footer padless bottom fixed dark>
         <v-card flat tile width="100%" class="navbarColor text-center">
           <v-card-text
             class="white--text flex justify-center align-center mb-0"
@@ -273,6 +273,7 @@
             <span class="-mb-4"
               ><strong>MacroQuiet Game Development <br /></strong>
               <div>Copyright © {{ new Date().getFullYear() }}</div>
+              <v-divider></v-divider>
               <div class="mb-1">
                 <v-btn
                   text
@@ -336,7 +337,6 @@ export default {
     ],
     //For footer
     items: ["default", "absolute", "fixed"],
-    padless: true,
     variant: "fixed",
 
     //Get authenticated state from services/auth
@@ -392,8 +392,8 @@ export default {
         this.drawer = false;
       } catch (e) {}
     },
-    signOut() {
-      Auth.signOut();
+    logOut() {
+      Auth.logOut();
       router.go();
     },
   },

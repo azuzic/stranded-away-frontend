@@ -1,16 +1,18 @@
 <template>
-  <v-container class="mt-16 md:pl-32 md:pr-32">
+  <v-container class="mt-16 md:pl-24 md:pr-24">
     <h1 class="text-4xl mt-4">ADMIN PANEL</h1>
     <h2 class="mb-4">
       Welcome back, <b class="text-red-like-logo">{{ user.username }}</b>
     </h2>
     <v-card dark>
       <v-row justify="start">
-        <v-col :cols="4">
+        <v-col :cols="$vuetify.breakpoint.mobile ? 0 : 2">
           <v-navigation-drawer
+            v-if="!$vuetify.breakpoint.mobile"
             v-model="drawer"
             :mini-variant.sync="mini"
             permanent
+            expand-on-hover
           >
             <v-list-item class="px-2">
               <v-list-item-avatar>
@@ -52,113 +54,303 @@
             </v-list>
           </v-navigation-drawer>
         </v-col>
-        <v-col align-self="center" :cols="5">
-          <!--Timeline-->
+        <v-col align-self="center" :cols="$vuetify.breakpoint.mobile ? 12 : 5">
+          <!--***CAROUSEL EDITOR***-->
           <v-container v-if="currentPanelItem == 0">
-            <v-row>
-              <v-col v-for="n in 9" :key="n" class="d-flex child-flex" cols="4">
-                <v-img
-                  :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-                  :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
-                  aspect-ratio="1"
-                  class="grey lighten-2"
+            <h1 class="text-2xl">Current Carousel Images</h1>
+            <v-row align="center" justify="center">
+              <v-col :cols="12" class="mt-4">
+                <draggable
+                  v-model="rows"
+                  class="row no-wrap fill-height align-center sortable-list"
                 >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
+                  <v-flex
+                    v-for="row in rows"
+                    :key="row.index"
+                    class="sortable"
+                    xs12
+                    my-2
+                  >
+                    <draggable
+                      :list="row.items"
+                      :group="{ name: 'row' }"
+                      class="row wrap justify-space-around"
                     >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
+                      <v-flex
+                        v-for="item in row.items"
+                        :key="item.title"
+                        xs3
+                        pa-2
+                      >
+                        <v-card link style="height: 200px" class="text-center">
+                          <v-img
+                            aspect-ratio="1"
+                            :src="require('@/assets/game_images/' + item)"
+                          >
+                          </v-img>
+                          {{ item }}
+                        </v-card>
+                      </v-flex>
+                    </draggable>
+                  </v-flex>
+                </draggable>
               </v-col>
             </v-row>
           </v-container>
+          <!--***/CAROUSEL EDITOR***-->
+
+          <!--***TIMELINE EDITOR***-->
           <v-container v-if="currentPanelItem == 1">
-            <h2 class="text-3xl">Add a new post to timeline</h2>
-            <validation-observer ref="observer" v-slot="{}">
-              <v-form ref="form" lazy-validation>
-                <!--TITLE-->
-                <validation-provider
-                  v-slot="{ errors }"
-                  name="Title"
-                  class="mb-2"
-                >
-                  <v-text-field
-                    v-model="post.title"
-                    :counter="25"
-                    label="Title"
-                    :error-messages="errors"
-                    required
-                  ></v-text-field>
-                </validation-provider>
-                <!--/TITLE-->
-                <validation-provider
-                  v-slot="{ errors }"
-                  name="Text"
-                  rules="required"
-                >
-                  <v-textarea
-                    clearable
-                    :counter="2000"
-                    auto-grow
-                    label="Text"
-                    v-model="post.text"
-                    required
-                    :error-messages="errors"
-                  ></v-textarea>
-                </validation-provider>
-                <validation-provider v-slot="{ errors }" name="Image">
-                  <v-file-input
-                    label="Image"
-                    filled
-                    prepend-icon="mdi-camera"
-                    :error-messages="errors"
-                    class="mt-2"
-                  ></v-file-input>
-                </validation-provider>
-                <v-checkbox
-                  v-model="postphoneCheckbox"
-                  label="Postphone post"
-                  required
-                ></v-checkbox>
+            <!--<h2 class="text-3xl text-center">ADD NEW POST</h2>-->
+            <v-card class="mx-auto" max-width="500">
+              <v-card-title
+                class="text-h6 font-weight-regular justify-space-between"
+              >
+                <span>{{ currentTitle }}</span>
+                <v-avatar
+                  color="error"
+                  class="subheading white--text"
+                  size="24"
+                  v-text="step"
+                ></v-avatar>
+              </v-card-title>
+              <validation-observer ref="observer" v-slot="{ invalid }">
+                <form class="" @submit.prevent="addNewPost">
+                  <v-window v-model="step">
+                    <!--PAGE 1-->
+                    <v-window-item :value="1">
+                      <v-card-text>
+                        <!--Title-->
+                        <validation-provider
+                          v-slot="{ errors }"
+                          name="Title"
+                          rules="required|max:50|min:3"
+                        >
+                          <v-text-field
+                            v-model="timelinePost.title"
+                            :counter="50"
+                            label="Title"
+                            :error-messages="errors"
+                            required
+                          ></v-text-field>
+                        </validation-provider>
+                        <!--/Title-->
 
-                <v-btn color="success" class="mr-4" @click="addNewPost">
-                  POST
-                </v-btn>
+                        <!--Text-->
+                        <validation-provider
+                          v-slot="{ errors }"
+                          name="Text"
+                          rules="required"
+                        >
+                          <v-textarea
+                            class="mt-2 mb-2"
+                            clearable
+                            filled
+                            :counter="2000"
+                            auto-grow
+                            label="Text"
+                            v-model="timelinePost.text"
+                            required
+                            :error-messages="errors"
+                          ></v-textarea>
+                        </validation-provider>
+                        <!--/Text-->
+                      </v-card-text>
+                    </v-window-item>
+                    <!--/PAGE 1-->
+                    <!--Icon-->
+                    <v-window-item :value="2">
+                      <v-card-text>
+                        <validation-provider v-slot="{ errors }" name="Icon">
+                          <v-select
+                            v-model="selectedIcon"
+                            :items="availableIcons"
+                            label="Icon"
+                            prepend-icon="mdi-robot"
+                            :error-messages="errors"
+                            data-vv-name="selectedIcon"
+                          >
+                          </v-select>
+                        </validation-provider>
 
-                <v-btn color="error" class="mr-4" @click="reset">
-                  Reset Form
+                        <div class="text-center">
+                          <v-icon size="40"> {{ selectedIcon }} </v-icon>
+                        </div>
+                        <!--/Icon-->
+                        <!--Image-->
+                        <validation-provider v-slot="{ errors }" name="Image">
+                          <v-file-input
+                            v-model="timelinePost.image"
+                            label="Image"
+                            filled
+                            prepend-icon="mdi-image"
+                            :error-messages="errors"
+                            class="mt-2"
+                          ></v-file-input>
+                        </validation-provider>
+                        <!--/Image-->
+                      </v-card-text>
+                    </v-window-item>
+                    <v-window-item :value="3">
+                      <v-card-text>
+                        <v-row align="center" justify="center">
+                          <!--/Postpone post-->
+                          <!--New postponed date-->
+                          <v-menu
+                            ref="menu"
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            :return-value.sync="date"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="auto"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="date"
+                                label="Post date"
+                                prepend-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
+                            <validation-provider
+                              v-slot="{ errors }"
+                              name="select"
+                              rules="required"
+                            >
+                              <v-date-picker
+                                v-model="date"
+                                :min="datePickerFormat"
+                                :error-messages="errors"
+                                color="error"
+                                scrollable
+                                no-title
+                                dark
+                              >
+                                <v-spacer></v-spacer>
+                                <v-btn text color="error" @click="menu = false">
+                                  Cancel
+                                </v-btn>
+                                <v-btn
+                                  text
+                                  color="success"
+                                  @click="$refs.menu.save(date)"
+                                >
+                                  OK
+                                </v-btn>
+                              </v-date-picker>
+                            </validation-provider>
+                          </v-menu>
+
+                          <!---/New postpones date-->
+                        </v-row>
+                        <v-row align="center" justify="center">
+                          <validation-provider
+                            v-slot="{ errors }"
+                            name="hideAuthorCheckbox"
+                          >
+                            <v-checkbox
+                              v-model="hideAuthorCheckbox"
+                              label="Hide author"
+                              :error-messages="errors"
+                            ></v-checkbox>
+                          </validation-provider>
+                        </v-row>
+                        <v-row align="center" justify="center">
+                          <!--Post and Reset buttons-->
+                          <v-btn
+                            color="success"
+                            class="mt-2 mr-4"
+                            type="submit"
+                            :disabled="invalid"
+                          >
+                            post
+                          </v-btn>
+                          <v-btn color="error" class="mt-2 mr-4" @click="reset">
+                            Reset Form
+                          </v-btn>
+                          <!--/Post and Reset buttons-->
+                        </v-row>
+                      </v-card-text>
+                    </v-window-item>
+                  </v-window>
+                </form>
+              </validation-observer>
+              <v-card-actions>
+                <v-btn :disabled="step === 1" text @click="step--">
+                  Back
                 </v-btn>
-              </v-form>
-            </validation-observer>
+                <v-spacer></v-spacer>
+                <v-btn
+                  :disabled="step === 3"
+                  color="error"
+                  depressed
+                  @click="step++"
+                >
+                  Next
+                </v-btn>
+              </v-card-actions>
+            </v-card>
           </v-container>
+          <!--***/TIMELINE EDITOR***-->
         </v-col>
-        <v-col :cols="2"></v-col>
+        <!--Timeline post preview-->
+        <v-col
+          :cols="$vuetify.breakpoint.mobile ? 12 : 4"
+          v-if="currentPanelItem == 1"
+          align-self="center"
+        >
+          <timelinePost
+            :title="
+              timelinePost.title != '' ? timelinePost.title : 'title goes here '
+            "
+            :text="
+              timelinePost.text != '' ? timelinePost.text : 'Start writing...'
+            "
+            :icon="selectedIcon"
+            :date="formattedDate"
+          >
+          </timelinePost>
+        </v-col>
+        <!--/Timeline post preview-->
       </v-row>
     </v-card>
   </v-container>
 </template>
 <script>
-import { Auth } from "@/services";
-import { required } from "vee-validate/dist/rules";
 import "animate.css";
+import store from "@/store";
+import draggable from "vuedraggable";
+import router from "@/router";
+import moment from "moment";
+import { Auth, Admin } from "@/services";
+import { required, max, min } from "vee-validate/dist/rules";
+import rotatingLogo from "@/components/rotatingLogo.vue";
 import {
   extend,
   ValidationObserver,
   ValidationProvider,
   setInteractionMode,
 } from "vee-validate";
+
+import timelinePost from "@/components/timelinePost.vue";
+
 setInteractionMode("eager");
 
 extend("required", {
   ...required,
   message: "{_field_} can not be empty",
+});
+extend("max", {
+  ...max,
+  message: "{_field_} may not be greater than {length} characters",
+});
+
+extend("min", {
+  ...min,
+  message: "{_field_} may not be less than {length} characters",
 });
 
 export default {
@@ -166,9 +358,14 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
+    timelinePost,
+    rotatingLogo,
+    draggable,
   },
   data: () => ({
     drawer: true,
+    store,
+
     panelItems: [
       { title: "Carousel", icon: "mdi-view-carousel" },
       { title: "Timeline", icon: "mdi-chart-gantt" },
@@ -176,27 +373,56 @@ export default {
       { title: "Users", icon: "mdi-account-group-outline" },
     ],
     mini: true,
-    currentPanelItem: 1,
+    currentPanelItem: 0,
 
     auth: Auth.state,
     user: {
-      username: Auth.currentUser.username,
-      email: Auth.email,
+      username: "",
+      email: "",
       admin: true,
     },
 
     avatarImage: "",
     //mount loading
     avatarMounted: false,
-    //Post
-    post: {
+
+    //Post [Carousel]
+    //Vue draggable
+    enabled: true,
+    rows: [
+      {
+        index: 1,
+        items: store.carouselPictures,
+      },
+    ],
+
+    //Post |Timeline|
+    step: 1,
+    timelinePost: {
       title: "",
       text: "",
-      image: "",
+      image: null,
       author: "",
       date: "",
     },
-    postphoneCheckbox: null,
+
+    date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .substr(0, 10),
+
+    menu: false,
+
+    hideAuthorCheckbox: null,
+
+    availableIcons: [
+      { text: "General news", value: "mdi-newspaper-variant" },
+      { text: "Youtube video", value: "mdi-youtube" },
+      { text: "Game news", value: "mdi-controller" },
+      { text: "New Achievement", value: "mdi-trophy" },
+      { text: "Celebration", value: "mdi-party-popper" },
+    ],
+    selectedIcon: "mdi-newspaper-variant",
+    submitting: false,
   }),
   async mounted() {
     await this.getUserDetails();
@@ -222,6 +448,7 @@ export default {
         let userData = Auth.getCurrentUserData();
         let result = await Auth.getUserDetails(userData.username);
         this.user = result.data.userData;
+        this.timelinePost.author = result.data.userData.username;
       }
     },
     async setUserAvatar() {
@@ -230,16 +457,99 @@ export default {
         this.avatarImage = this.avatarImage.data.img;
       }
     },
+    formatDate(unformattedDate) {
+      let day = unformattedDate.slice(-2);
+      let month = unformattedDate.slice(5, 7);
+      let year = unformattedDate.slice(0, 4);
+      let monthsNames = {
+        "01": "January",
+        "02": "February",
+        "03": "March",
+        "04": "April",
+        "05": "May",
+        "06": "June",
+        "07": "July",
+        "08": "August",
+        "09": "September",
+        10: "October",
+        11: "November",
+        12: "December",
+      };
+      let formattedDate = day + " " + monthsNames[month] + ", " + year;
+      return formattedDate;
+    },
     addNewPost() {
-      console.log("Adding new post to timeline");
-      this.$refs.form.validate();
+      const isValid = this.$refs.observer.validate();
+      console.log(isValid);
+      if (isValid) {
+        this.submitting = true;
+        console.log("Validated successfully!");
+        this.timelinePost.date = this.formatDate(this.date);
+        if (this.hideAuthorCheckbox) this.timelinePost.author = "MacroQuiet";
+
+        this.timelinePost.icon = this.selectedIcon;
+
+        let postData = this.timelinePost;
+
+        Admin.addNewTimelinePost(postData);
+        router.go();
+      }
     },
     reset() {
-      console.log("Resetting timeline form");
-      this.$refs.form.reset();
+      Object.keys(this.timelinePost).forEach((key) => {
+        if (key == "image") this.timelinePost[key] = null;
+        else this.timelinePost[key] = "";
+      });
+      this.selectedIcon = "mdi-newspaper-variant";
+      this.hideAuthorCheckbox = null;
+      this.postponedDate = this.formatDate(this.date);
+      this.$refs.observer.reset();
     },
   },
-  computed: {},
+  computed: {
+    currentTitle() {
+      switch (this.step) {
+        case 1:
+          return "Add new post";
+        case 2:
+          return "Select icon and image";
+        default:
+          return "Pick post date";
+      }
+    },
+    formattedDate() {
+      let day = this.date.slice(-2);
+      let month = this.date.slice(5, 7);
+      let year = this.date.slice(0, 4);
+      let monthsNames = {
+        "01": "January",
+        "02": "February",
+        "03": "March",
+        "04": "April",
+        "05": "May",
+        "06": "June",
+        "07": "July",
+        "08": "August",
+        "09": "September",
+        10: "October",
+        11: "November",
+        12: "December",
+      };
+      let formattedDate = day + " " + monthsNames[month] + ", " + year;
+      return formattedDate;
+    },
+    datePickerFormat() {
+      let unformattedDate = moment().toDate();
+      let formattedDate = `${unformattedDate.getFullYear()}-0${
+        unformattedDate.getMonth() + 1
+      }-${unformattedDate.getDate()}`;
+
+      return formattedDate;
+    },
+    handleImages(files) {
+      console.log(files);
+    },
+  },
 };
 </script>
 <style></style>

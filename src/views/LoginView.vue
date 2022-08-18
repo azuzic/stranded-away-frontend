@@ -8,7 +8,7 @@
           class="mx-auto animate__animated animate__fadeInDown"
         ></v-img>
         <h1 class="text-center font-bold text-4xl">
-          Sign in to your MacroQuiet Account
+          Log in to your MacroQuiet Account
         </h1>
         <validation-observer ref="observer" v-slot="{}">
           <form @submit.prevent="submit">
@@ -59,7 +59,7 @@
               dark
               v-show="!submitting"
             >
-              <span>SIGN IN</span>
+              <span>LOG IN</span>
             </v-btn>
             <rotatingLogo v-show="submitting" :height="80"></rotatingLogo>
           </form>

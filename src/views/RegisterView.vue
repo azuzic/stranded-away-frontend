@@ -83,7 +83,7 @@
               type="submit"
               dark
             >
-              <span>SIGN UP</span>
+              <span>REGISTER</span>
             </v-btn>
             <rotatingLogo v-show="submitting" :height="80"></rotatingLogo>
           </form>
@@ -92,7 +92,7 @@
         <h2 class="mt-4 text-center" v-show="!submitting">
           Already have an account?
           <router-link to="/login"
-            ><span class="text-red-like-logo">Sign in here</span></router-link
+            ><span class="text-red-like-logo">Log in here</span></router-link
           >
         </h2>
 
@@ -184,7 +184,7 @@ export default {
   methods: {
     async submit() {
       const isValid = this.$refs.observer.validate();
-      console.log(isValid);
+
       if (isValid) {
         this.submitting = true;
         console.log("Validated successfully!");

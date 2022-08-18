@@ -31,6 +31,7 @@ const routes = [
     path: "/user/:userName",
     name: "User",
     component: UserProfileView,
+    props: true,
   },
   {
     path: "/games/:gameName",
@@ -49,6 +50,9 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+  scrollBehavior() {
+    window.scrollTo(0, 0);
+  },
 });
 
 router.beforeEach((to, from, next) => {
@@ -56,8 +60,10 @@ router.beforeEach((to, from, next) => {
   const adminPages = ["admin-panel"];
   const userRequired = !publicPages.includes(to.path);
   const adminRequired = adminPages.includes(to.path);
+
   document.title = `${to.name} - ${process.env.VUE_APP_TITLE}`;
   const user = Auth.getCurrentUser();
+
   if (userRequired && !user) {
     next("/login");
     return;

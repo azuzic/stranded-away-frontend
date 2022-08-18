@@ -19,10 +19,10 @@ let Auth = {
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
   },
-  signOut() {
+  logOut() {
     localStorage.removeItem("user");
   },
-  //Extract user data from local storage
+  //Extract user data from local storage, without token
   getCurrentUserData() {
     let user = this.getCurrentUser();
     let currentUserData = {
@@ -32,10 +32,12 @@ let Auth = {
     };
     return currentUserData;
   },
+
   //Get ALL user data from database (including profile picture and settings)
   async getUserDetails(username) {
     return await Service.get(`user?username=${username}`);
   },
+
   //REGISTRATION AND AUTHENTICATION
   registerUser(userData) {
     return Service.post("user", userData);
@@ -56,6 +58,7 @@ let Auth = {
     if (user && user.token) return user.token;
     else return false;
   },
+
   //CHANGE USER DATA
   changeUserPassword(userData) {
     return Service.patch("user/password", userData);
@@ -69,17 +72,19 @@ let Auth = {
   changeUserProfileAvatarImage(userData) {
     return Service.patch("user/profile/avatarImage", userData);
   },
+
   //IMAGE MANIPULATION
   async postImage(imageData) {
-    return await Service.post("upload/image", imageData);
+    return await Service.post("image/upload", imageData);
   },
   async getImage(imageID) {
-    return await Service.get(`download/image?id=${imageID}`);
+    return await Service.get(`image/download?id=${imageID}`);
   },
   async removeImage(imageID) {
-    return await Service.delete(`remove/image?id=${imageID}`);
+    return await Service.delete(`image/remove?id=${imageID}`);
   },
 
+  //Getters
   state: {
     get authenticated() {
       return Auth.authenticated();
@@ -87,9 +92,23 @@ let Auth = {
   },
   currentUser: {
     get getCurrentUserData() {
-      return Auth.getCurrentUserData();
+      if (Auth.authenticated) return Auth.getCurrentUserData();
     },
   },
 };
 
-export { Auth };
+let Admin = {
+  addNewTimelinePost(postData) {
+    return Service.post("admin/timeline", postData);
+  },
+  fetchData(dataName) {
+    return Service.get(`admin/data?d=${dataName}`);
+  },
+  data: {
+    get getTimelinePosts() {
+      return Admin.fetchData("timeline");
+    },
+  },
+};
+
+export { Auth, Admin };

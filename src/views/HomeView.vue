@@ -89,27 +89,56 @@
             their lifelong dreams.
           </h2>
           <h2>
-            Meet <span class="text-red-like-logo">@blaskec</span> and
-            <span class="text-red-like-logo">@zuza</span> now!
+            Meet
+            <router-link :to="{ name: 'User', params: { userName: 'blaskec' } }"
+              ><span class="text-red-like-logo">@blaskec</span></router-link
+            >
+            and
+            <router-link :to="{ name: 'User', params: { userName: 'zuza' } }"
+              ><span class="text-red-like-logo">@zuza</span></router-link
+            >
+            now!
           </h2>
         </v-col>
       </v-row>
       <v-row justify="center">
         <v-col :cols="$vuetify.breakpoint.mobile ? '6' : '2'">
-          <v-img
-            class="align-end"
-            height="300px"
-            src="@/assets/portraits/Portret_Luka_Big-noBG.png"
-          >
-          </v-img>
+          <router-link :to="{ name: 'User', params: { userName: 'blaskec' } }">
+            <figure class="hover11">
+              <v-tooltip bottom color="#EF5350">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-img
+                    class="align-end"
+                    height="300px"
+                    src="@/assets/portraits/Portret_Luka_Big-noBG.png"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                  </v-img>
+                </template>
+                <span>Blaskec</span>
+              </v-tooltip>
+            </figure>
+          </router-link>
         </v-col>
         <v-col :cols="$vuetify.breakpoint.mobile ? '6' : '2'">
-          <v-img
-            class="align-end"
-            height="300"
-            src="@/assets/portraits/Portret_Alesandro_Big-noBG.png"
-          >
-          </v-img>
+          <router-link :to="{ name: 'User', params: { userName: 'zuza' } }">
+            <figure class="hover11">
+              <v-tooltip bottom color="#EF5350">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-img
+                    class="align-end"
+                    height="300px"
+                    src="@/assets/portraits/Portret_Alesandro_Big-noBG.png"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                  </v-img>
+                </template>
+                <span>Zuza</span>
+              </v-tooltip>
+            </figure>
+          </router-link>
         </v-col>
       </v-row>
     </v-container>
@@ -122,77 +151,45 @@
           <v-timeline-item
             v-for="(item, i) in reversedNews"
             :key="i"
-            :color="item.color"
+            color="red lighten-1"
             fill-dot
             small
           >
-            <v-card :color="item.color" dark max-width="900">
-              <v-card-title>
-                <v-icon size="32">
-                  {{ item.icon }}
-                </v-icon>
-                <span class="text-xl uppercase ml-2">{{ item.title }}</span>
-              </v-card-title>
-
-              <v-container class="grey lighten-5">
-                <v-row class="text-xs text--primary p-2">{{ item.date }}</v-row>
-                <v-row>
-                  <v-col cols="12" md="10">
-                    <div class="text--primary">
-                      <p>{{ item.text }}</p>
-                      <v-btn :color="item.color" class="mx-0" outlined>
-                        read more
-                      </v-btn>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card>
-          </v-timeline-item>
-        </v-timeline></v-row
-      >
+            <timelinePost
+              :title="item.title"
+              :text="item.text"
+              :icon="item.icon"
+              :date="item.date"
+              :author="item.author"
+            >
+            </timelinePost>
+          </v-timeline-item> </v-timeline
+      ></v-row>
     </v-container>
   </div>
 </template>
 
 <script>
 import gameCard from "@/components/gameCard.vue";
+import timelinePost from "@/components/timelinePost.vue";
 import store from "@/store";
+import { Admin } from "@/services";
 
 export default {
   name: "Home",
   components: {
     gameCard,
+    timelinePost,
   },
   data: () => ({
     store,
-    news: [
-      {
-        color: "red lighten-1",
-        icon: "mdi-newspaper-variant",
-        date: "3 July, 2021",
-        title: "MacroQuiet is born!",
-        text: "Bring the Champagne!",
-      },
-      {
-        color: "red lighten-1",
-        icon: "mdi-newspaper-variant",
-        date: "21 July, 2021",
-        title: "Doge game available now!",
-        text: "The great and epic Doge game! Our first game ever. Made in just 2 weeks! Take control of lost doge trying to find his way out of town. Be careful! You will encounter many dogcatchers along the way. Also, those bones look really delicious.",
-      },
-      {
-        color: "red lighten-1",
-        icon: "mdi-newspaper-variant",
-        date: "28 May, 2022",
-        title: "Stranded Away coming soon!",
-        text: "2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still in progress!",
-      },
-    ],
+    news: Admin.data.getTimelinePosts,
   }),
-  computed: {
-    reversedNews() {
-      return this.news.reverse();
+
+  asyncComputed: {
+    async reversedNews() {
+      let result = await this.news;
+      return result.data.reverse();
     },
     width() {
       switch (this.$vuetify.breakpoint.name) {
@@ -248,5 +245,13 @@ export default {
 }
 .theme--light.v-timeline:before {
   background: rgba(250, 251, 251, 255);
+}
+.hover11 {
+  opacity: 1;
+  -webkit-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+}
+.hover11 :hover {
+  opacity: 0.5;
 }
 </style>
