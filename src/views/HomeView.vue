@@ -188,7 +188,6 @@ export default {
   asyncComputed: {
     async reversedNews() {
       let result = await this.news;
-      console.log(result.data);
       return result.data.reverse();
     },
     width() {

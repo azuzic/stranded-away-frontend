@@ -54,7 +54,7 @@
                 class="my-4"
                 @click="$router.push({ name: 'Login' }).catch(() => {})"
               >
-                <strong class="text-sm">SIGN IN</strong>
+                <strong class="text-sm">LOG IN</strong>
               </v-btn>
               <!--User profile icon-->
               <v-col align-self="center" v-else>
@@ -134,8 +134,8 @@
                           ADMIN PANEL
                         </v-btn>
                         <v-divider class="my-3"></v-divider>
-                        <v-btn @click="signOut()" depressed rounded text>
-                          SIGN OUT
+                        <v-btn @click="logOut()" depressed rounded text>
+                          LOG OUT
                         </v-btn>
                       </div>
                     </v-list-item-content>
@@ -242,7 +242,7 @@
                 cols="2"
                 @click="$router.push({ name: 'Login' }).catch(() => {})"
               >
-                <strong class="text-sm">SIGN IN</strong>
+                <strong class="text-sm">LOG IN</strong>
               </v-btn>
               <v-btn
                 v-else
@@ -250,9 +250,9 @@
                 rounded
                 class="my-4"
                 cols="2"
-                @click="signOut()"
+                @click="loginOut()"
               >
-                <strong class="text-sm">SIGN OUT</strong>
+                <strong class="text-sm">LOG OUT</strong>
               </v-btn>
             </v-list-item>
           </v-list>
@@ -392,8 +392,8 @@ export default {
         this.drawer = false;
       } catch (e) {}
     },
-    signOut() {
-      Auth.signOut();
+    logOut() {
+      Auth.logOut();
       router.go();
     },
   },

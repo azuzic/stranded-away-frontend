@@ -19,7 +19,7 @@ let Auth = {
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
   },
-  signOut() {
+  logOut() {
     localStorage.removeItem("user");
   },
   //Extract user data from local storage, without token
