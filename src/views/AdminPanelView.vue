@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-16 md:pl-24 md:pr-24">
+  <v-container class="mt-16 mb-24 md:pl-24 md:pr-24">
     <h1 class="text-4xl mt-4">ADMIN PANEL</h1>
     <h2 class="mb-4">
       Welcome back, <b class="text-red-like-logo">{{ user.username }}</b>
@@ -54,12 +54,47 @@
             </v-list>
           </v-navigation-drawer>
         </v-col>
-        <v-col align-self="center" :cols="$vuetify.breakpoint.mobile ? 12 : 5">
+        <v-col
+          align-self="center"
+          v-if="currentPanelItem == 0"
+          :cols="$vuetify.breakpoint.mobile && currentPanelItem == 1 ? 12 : 10"
+        >
           <!--***CAROUSEL EDITOR***-->
-          <v-container v-if="currentPanelItem == 0">
+          <v-container>
             <h1 class="text-2xl">Current Carousel Images</h1>
             <v-row align="center" justify="center">
               <v-col :cols="12" class="mt-4">
+                <!--Upload new image dialog-->
+                <v-dialog transition="dialog-top-transition" max-width="1200">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn class="mb-6" color="error" v-bind="attrs" v-on="on"
+                      >Upload new image</v-btn
+                    >
+                  </template>
+                  <template v-slot:default="dialog">
+                    <v-card>
+                      <v-toolbar color="error" dark
+                        >Upload new image here</v-toolbar
+                      >
+                      <croppa
+                        v-model="myCroppa"
+                        :width="1200"
+                        :height="600"
+                        :disable-scroll-to-zoom="true"
+                        :prevent-white-space="true"
+                        :disable-drag-to-move="true"
+                      ></croppa>
+                      <v-card-actions class="justify-end">
+                        <v-btn text @click="dialog.value = false">Close</v-btn>
+                        <v-btn text @click="uploadNewCarouselImage"
+                          >Upload</v-btn
+                        >
+                      </v-card-actions>
+                    </v-card>
+                  </template>
+                </v-dialog>
+                <!--/Upload new image dialog-->
+                <!--Draggable images-->
                 <draggable
                   v-model="rows"
                   class="row no-wrap fill-height align-center sortable-list"
@@ -94,14 +129,16 @@
                     </draggable>
                   </v-flex>
                 </draggable>
+                <!--/Draggable images-->
               </v-col>
             </v-row>
           </v-container>
-          <!--***/CAROUSEL EDITOR***-->
+        </v-col>
+        <!--***/CAROUSEL EDITOR***-->
 
-          <!--***TIMELINE EDITOR***-->
+        <!--***TIMELINE EDITOR***-->
+        <v-col>
           <v-container v-if="currentPanelItem == 1">
-            <!--<h2 class="text-3xl text-center">ADD NEW POST</h2>-->
             <v-card class="mx-auto" max-width="500">
               <v-card-title
                 class="text-h6 font-weight-regular justify-space-between"
@@ -115,7 +152,7 @@
                 ></v-avatar>
               </v-card-title>
               <validation-observer ref="observer" v-slot="{ invalid }">
-                <form class="" @submit.prevent="addNewPost">
+                <form class="" @submit.prevent="addNewTimelinePost">
                   <v-window v-model="step">
                     <!--PAGE 1-->
                     <v-window-item :value="1">
@@ -294,29 +331,63 @@
               </v-card-actions>
             </v-card>
           </v-container>
-          <!--***/TIMELINE EDITOR***-->
         </v-col>
-        <!--Timeline post preview-->
-        <v-col
-          :cols="$vuetify.breakpoint.mobile ? 12 : 4"
-          v-if="currentPanelItem == 1"
-          align-self="center"
-        >
-          <timelinePost
-            :title="
-              timelinePost.title != '' ? timelinePost.title : 'title goes here '
-            "
-            :text="
-              timelinePost.text != '' ? timelinePost.text : 'Start writing...'
-            "
-            :icon="selectedIcon"
-            :date="formattedDate"
-          >
-          </timelinePost>
+        <!--All timeline posts-->
+        <v-col align-self="center">
+          <v-card class="mx-auto" max-width="500">
+            <v-list two-line>
+              <v-list-item-group>
+                <template v-for="(item, i) in reversedNews">
+                  <v-list-item :key="item.title">
+                    <template>
+                      <v-list-item-content>
+                        <v-list-item-title
+                          v-text="item.title"
+                        ></v-list-item-title>
+
+                        <v-list-item-subtitle
+                          v-text="item.author"
+                        ></v-list-item-subtitle>
+                      </v-list-item-content>
+
+                      <v-list-item-action>
+                        <v-list-item-action-text
+                          v-text="item.date"
+                        ></v-list-item-action-text>
+                        <v-btn text link @click="deleteTimelinePost(item._id)">
+                          <v-icon color="grey lighten-1"> mdi-delete </v-icon>
+                        </v-btn>
+                      </v-list-item-action>
+                    </template>
+                  </v-list-item>
+
+                  <v-divider v-if="i < items.length - 1" :key="i"></v-divider>
+                </template>
+              </v-list-item-group>
+            </v-list>
+          </v-card>
         </v-col>
-        <!--/Timeline post preview-->
+        <!--/All timeline posts-->
+        <!--***/TIMELINE EDITOR***-->
       </v-row>
     </v-card>
+    <!--Timeline post preview-->
+    <v-row align="center" justify="center" class="mb-6 mt-4">
+      <v-col v-if="currentPanelItem == 1" align-self="center" cols="4">
+        <timelinePost
+          :title="
+            timelinePost.title != '' ? timelinePost.title : 'title goes here '
+          "
+          :text="
+            timelinePost.text != '' ? timelinePost.text : 'Start writing...'
+          "
+          :icon="selectedIcon"
+          :date="formattedDate"
+        >
+        </timelinePost>
+      </v-col>
+    </v-row>
+    <!--/Timeline post preview-->
   </v-container>
 </template>
 <script>
@@ -373,7 +444,7 @@ export default {
       { title: "Users", icon: "mdi-account-group-outline" },
     ],
     mini: true,
-    currentPanelItem: 0,
+    currentPanelItem: 1,
 
     auth: Auth.state,
     user: {
@@ -395,6 +466,7 @@ export default {
         items: store.carouselPictures,
       },
     ],
+    myCroppa: {},
 
     //Post |Timeline|
     step: 1,
@@ -411,8 +483,43 @@ export default {
       .substr(0, 10),
 
     menu: false,
-
     hideAuthorCheckbox: null,
+    //All timeline posts
+    news: Admin.data.getTimelinePosts,
+    items: [
+      {
+        action: "15 min",
+        headline: "Brunch this weekend?",
+        subtitle: `I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
+        title: "Ali Connors",
+      },
+      {
+        action: "2 hr",
+        headline: "Summer BBQ",
+        subtitle: `Wish I could come, but I'm out of town this weekend.`,
+        title: "me, Scrott, Jennifer",
+      },
+      {
+        action: "6 hr",
+        headline: "Oui oui",
+        subtitle: "Do you have Paris recommendations? Have you ever been?",
+        title: "Sandra Adams",
+      },
+      {
+        action: "12 hr",
+        headline: "Birthday gift",
+        subtitle:
+          "Have any ideas about what we should get Heidi for her birthday?",
+        title: "Trevor Hansen",
+      },
+      {
+        action: "18hr",
+        headline: "Recipe to try",
+        subtitle:
+          "We should eat this: Grate, Squash, Corn, and tomatillo Tacos.",
+        title: "Britta Holt",
+      },
+    ],
 
     availableIcons: [
       { text: "General news", value: "mdi-newspaper-variant" },
@@ -457,6 +564,7 @@ export default {
         this.avatarImage = this.avatarImage.data.img;
       }
     },
+    //Timeline post upload//
     formatDate(unformattedDate) {
       let day = unformattedDate.slice(-2);
       let month = unformattedDate.slice(5, 7);
@@ -478,7 +586,7 @@ export default {
       let formattedDate = day + " " + monthsNames[month] + ", " + year;
       return formattedDate;
     },
-    addNewPost() {
+    addNewTimelinePost() {
       const isValid = this.$refs.observer.validate();
       console.log(isValid);
       if (isValid) {
@@ -495,6 +603,12 @@ export default {
         router.go();
       }
     },
+    async deleteTimelinePost(post) {
+      let response = await Admin.deleteTimelinePost(post);
+      if (response.status == 200) {
+        router.go();
+      }
+    },
     reset() {
       Object.keys(this.timelinePost).forEach((key) => {
         if (key == "image") this.timelinePost[key] = null;
@@ -504,6 +618,16 @@ export default {
       this.hideAuthorCheckbox = null;
       this.postponedDate = this.formatDate(this.date);
       this.$refs.observer.reset();
+    },
+    //Carousel image upload//
+    uploadNewCarouselImage() {
+      return true;
+    },
+  },
+  asyncComputed: {
+    async reversedNews() {
+      let result = await this.news;
+      return result.data.reverse();
     },
   },
   computed: {

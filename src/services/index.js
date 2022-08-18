@@ -101,6 +101,9 @@ let Admin = {
   addNewTimelinePost(postData) {
     return Service.post("admin/timeline", postData);
   },
+  deleteTimelinePost(postID) {
+    return Service.delete(`admin/timeline?id=${postID}`);
+  },
   fetchData(dataName) {
     return Service.get(`admin/data?d=${dataName}`);
   },
