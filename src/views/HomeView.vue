@@ -155,14 +155,14 @@
             fill-dot
             small
           >
-            <timelinePost
+            <timelineCard
               :title="item.title"
               :text="item.text"
               :icon="item.icon"
               :date="item.date"
               :author="item.author"
             >
-            </timelinePost>
+            </timelineCard>
           </v-timeline-item> </v-timeline
       ></v-row>
     </v-container>
@@ -171,7 +171,7 @@
 
 <script>
 import gameCard from "@/components/gameCard.vue";
-import timelinePost from "@/components/timelinePost.vue";
+import timelineCard from "@/components/timelineCard.vue";
 import store from "@/store";
 import { Admin } from "@/services";
 
@@ -179,7 +179,7 @@ export default {
   name: "Home",
   components: {
     gameCard,
-    timelinePost,
+    timelineCard,
   },
   data: () => ({
     store,

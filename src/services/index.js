@@ -101,12 +101,25 @@ let Admin = {
   addNewTimelinePost(postData) {
     return Service.post("admin/timeline", postData);
   },
+  addNewGamePost(postData) {
+    return Service.post("admin/game", postData);
+  },
+  deleteTimelinePost(postID) {
+    return Service.delete(`admin/timeline?id=${postID}`);
+  },
   fetchData(dataName) {
     return Service.get(`admin/data?d=${dataName}`);
   },
+  //Getters
   data: {
     get getTimelinePosts() {
       return Admin.fetchData("timeline");
+    },
+    get getAllUsers() {
+      return Admin.fetchData("users");
+    },
+    get getAllGames() {
+      return Admin.fetchData("gameCards");
     },
   },
 };

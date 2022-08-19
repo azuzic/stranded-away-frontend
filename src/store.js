@@ -12,6 +12,7 @@ export default {
     "GameScreenshot_25.png",
     "GameScreenshot_6.png",
     "GameScreenshot_24.png",
+    /*
     "GameScreenshot_15.png",
     "GameScreenshot_23.png",
     "GameScreenshot_8.png",
@@ -24,6 +25,7 @@ export default {
     "GameScreenshot_13.png",
     "GameScreenshot_18.png",
     "GameScreenshot_17.png",
+    */
   ],
   gameCards: [
     {
