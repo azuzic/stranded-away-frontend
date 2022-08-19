@@ -191,6 +191,7 @@ import moment from "moment";
 import { Auth, Admin } from "@/services";
 import { required, max, min } from "vee-validate/dist/rules";
 import rotatingLogo from "@/components/rotatingLogo.vue";
+
 import {
   extend,
   ValidationObserver,
@@ -213,6 +214,7 @@ extend("min", {
   ...min,
   message: "{_field_} may not be less than {length} characters",
 });
+
 export default {
   name: "timelinePost",
   props: ["timelinePost"],

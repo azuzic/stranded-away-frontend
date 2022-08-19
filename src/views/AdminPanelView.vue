@@ -70,7 +70,7 @@
           v-if="currentPanelItem == 0"
           :cols="$vuetify.breakpoint.mobile && currentPanelItem == 1 ? 12 : 10"
         >
-          <h1 class="text-3xl">Current Carousel Images</h1>
+          <h1 class="text-3xl mt-2">Current Carousel Images</h1>
           <p>Drag images to change their order</p>
           <!--Upload new image dialog-->
           <v-dialog transition="dialog-top-transition" max-width="1200">
@@ -79,7 +79,7 @@
                 >Upload new image</v-btn
               >
             </template>
-            <template v-slot:default="dialog">
+            <template v-slot:default="imageUploadDialog">
               <v-card>
                 <v-toolbar color="error" dark>Upload new image here</v-toolbar>
                 <croppa
@@ -91,7 +91,9 @@
                   :disable-drag-to-move="true"
                 ></croppa>
                 <v-card-actions class="justify-end">
-                  <v-btn text @click="dialog.value = false">Close</v-btn>
+                  <v-btn text @click="imageUploadDialog.value = false"
+                    >Close</v-btn
+                  >
                   <v-btn text @click="uploadNewCarouselImage">Upload</v-btn>
                 </v-card-actions>
               </v-card>
@@ -163,26 +165,64 @@
                 <template v-for="(item, i) in reversedNews">
                   <!--Works, but ESLint gives false error-->
                   <v-list-item :key="item.title">
-                    <template>
-                      <v-list-item-content>
-                        <v-list-item-title
-                          v-text="item.title"
-                        ></v-list-item-title>
+                    <v-list-item-content>
+                      <v-list-item-title
+                        v-text="item.title"
+                      ></v-list-item-title>
 
-                        <v-list-item-subtitle
-                          v-text="item.author"
-                        ></v-list-item-subtitle>
-                      </v-list-item-content>
+                      <v-list-item-subtitle
+                        v-text="item.author"
+                      ></v-list-item-subtitle>
+                    </v-list-item-content>
 
-                      <v-list-item-action>
-                        <v-list-item-action-text
-                          v-text="item.date"
-                        ></v-list-item-action-text>
-                        <v-btn text link @click="deleteTimelinePost(item._id)">
-                          <v-icon color="grey lighten-1"> mdi-delete </v-icon>
-                        </v-btn>
-                      </v-list-item-action>
-                    </template>
+                    <v-list-item-action>
+                      <v-list-item-action-text
+                        v-text="item.date"
+                      ></v-list-item-action-text>
+                      <v-dialog
+                        v-model="deleteConfirm"
+                        persistent
+                        max-width="290"
+                        :retain-focus="false"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn v-bind="attrs" v-on="on" text link>
+                            <v-icon
+                              @click="deleteSelection = item"
+                              color="grey lighten-1"
+                            >
+                              mdi-delete
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <v-card dark>
+                          <v-card-title class="text-h5">
+                            Remove post?
+                          </v-card-title>
+                          <v-card-text
+                            >Are you sure you want to remove this
+                            post?</v-card-text
+                          >
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                              color="error darken-1"
+                              text
+                              @click="deleteConfirm = false"
+                            >
+                              No
+                            </v-btn>
+                            <v-btn
+                              color="green darken-1"
+                              text
+                              @click="deleteTimelinePost(deleteSelection._id)"
+                            >
+                              Yes
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
+                    </v-list-item-action>
                   </v-list-item>
 
                   <v-divider
@@ -201,7 +241,7 @@
           :cols="$vuetify.breakpoint.mobile ? 12 : 4"
         >
           <v-container>
-            <gamesPost :timelinePost="timelinePost"> </gamesPost>
+            <gamesPost :gamePost="gamePost"> </gamesPost>
           </v-container> </v-col
         ><!--***/GAMES EDITOR***-->
 
@@ -279,6 +319,30 @@
         </timelineCard>
       </v-col> </v-row
     ><!--/Timeline post preview-->
+
+    <!--Game card post preview-->
+    <v-row
+      v-if="currentPanelItem == 2"
+      align="center"
+      justify="center"
+      class="mb-6 mt-2"
+    >
+      <v-col align-self="center" :cols="$vuetify.breakpoint.mobile ? 12 : 4">
+        <gameCard
+          :availability="
+            gamePost.availability != '' ? gamePost.availability : 'availability'
+          "
+          :title="
+            gamePost.title != '' ? gamePost.title : 'game title goes here '
+          "
+          :text="gamePost.text != '' ? gamePost.text : 'Start writing...'"
+          :imageSrc="gamePost.image"
+          :gName="gamePost.gameName"
+        >
+        </gameCard>
+      </v-col> </v-row
+    ><!--/Game card post preview-->
+
     <!--***/TIMELINE EDITOR***-->
   </v-container>
 </template>
@@ -303,8 +367,9 @@ import { Auth, Admin } from "@/services";
 //Components
 import timelinePost from "@/components/admin/timelinePost.vue";
 import gamesPost from "@/components/admin/gamesPost.vue";
+
 import timelineCard from "@/components/timelineCard.vue";
-import TimelinePost from "@/components/admin/timelinePost.vue";
+import gameCard from "@/components/gameCard.vue";
 
 setInteractionMode("eager");
 
@@ -327,11 +392,14 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
+
     rotatingLogo,
     draggable,
-    timelineCard,
+
     timelinePost,
     gamesPost,
+    timelineCard,
+    gameCard,
   },
   data: () => ({
     store,
@@ -345,7 +413,7 @@ export default {
       { title: "Games", icon: "mdi-controller" },
       { title: "Users", icon: "mdi-account-group-outline" },
     ],
-    currentPanelItem: 0,
+    currentPanelItem: 1,
     //////////////////////////////////////////
 
     ///////////////Fetch user data////////////
@@ -363,11 +431,13 @@ export default {
     news: Admin.data.getTimelinePosts,
     //All users
     allUsers: Admin.data.getAllUsers,
+    allGames: Admin.data.getAllGames,
     //////////////////////////////////////////
 
-    /////////////EDITORS//////////////////////
-    ////////////////0. Post [Carousel]////////
+    ////////////////EDITORS///////////////////
+    ////////////0. Post Carousel////////////
     //Vue draggable
+    imageUploadDialog: false,
     enabled: true,
     rows: [
       {
@@ -379,7 +449,7 @@ export default {
     myCroppa: {},
     //////////////////////////////////////////
 
-    /////////////////1. Post |Timeline|///////
+    /////////////1. Post Timeline///////////
     timelinePost: {
       title: "",
       text: "",
@@ -392,10 +462,18 @@ export default {
       .substr(0, 10),
     selectedIcon: "mdi-newspaper-variant",
     hideAuthorCheckbox: null,
+    deleteSelection: {},
+    deleteConfirm: false,
     //////////////////////////////////////////
 
-    ///////////////////////2. Post |Games|////
-    gamePost: {},
+    ////////////2. Post Games///////////////
+    gamePost: {
+      title: "",
+      text: "",
+      availability: "",
+      image: "cards/doge1.png",
+      gameName: "gameNameForGamePage",
+    },
     //////////////////////////////////////////
   }),
   async mounted() {

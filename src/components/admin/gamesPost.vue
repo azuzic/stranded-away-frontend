@@ -22,7 +22,7 @@
                 rules="required|max:50|min:3"
               >
                 <v-text-field
-                  v-model="timelinePost.title"
+                  v-model="gamePost.title"
                   :counter="50"
                   label="Title"
                   :error-messages="errors"
@@ -44,7 +44,7 @@
                   :counter="2000"
                   auto-grow
                   label="Text"
-                  v-model="timelinePost.text"
+                  v-model="gamePost.text"
                   required
                   :error-messages="errors"
                 ></v-textarea>
@@ -56,10 +56,24 @@
 
           <v-window-item :value="2">
             <v-card-text>
+              <!--Availability-->
+              <validation-provider
+                v-slot="{ errors }"
+                name="Availability"
+                rules="required"
+              >
+                <v-text-field
+                  v-model="gamePost.availability"
+                  label="Availability"
+                  :error-messages="errors"
+                  required
+                ></v-text-field>
+              </validation-provider>
+              <!--/Availability-->
               <!--Image-->
               <validation-provider v-slot="{ errors }" name="Image">
                 <v-file-input
-                  v-model="timelinePost.image"
+                  v-model="gamePost.image"
                   label="Image"
                   filled
                   prepend-icon="mdi-image"
@@ -157,12 +171,10 @@
 
 <script>
 import "animate.css";
-
-import router from "@/router";
-import moment from "moment";
-import { Auth, Admin } from "@/services";
+import { Admin } from "@/services";
 import { required, max, min } from "vee-validate/dist/rules";
 import rotatingLogo from "@/components/rotatingLogo.vue";
+
 import {
   extend,
   ValidationObserver,
@@ -201,61 +213,27 @@ export default {
       .substr(0, 10),
   }),
   methods: {
-    //Timeline post upload//
-    formatDate(unformattedDate) {
-      let day = unformattedDate.slice(-2);
-      let month = unformattedDate.slice(5, 7);
-      let year = unformattedDate.slice(0, 4);
-      let monthsNames = {
-        "01": "January",
-        "02": "February",
-        "03": "March",
-        "04": "April",
-        "05": "May",
-        "06": "June",
-        "07": "July",
-        "08": "August",
-        "09": "September",
-        10: "October",
-        11: "November",
-        12: "December",
-      };
-      let formattedDate = day + " " + monthsNames[month] + ", " + year;
-      return formattedDate;
-    },
     async addNewGamePost() {
       const isValid = this.$refs.observer.validate();
       console.log(isValid);
       if (isValid) {
         try {
           console.log("Validated successfully!");
-          this.timelinePost.date = this.formatDate(this.date);
-
-          this.timelinePost.icon = this.selectedIcon;
-
-          let postData = this.timelinePost;
-
-          let result = await Admin.addNewTimelinePost(postData);
+          let postData = this.gamePost;
+          console.log(postData);
+          let result = await Admin.addNewGamePost(postData);
           if (result.status == 200) {
-            router.go();
+            //router.go();
           }
         } catch (e) {
           console.log(e);
         }
       }
     },
-    async deleteTimelinePost(post) {
-      let response = await Admin.deleteTimelinePost(post);
-      if (response.status == 200) {
-        router.go();
-      }
-    },
     reset() {
-      Object.keys(this.timelinePost).forEach((key) => {
-        if (key == "image") this.timelinePost[key] = null;
-        else this.timelinePost[key] = "";
+      Object.keys(this.gamePost).forEach((key) => {
+        this.gamePost[key] = "";
       });
-      this.postponedDate = this.formatDate(this.date);
       this.$refs.observer.reset();
     },
   },
@@ -263,7 +241,7 @@ export default {
     currentTitle() {
       switch (this.step) {
         case 1:
-          return "Add new post";
+          return "Add new game";
         case 2:
           return "Select icon and image";
         default:
