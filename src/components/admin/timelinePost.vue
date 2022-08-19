@@ -214,7 +214,7 @@ extend("min", {
   message: "{_field_} may not be less than {length} characters",
 });
 export default {
-  name: "timeline",
+  name: "timelinePost",
   props: ["timelinePost"],
   components: {
     ValidationProvider,
@@ -274,7 +274,6 @@ export default {
           let postData = this.timelinePost;
 
           let result = await Admin.addNewTimelinePost(postData);
-          console.log(result);
           if (result.status == 200) {
             router.go();
           }

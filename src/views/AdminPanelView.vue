@@ -5,6 +5,7 @@
       Welcome back, <b class="text-red-like-logo">{{ user.username }}</b>
     </h2>
     <v-card dark>
+      <!---------------------------------------------------------------------------------->
       <v-row justify="start">
         <!--NAVIGATION BAR VERTICAL-->
         <v-col :cols="$vuetify.breakpoint.mobile ? 0 : 2">
@@ -69,40 +70,37 @@
           v-if="currentPanelItem == 0"
           :cols="$vuetify.breakpoint.mobile && currentPanelItem == 1 ? 12 : 10"
         >
+          <h1 class="text-3xl">Current Carousel Images</h1>
+          <p>Drag images to change their order</p>
+          <!--Upload new image dialog-->
+          <v-dialog transition="dialog-top-transition" max-width="1200">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn class="mb-6" color="error" v-bind="attrs" v-on="on"
+                >Upload new image</v-btn
+              >
+            </template>
+            <template v-slot:default="dialog">
+              <v-card>
+                <v-toolbar color="error" dark>Upload new image here</v-toolbar>
+                <croppa
+                  v-model="myCroppa"
+                  :width="1200"
+                  :height="600"
+                  :disable-scroll-to-zoom="true"
+                  :prevent-white-space="true"
+                  :disable-drag-to-move="true"
+                ></croppa>
+                <v-card-actions class="justify-end">
+                  <v-btn text @click="dialog.value = false">Close</v-btn>
+                  <v-btn text @click="uploadNewCarouselImage">Upload</v-btn>
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
+          <!--/Upload new image dialog-->
           <v-container>
-            <h1 class="text-2xl">Current Carousel Images</h1>
             <v-row align="center" justify="center">
-              <v-col :cols="12" class="mt-4">
-                <!--Upload new image dialog-->
-                <v-dialog transition="dialog-top-transition" max-width="1200">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn class="mb-6" color="error" v-bind="attrs" v-on="on"
-                      >Upload new image</v-btn
-                    >
-                  </template>
-                  <template v-slot:default="dialog">
-                    <v-card>
-                      <v-toolbar color="error" dark
-                        >Upload new image here</v-toolbar
-                      >
-                      <croppa
-                        v-model="myCroppa"
-                        :width="1200"
-                        :height="600"
-                        :disable-scroll-to-zoom="true"
-                        :prevent-white-space="true"
-                        :disable-drag-to-move="true"
-                      ></croppa>
-                      <v-card-actions class="justify-end">
-                        <v-btn text @click="dialog.value = false">Close</v-btn>
-                        <v-btn text @click="uploadNewCarouselImage"
-                          >Upload</v-btn
-                        >
-                      </v-card-actions>
-                    </v-card>
-                  </template>
-                </v-dialog>
-                <!--/Upload new image dialog-->
+              <v-col :cols="12">
                 <!--Draggable images-->
                 <draggable
                   v-model="rows"
@@ -141,9 +139,8 @@
                 <!--/Draggable images-->
               </v-col>
             </v-row>
-          </v-container>
-        </v-col>
-        <!--***/CAROUSEL EDITOR***-->
+          </v-container> </v-col
+        ><!--***/CAROUSEL EDITOR***-->
 
         <!--***TIMELINE EDITOR***-->
         <v-col
@@ -151,10 +148,9 @@
           :cols="$vuetify.breakpoint.mobile ? 12 : 4"
         >
           <v-container>
-            <timeline :timelinePost="timelinePost"> </timeline>
-          </v-container>
-        </v-col>
-        <!--***/TIMELINE EDITOR***-->
+            <timelinePost :timelinePost="timelinePost"> </timelinePost>
+          </v-container> </v-col
+        ><!--***/TIMELINE EDITOR***-->
 
         <!--All timeline posts-->
         <v-col align-self="center" v-if="currentPanelItem == 1">
@@ -198,6 +194,17 @@
             </v-list>
           </v-card> </v-col
         ><!--/All timeline posts-->
+
+        <!--***GAMES EDITOR***-->
+        <v-col
+          v-if="currentPanelItem == 2"
+          :cols="$vuetify.breakpoint.mobile ? 12 : 4"
+        >
+          <v-container>
+            <gamesPost :timelinePost="timelinePost"> </gamesPost>
+          </v-container> </v-col
+        ><!--***/GAMES EDITOR***-->
+
         <!--***ALL USERS***-->
         <v-col align-self="start" v-if="currentPanelItem == 3" :cols="8">
           <v-card class="mx-auto mt-6" max-width="600">
@@ -222,7 +229,7 @@
 
                       <v-list-item-action>
                         <v-list-item-action-text
-                          v-text="user.admin ? 'ADMIN' : ''"
+                          v-text="user.admin ? 'ADMIN' : 'PLAYER'"
                         ></v-list-item-action-text>
                         <router-link
                           :to="{
@@ -249,6 +256,7 @@
         </v-col>
         <!--***/ALL USERS***-->
       </v-row>
+      <!---------------------------------------------------------------------------------->
     </v-card>
     <!--Timeline post preview-->
     <v-row
@@ -258,7 +266,7 @@
       class="mb-6 mt-2"
     >
       <v-col align-self="center" :cols="$vuetify.breakpoint.mobile ? 12 : 4">
-        <timelinePost
+        <timelineCard
           :title="
             timelinePost.title != '' ? timelinePost.title : 'title goes here '
           "
@@ -268,20 +276,22 @@
           :icon="selectedIcon"
           :date="formattedDate"
         >
-        </timelinePost>
+        </timelineCard>
       </v-col> </v-row
     ><!--/Timeline post preview-->
     <!--***/TIMELINE EDITOR***-->
   </v-container>
 </template>
 <script>
-import "animate.css";
 import store from "@/store";
-import draggable from "vuedraggable";
 import router from "@/router";
-import { Auth, Admin } from "@/services";
-import { required, max, min } from "vee-validate/dist/rules";
+import draggable from "vuedraggable";
+
+import "animate.css";
 import rotatingLogo from "@/components/rotatingLogo.vue";
+
+import { required, max, min } from "vee-validate/dist/rules";
+
 import {
   extend,
   ValidationObserver,
@@ -289,8 +299,12 @@ import {
   setInteractionMode,
 } from "vee-validate";
 
-import timeline from "@/components/admin/timeline.vue";
-import timelinePost from "@/components/timelinePost.vue";
+import { Auth, Admin } from "@/services";
+//Components
+import timelinePost from "@/components/admin/timelinePost.vue";
+import gamesPost from "@/components/admin/gamesPost.vue";
+import timelineCard from "@/components/timelineCard.vue";
+import TimelinePost from "@/components/admin/timelinePost.vue";
 
 setInteractionMode("eager");
 
@@ -313,36 +327,46 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
-    timelinePost,
     rotatingLogo,
     draggable,
-    timeline,
+    timelineCard,
+    timelinePost,
+    gamesPost,
   },
   data: () => ({
-    drawer: true,
     store,
 
+    //////////////Navigation drawer///////////
+    drawer: true,
+    mini: true,
     panelItems: [
       { title: "Carousel", icon: "mdi-view-carousel" },
       { title: "Timeline", icon: "mdi-chart-gantt" },
       { title: "Games", icon: "mdi-controller" },
       { title: "Users", icon: "mdi-account-group-outline" },
     ],
-    mini: true,
     currentPanelItem: 0,
+    //////////////////////////////////////////
 
+    ///////////////Fetch user data////////////
     auth: Auth.state,
     user: {
       username: "",
       email: "",
       admin: true,
     },
-
     avatarImage: "",
-    //mount loading
     avatarMounted: false,
+    //////////////////////////////////////////
 
-    //Post [Carousel]
+    ////////////////Fetch timeline posts//////
+    news: Admin.data.getTimelinePosts,
+    //All users
+    allUsers: Admin.data.getAllUsers,
+    //////////////////////////////////////////
+
+    /////////////EDITORS//////////////////////
+    ////////////////0. Post [Carousel]////////
     //Vue draggable
     enabled: true,
     rows: [
@@ -351,9 +375,11 @@ export default {
         items: store.carouselPictures,
       },
     ],
+    //New image upload
     myCroppa: {},
+    //////////////////////////////////////////
 
-    //Post |Timeline|
+    /////////////////1. Post |Timeline|///////
     timelinePost: {
       title: "",
       text: "",
@@ -365,30 +391,28 @@ export default {
       .toISOString()
       .substr(0, 10),
     selectedIcon: "mdi-newspaper-variant",
-
     hideAuthorCheckbox: null,
-    //All timeline posts
-    news: Admin.data.getTimelinePosts,
-    //All users
-    allUsers: Admin.data.getAllUsers,
+    //////////////////////////////////////////
+
+    ///////////////////////2. Post |Games|////
+    gamePost: {},
+    //////////////////////////////////////////
   }),
   async mounted() {
-    console.log(this.allUsers);
     await this.getUserDetails();
-
     await this.setUserAvatar();
 
     (this.avatarMounted = true),
       this.$root.$on("getUserDetails", () => {
         this.getUserDetails();
       });
-
     this.$root.$on("setUserAvatar", () => {
       this.getUserDetails();
     });
   },
 
   methods: {
+    //Changes navigation panel
     setCurrentitem(item) {
       this.currentPanelItem = this.panelItems.indexOf(item);
     },
