@@ -245,6 +245,25 @@
           </v-container> </v-col
         ><!--***/GAMES EDITOR***-->
 
+        <!--Game card post preview-->
+        <v-col v-if="currentPanelItem == 2" align-self="center" class="my-4">
+          <gameCard
+            :availability="
+              gamePost.availability != ''
+                ? gamePost.availability
+                : 'availability'
+            "
+            :title="
+              gamePost.title != '' ? gamePost.title : 'game title goes here '
+            "
+            :text="gamePost.text != '' ? gamePost.text : 'Start writing...'"
+            :imageSrc="gamePost.image"
+            :gName="gamePost.gameName"
+          >
+          </gameCard>
+        </v-col>
+        <!--/Game card post preview-->
+
         <!--***ALL USERS***-->
         <v-col align-self="start" v-if="currentPanelItem == 3" :cols="8">
           <v-card class="mx-auto mt-6" max-width="600">
@@ -313,35 +332,13 @@
           :text="
             timelinePost.text != '' ? timelinePost.text : 'Start writing...'
           "
-          :icon="selectedIcon"
+          :icon="timelinePost.icon"
           :date="formattedDate"
+          :author="timelinePost.author"
         >
         </timelineCard>
       </v-col> </v-row
     ><!--/Timeline post preview-->
-
-    <!--Game card post preview-->
-    <v-row
-      v-if="currentPanelItem == 2"
-      align="center"
-      justify="center"
-      class="mb-6 mt-2"
-    >
-      <v-col align-self="center" :cols="$vuetify.breakpoint.mobile ? 12 : 4">
-        <gameCard
-          :availability="
-            gamePost.availability != '' ? gamePost.availability : 'availability'
-          "
-          :title="
-            gamePost.title != '' ? gamePost.title : 'game title goes here '
-          "
-          :text="gamePost.text != '' ? gamePost.text : 'Start writing...'"
-          :imageSrc="gamePost.image"
-          :gName="gamePost.gameName"
-        >
-        </gameCard>
-      </v-col> </v-row
-    ><!--/Game card post preview-->
 
     <!--***/TIMELINE EDITOR***-->
   </v-container>
@@ -413,7 +410,7 @@ export default {
       { title: "Games", icon: "mdi-controller" },
       { title: "Users", icon: "mdi-account-group-outline" },
     ],
-    currentPanelItem: 1,
+    currentPanelItem: 0,
     //////////////////////////////////////////
 
     ///////////////Fetch user data////////////
@@ -455,12 +452,11 @@ export default {
       text: "",
       image: null,
       author: "",
-      date: "",
+      icon: "mdi-newspaper-variant",
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
     },
-    date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-      .toISOString()
-      .substr(0, 10),
-    selectedIcon: "mdi-newspaper-variant",
     hideAuthorCheckbox: null,
     deleteSelection: {},
     deleteConfirm: false,
@@ -471,8 +467,8 @@ export default {
       title: "",
       text: "",
       availability: "",
-      image: "cards/doge1.png",
-      gameName: "gameNameForGamePage",
+      image: "cards/placeholder.png",
+      gameName: "default",
     },
     //////////////////////////////////////////
   }),
@@ -534,9 +530,9 @@ export default {
       console.log(files);
     },
     formattedDate() {
-      let day = this.date.slice(-2);
-      let month = this.date.slice(5, 7);
-      let year = this.date.slice(0, 4);
+      let day = this.timelinePost.date.slice(-2);
+      let month = this.timelinePost.date.slice(5, 7);
+      let year = this.timelinePost.date.slice(0, 4);
       let monthsNames = {
         "01": "January",
         "02": "February",

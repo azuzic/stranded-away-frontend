@@ -10,7 +10,7 @@
       ></v-avatar>
     </v-card-title>
     <validation-observer ref="observer" v-slot="{ invalid }">
-      <form class="" @submit.prevent="addNewGamePost">
+      <form @submit.prevent="addNewGamePost">
         <v-window v-model="step">
           <!--PAGE 1-->
           <v-window-item :value="1">
@@ -70,7 +70,8 @@
                 ></v-text-field>
               </validation-provider>
               <!--/Availability-->
-              <!--Image-->
+
+              <!--Image
               <validation-provider v-slot="{ errors }" name="Image">
                 <v-file-input
                   v-model="gamePost.image"
@@ -81,7 +82,7 @@
                   class="mt-2"
                 ></v-file-input>
               </validation-provider>
-              <!--/Image-->
+              /Image-->
             </v-card-text>
           </v-window-item>
           <v-window-item :value="3">
@@ -170,6 +171,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import "animate.css";
 import { Admin } from "@/services";
 import { required, max, min } from "vee-validate/dist/rules";
@@ -212,6 +214,7 @@ export default {
       .toISOString()
       .substr(0, 10),
   }),
+  mounted() {},
   methods: {
     async addNewGamePost() {
       const isValid = this.$refs.observer.validate();
@@ -234,6 +237,8 @@ export default {
       Object.keys(this.gamePost).forEach((key) => {
         this.gamePost[key] = "";
       });
+      this.gamePost[image] = "cards/placeholder.png";
+      this.gamePost[gameName] = "default";
       this.$refs.observer.reset();
     },
   },
@@ -276,9 +281,6 @@ export default {
       }-${unformattedDate.getDate()}`;
 
       return formattedDate;
-    },
-    handleImages(files) {
-      console.log(files);
     },
   },
 };

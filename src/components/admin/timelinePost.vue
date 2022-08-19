@@ -10,7 +10,7 @@
       ></v-avatar>
     </v-card-title>
     <validation-observer ref="observer" v-slot="{ invalid }">
-      <form class="" @submit.prevent="addNewTimelinePost">
+      <form @submit.prevent="addNewTimelinePost">
         <v-window v-model="step">
           <!--PAGE 1-->
           <v-window-item :value="1">
@@ -58,18 +58,18 @@
             <v-card-text>
               <validation-provider v-slot="{ errors }" name="Icon">
                 <v-select
-                  v-model="selectedIcon"
+                  v-model="timelinePost.icon"
                   :items="availableIcons"
                   label="Icon"
                   prepend-icon="mdi-robot"
                   :error-messages="errors"
-                  data-vv-name="selectedIcon"
+                  data-vv-name="icon"
                 >
                 </v-select>
               </validation-provider>
 
               <div class="text-center">
-                <v-icon size="40"> {{ selectedIcon }} </v-icon>
+                <v-icon size="40"> {{ timelinePost.icon }} </v-icon>
               </div>
               <!--/Icon-->
               <!--Image-->
@@ -95,14 +95,14 @@
                   ref="menu"
                   v-model="menu"
                   :close-on-content-click="false"
-                  :return-value.sync="date"
+                  :return-value.sync="timelinePost.date"
                   transition="scale-transition"
                   offset-y
                   min-width="auto"
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="date"
+                      v-model="timelinePost.date"
                       label="Post date"
                       prepend-icon="mdi-calendar"
                       readonly
@@ -116,7 +116,7 @@
                     rules="required"
                   >
                     <v-date-picker
-                      v-model="date"
+                      v-model="timelinePost.date"
                       :min="datePickerFormat"
                       :error-messages="errors"
                       color="error"
@@ -131,7 +131,7 @@
                       <v-btn
                         text
                         color="success"
-                        @click="$refs.menu.save(date)"
+                        @click="$refs.menu.save(timelinePost.date)"
                       >
                         OK
                       </v-btn>
@@ -226,9 +226,6 @@ export default {
   data: () => ({
     step: 1,
     menu: false,
-    date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-      .toISOString()
-      .substr(0, 10),
     availableIcons: [
       { text: "General news", value: "mdi-newspaper-variant" },
       { text: "Youtube video", value: "mdi-youtube" },
@@ -236,7 +233,6 @@ export default {
       { text: "New Achievement", value: "mdi-trophy" },
       { text: "Celebration", value: "mdi-party-popper" },
     ],
-    selectedIcon: "mdi-newspaper-variant",
     hideAuthorCheckbox: null,
   }),
   methods: {
@@ -268,10 +264,8 @@ export default {
       if (isValid) {
         try {
           console.log("Validated successfully!");
-          this.timelinePost.date = this.formatDate(this.date);
+          this.timelinePost.date = this.formatDate(this.timelinePost.date);
           if (this.hideAuthorCheckbox) this.timelinePost.author = "MacroQuiet";
-
-          this.timelinePost.icon = this.selectedIcon;
 
           let postData = this.timelinePost;
 
@@ -295,9 +289,9 @@ export default {
         if (key == "image") this.timelinePost[key] = null;
         else this.timelinePost[key] = "";
       });
-      this.selectedIcon = "mdi-newspaper-variant";
+      if (key == "icon") this.timelinePost[key] = "mdi-newspaper-variant";
       this.hideAuthorCheckbox = null;
-      this.postponedDate = this.formatDate(this.date);
+      this.postponedDate = this.formatDate(this.timelinePost.date);
       this.$refs.observer.reset();
     },
   },
@@ -313,9 +307,9 @@ export default {
       }
     },
     formattedDate() {
-      let day = this.date.slice(-2);
-      let month = this.date.slice(5, 7);
-      let year = this.date.slice(0, 4);
+      let day = this.timelinePost.date.slice(-2);
+      let month = this.timelinePost.date.slice(5, 7);
+      let year = this.timelinePost.date.slice(0, 4);
       let monthsNames = {
         "01": "January",
         "02": "February",
