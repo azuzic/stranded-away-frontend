@@ -111,6 +111,9 @@ let Admin = {
     get getTimelinePosts() {
       return Admin.fetchData("timeline");
     },
+    get getAllUsers() {
+      return Admin.fetchData("users");
+    },
   },
 };
 

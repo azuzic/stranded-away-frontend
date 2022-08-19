@@ -6,6 +6,7 @@
     </h2>
     <v-card dark>
       <v-row justify="start">
+        <!--NAVIGATION BAR VERTICAL-->
         <v-col :cols="$vuetify.breakpoint.mobile ? 0 : 2">
           <v-navigation-drawer
             v-if="!$vuetify.breakpoint.mobile"
@@ -44,7 +45,14 @@
                 @click="setCurrentitem(item)"
               >
                 <v-list-item-icon>
-                  <v-icon>{{ item.icon }}</v-icon>
+                  <v-icon
+                    :color="
+                      panelItems.indexOf(item) == currentPanelItem
+                        ? 'error'
+                        : 'white'
+                    "
+                    >{{ item.icon }}</v-icon
+                  >
                 </v-list-item-icon>
 
                 <v-list-item-content>
@@ -54,12 +62,13 @@
             </v-list>
           </v-navigation-drawer>
         </v-col>
+        <!--/NAVIGATION BAR VERTICAL-->
+        <!--***CAROUSEL EDITOR***-->
         <v-col
           align-self="center"
           v-if="currentPanelItem == 0"
           :cols="$vuetify.breakpoint.mobile && currentPanelItem == 1 ? 12 : 10"
         >
-          <!--***CAROUSEL EDITOR***-->
           <v-container>
             <h1 class="text-2xl">Current Carousel Images</h1>
             <v-row align="center" justify="center">
@@ -137,14 +146,22 @@
         <!--***/CAROUSEL EDITOR***-->
 
         <!--***TIMELINE EDITOR***-->
-        <v-col>
-          <v-container v-if="currentPanelItem == 1">
+        <v-col
+          v-if="currentPanelItem == 1"
+          :cols="$vuetify.breakpoint.mobile ? 12 : 4"
+        >
+          <v-container>
             <timeline :timelinePost="timelinePost"> </timeline>
           </v-container>
         </v-col>
+        <!--***/TIMELINE EDITOR***-->
+
         <!--All timeline posts-->
         <v-col align-self="center" v-if="currentPanelItem == 1">
           <v-card class="mx-auto" max-width="500">
+            <v-toolbar color="error" dark>
+              <v-toolbar-title>All Timeline Posts</v-toolbar-title>
+            </v-toolbar>
             <v-list two-line>
               <v-list-item-group>
                 <template v-for="(item, i) in reversedNews">
@@ -181,12 +198,66 @@
             </v-list>
           </v-card> </v-col
         ><!--/All timeline posts-->
+        <!--***ALL USERS***-->
+        <v-col align-self="start" v-if="currentPanelItem == 3" :cols="8">
+          <v-card class="mx-auto mt-6" max-width="600">
+            <v-toolbar color="error" dark>
+              <v-toolbar-title>List of All Registered Users</v-toolbar-title>
+            </v-toolbar>
+            <v-list two-line>
+              <v-list-item-group>
+                <template v-for="(user, i) in allUsersList">
+                  <!--Works, but ESLint gives false error-->
+                  <v-list-item :key="user.username">
+                    <template>
+                      <v-list-item-content>
+                        <v-list-item-title
+                          v-text="user.username"
+                        ></v-list-item-title>
+
+                        <v-list-item-subtitle
+                          v-text="user.email"
+                        ></v-list-item-subtitle>
+                      </v-list-item-content>
+
+                      <v-list-item-action>
+                        <v-list-item-action-text
+                          v-text="user.admin ? 'ADMIN' : ''"
+                        ></v-list-item-action-text>
+                        <router-link
+                          :to="{
+                            name: 'User',
+                            params: { userName: user.username },
+                          }"
+                        >
+                          <v-icon hover text link color="grey lighten-1">
+                            mdi-account
+                          </v-icon>
+                        </router-link>
+                      </v-list-item-action>
+                    </template>
+                  </v-list-item>
+
+                  <v-divider
+                    v-if="i < allUsers.length - 1"
+                    :key="i"
+                  ></v-divider>
+                </template>
+              </v-list-item-group>
+            </v-list>
+          </v-card>
+        </v-col>
+        <!--***/ALL USERS***-->
       </v-row>
     </v-card>
     <!--Timeline post preview-->
-    <v-row align="center" justify="center" class="mb-6 mt-2">
-      <v-col v-if="currentPanelItem == 1" align-self="center" cols="4">
-        <h1 class="text-center text-3xl">PREVIEW</h1>
+    <v-row
+      v-if="currentPanelItem == 1"
+      align="center"
+      justify="center"
+      class="mb-6 mt-2"
+    >
+      <v-col align-self="center" :cols="$vuetify.breakpoint.mobile ? 12 : 4">
         <timelinePost
           :title="
             timelinePost.title != '' ? timelinePost.title : 'title goes here '
@@ -258,7 +329,7 @@ export default {
       { title: "Users", icon: "mdi-account-group-outline" },
     ],
     mini: true,
-    currentPanelItem: 1,
+    currentPanelItem: 0,
 
     auth: Auth.state,
     user: {
@@ -298,8 +369,11 @@ export default {
     hideAuthorCheckbox: null,
     //All timeline posts
     news: Admin.data.getTimelinePosts,
+    //All users
+    allUsers: Admin.data.getAllUsers,
   }),
   async mounted() {
+    console.log(this.allUsers);
     await this.getUserDetails();
 
     await this.setUserAvatar();
@@ -347,6 +421,10 @@ export default {
     async reversedNews() {
       let result = await this.news;
       return result.data.reverse();
+    },
+    async allUsersList() {
+      let result = await this.allUsers;
+      return result.data;
     },
   },
   computed: {
