@@ -615,6 +615,7 @@ export default {
       }
     },
       isPlayed(gameCards) {
+          if (this.user.profile.games == null) { return [] };
           const result = gameCards.filter(gameCard => this.user.profile.games.find(element => element.name == gameCard.title));
           return result;
       }
