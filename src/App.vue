@@ -265,7 +265,7 @@
     <router-view />
     <!--Footer-->
     <v-card>
-      <v-footer padless bottom fixed dark>
+      <v-footer padless bottom absolute dark>
         <v-card flat tile width="100%" class="navbarColor text-center">
           <v-card-text
             class="white--text flex justify-center align-center mb-0"
@@ -273,7 +273,7 @@
             <span class="-mb-4"
               ><strong>MacroQuiet Game Development <br /></strong>
               <div>Copyright © {{ new Date().getFullYear() }}</div>
-              <v-divider></v-divider>
+              <v-divider class="mt-2"></v-divider>
               <div class="mb-1">
                 <v-btn
                   text
