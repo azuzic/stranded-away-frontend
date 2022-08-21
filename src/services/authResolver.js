@@ -11,14 +11,14 @@ function updateToken(data) {
 export default {
   loginRequest: false,
   promptType: false,
+  message: "",
 
-  loginHandler: async function (state, response) {
+  loginHandler: async function (state, response, message) {
     this.loginRequest = true;
-
+    this.message = message;
+    this.promptType = state;
     if (state == "success") {
-      this.promptType = true;
       await wait(3);
-      console.log("Success");
       //Save token to localStorage
       let tokenData = response.data;
       updateToken(tokenData);
@@ -27,8 +27,6 @@ export default {
       router.replace({ name: "Home" });
       router.go();
     } else {
-      console.log("Error");
-      this.promptType = false;
       await wait(3);
     }
     this.loginRequest = false;

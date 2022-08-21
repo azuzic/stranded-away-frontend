@@ -74,12 +74,8 @@
         </h2>
         <alert
           :activator="authResolver.loginRequest"
-          :text="
-            authResolver.promptType
-              ? 'Logging in...'
-              : 'Login unsuccessful! Wrong email or password.'
-          "
-          :type="authResolver.promptType ? 'success' : 'error'"
+          :text="authResolver.message"
+          :type="authResolver.promptType"
         ></alert>
       </v-col>
     </v-row>
@@ -134,7 +130,7 @@ export default {
       this.$refs.observer.validate();
       this.submitting = true;
       console.log("Validated successfully!");
-
+      let message = "";
       let userData = {
         email: this.email,
         password: this.password,
@@ -144,12 +140,12 @@ export default {
       try {
         response = await Auth.authenticateUser(userData);
         console.log("Request sent successfully!");
-
-        this.authResolver.loginHandler("success", response);
+        message = "Logging in...";
+        this.authResolver.loginHandler("success", response, message);
       } catch (e) {
         this.submitting = false;
-        if (e.response.data.error == "Cannot authenticate")
-          this.authResolver.loginHandler("failed", response);
+        message = e.response.data.error;
+        this.authResolver.loginHandler("error", response, message);
 
         console.error(e);
       }
