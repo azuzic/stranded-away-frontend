@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-12">
+  <v-container class="mt-12 min-h-full">
     <v-row justify="center" align="center">
       <v-col :cols="width" align-self="center">
         <v-img

@@ -265,7 +265,7 @@
     <router-view />
     <!--Footer-->
     <v-card>
-      <v-footer padless bottom fixed dark>
+      <v-footer padless bottom absolute dark>
         <v-card flat tile width="100%" class="navbarColor text-center">
           <v-card-text
             class="white--text flex justify-center align-center mb-0"
