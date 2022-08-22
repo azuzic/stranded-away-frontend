@@ -684,6 +684,8 @@ export default {
     //mount loading
     coverMounted: false,
     avatarMounted: false,
+
+    tokenUser: Auth.currentUser.getCurrentUserData.username,
   }),
   async mounted() {
     this.currentUser = this.$route.params.userName;
@@ -699,7 +701,10 @@ export default {
       if (this.auth.authenticated) {
         let result = await Auth.getUserDetails(this.currentUser);
         this.user = result.data.userData;
-        if (this.user.username === this.currentUser) this.canEdit = true;
+
+        if (this.tokenUser === this.$route.params.userName) {
+          this.canEdit = true;
+        }
       }
     },
     async setUserCover() {
