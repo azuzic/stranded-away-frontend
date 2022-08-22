@@ -1,5 +1,5 @@
 <template>
-  <v-card color="#111011" dark  :width="$vuetify.breakpoint.mobile ? 280 : 420">
+  <v-card color="#111011" dark  :width="$vuetify.breakpoint.mobile ? 280 : 900">
     <v-card-title>
       <v-icon size="32">
         {{ icon }}
