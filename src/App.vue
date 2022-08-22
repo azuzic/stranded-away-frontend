@@ -417,6 +417,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+* {
+  font-family: "Poppins", sans-serif;
+}
 //filter: drop-shadow(0px 0px 64px rgba(0, 0, 0, 1));
 .v-footer {
   filter: drop-shadow(0px 0px 32px rgba(0, 0, 0, 1));
