@@ -82,9 +82,15 @@
             <template v-slot:default="imageUploadDialog">
               <v-card>
                 <v-toolbar color="error" dark>Upload new image here</v-toolbar>
-                <v-img class="flex justify-center items-center" :src="
-                carouselImagePreview ? carouselImagePreview : require('@/assets/user/user_cover.jpg')">
-                    <v-file-input
+                <v-img
+                  class="flex justify-center items-center"
+                  :src="
+                    carouselImagePreview
+                      ? carouselImagePreview
+                      : require('@/assets/user/user_cover.jpg')
+                  "
+                >
+                  <v-file-input
                     class="justify-center"
                     hide-input
                     @change="previewCarouselImage()"
@@ -94,8 +100,8 @@
                     label="CoverImage"
                     v-model="carouselImageUpload"
                     dark
-                    >
-                    </v-file-input>
+                  >
+                  </v-file-input>
                 </v-img>
                 <v-card-actions class="justify-end">
                   <v-btn text @click="imageUploadDialog.value = false"
@@ -133,7 +139,11 @@
                         xs3
                         pa-2
                       >
-                        <v-card link style="height: 200px" class="text-center mb-12">
+                        <v-card
+                          link
+                          style="height: 200px"
+                          class="text-center mb-12"
+                        >
                           <v-img
                             aspect-ratio="1"
                             :src="require('@/assets/game_images/' + item)"
@@ -368,7 +378,6 @@ import {
 } from "vee-validate";
 
 import { Auth, Admin } from "@/services";
-import { Image } from "@/services/imageUpload";
 //Components
 import timelinePost from "@/components/admin/timelinePost.vue";
 import gamesPost from "@/components/admin/gamesPost.vue";
@@ -541,7 +550,13 @@ export default {
       this.carouselImagePreview = URL.createObjectURL(this.carouselImageUpload);
     },
     async uploadNewCarouselImage() {
-      return true;
+      let base64_string = await this.encodeImageFileAsURL(
+        this.carouselImageUpload
+      );
+
+      let result = await Admin.uploadImage(base64_string, "carouselPictures");
+      console.log(result);
+      return;
     },
   },
   asyncComputed: {

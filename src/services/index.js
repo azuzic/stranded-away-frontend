@@ -1,7 +1,7 @@
 import axios from "axios";
 let Service = axios.create({
-  baseURL: "https://macroquiet.herokuapp.com/",
-  //baseURL: "http://192.168.5.24:3000/",
+  //baseURL: "https://macroquiet.herokuapp.com/",
+  baseURL: "http://192.168.5.24:3000/",
   timeout: 30000,
 });
 //Before each sent request to the backend, send the Token in the header:
@@ -106,6 +106,13 @@ let Admin = {
   },
   deleteTimelinePost(postID) {
     return Service.delete(`admin/timeline?id=${postID}`);
+  },
+  uploadImage(base64_data, location) {
+    let postData = {
+      imageData: base64_data,
+      location: location,
+    };
+    return Service.post("admin/image", postData);
   },
   fetchData(dataName) {
     return Service.get(`admin/data?d=${dataName}`);
