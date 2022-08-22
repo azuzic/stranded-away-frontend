@@ -573,7 +573,7 @@ import { required, email, max, min, alpha_dash } from "vee-validate/dist/rules";
 import "animate.css";
 import authResolver from "@/services/authResolver";
 
-import gameCard from "@/components/gameCard.vue";
+import gameCard from "@/components/Home/gameCard.vue";
 import { Auth } from "@/services";
 import store from "@/store";
 import {

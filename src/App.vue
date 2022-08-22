@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="overflow-x-hidden">
     <!--Header-->
     <nav class="custom-nav">
       <v-main>
@@ -38,7 +38,7 @@
                 <v-icon color="red lighten-1" class="mr-1">{{
                   link.icon
                 }}</v-icon>
-                <strong class="text-sm">{{ link.title }}</strong>
+                <strong class="text-sm text-stone-200">{{ link.title }}</strong>
               </v-btn>
             </v-col>
             <!--/LINKS-->
@@ -154,11 +154,11 @@
           ></v-app-bar-nav-icon>
           <!--/Mobile navigation icon-->
         </v-app-bar>
-        <!--Mobile navigation-->
 
+        <!--Mobile navigation-->
         <v-navigation-drawer
           v-model="drawer"
-          absolute
+          fixed
           temporary
           height="auto"
           color="grey darken-4 h-100"
@@ -171,7 +171,7 @@
               class="ml-15"
             >
               <div @click="scroll(link.to)" class="w-full">
-                <v-list-item-icon class="white--text w-full">
+                <v-list-item-icon class="text-stone-200 w-full">
                   <v-icon color="white">{{ link.icon }}</v-icon> &nbsp;{{
                     link.title
                   }}
@@ -196,8 +196,8 @@
                     <v-skeleton-loader v-else dark type="avatar" height="48px">
                     </v-skeleton-loader>
                   </v-avatar>
-                  <h3 class="mt-2">{{ user.username }}</h3>
-                  <p class="text-caption mt-1">
+                  <h3 class="mt-2 text-red-500">{{ user.username }}</h3>
+                  <p class="text-caption mt-1 text-stone-300">
                     {{ user.email }}
                   </p>
                   <v-btn
@@ -233,12 +233,11 @@
               </v-list-item-content>
             </v-list-item>
 
-            <v-list-item class="justify-center white--text">
+            <v-list-item class="justify-center">
               <v-btn
                 v-if="!auth.authenticated"
-                color="secondary"
                 rounded
-                class="my-4"
+                class="my-4 text-stone-200"
                 cols="2"
                 @click="$router.push({ name: 'Login' }).catch(() => {})"
               >
@@ -252,7 +251,7 @@
                 cols="2"
                 @click="logOut()"
               >
-                <strong class="text-sm">LOG OUT</strong>
+                <strong class="text-sm text-stone-200">LOG OUT</strong>
               </v-btn>
             </v-list-item>
           </v-list>
@@ -268,11 +267,11 @@
       <v-footer padless bottom absolute dark>
         <v-card flat tile width="100%" class="navbarColor text-center">
           <v-card-text
-            class="white--text flex justify-center align-center mb-0"
+            class="flex justify-center align-center mb-0"
           >
             <span class="-mb-4"
-              ><strong>MacroQuiet Game Development <br /></strong>
-              <div>Copyright © {{ new Date().getFullYear() }}</div>
+              ><strong class="text-stone-300">MacroQuiet Game Development <br /></strong>
+              <div class="text-stone-400">Copyright © {{ new Date().getFullYear() }}</div>
               <v-divider class="mt-2"></v-divider>
               <div class="mb-1">
                 <v-btn

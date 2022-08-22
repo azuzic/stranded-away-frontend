@@ -49,101 +49,29 @@
       </div>
     </div>
 
-    <v-container class="mb-8">
+    <div class="mb-8">
       <h2
         id="games"
-        class="text-4xl text-white font-bold mb-6 mt-4 v-container text-center"
-      >
+        class="text-5xl text-slate-200 font-bold my-12 v-container text-center" >
         FEATURED GAMES
       </h2>
-      <v-row justify="center">
-        <v-col
-          v-for="gameCard in store.gameCards"
-          :key="gameCard.id"
-          :cols="width"
-        >
+      <div class="flex flex-wrap justify-center">
           <gameCard
+          v-for="gameCard in store.gameCards" :key="gameCard.id"
             :availability="gameCard.availability"
             :title="gameCard.title"
             :text="gameCard.text"
             :imageSrc="gameCard.imageSrc"
             :gName="gameCard.gameName"
+            class="mb-8"
           ></gameCard>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container class="mb-8 text-center">
-      <v-row justify="center">
-        <v-col :cols="$vuetify.breakpoint.mobile ? '12' : '3'">
-          <h2
-            id="about-us"
-            class="text-4xl text-white font-bold mb-4 mt-4 v-container"
-          >
-            ABOUT US
-          </h2>
+      </div>
+    </div>
 
-          <h1>We are a two person Indie Game Developer Studio from Croatia.</h1>
-          <h2>
-            It all started in the summer of 2021. when two friends and
-            colleagues decided they wanted to create video games and fulfill
-            their lifelong dreams.
-          </h2>
-          <h2>
-            Meet
-            <router-link :to="{ name: 'User', params: { userName: 'blaskec' } }"
-              ><span class="text-red-like-logo">@blaskec</span></router-link
-            >
-            and
-            <router-link :to="{ name: 'User', params: { userName: 'zuza' } }"
-              ><span class="text-red-like-logo">@zuza</span></router-link
-            >
-            now!
-          </h2>
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col :cols="$vuetify.breakpoint.mobile ? '6' : '2'">
-          <router-link :to="{ name: 'User', params: { userName: 'blaskec' } }">
-            <figure class="hover11">
-              <v-tooltip bottom color="#EF5350">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-img
-                    class="align-end"
-                    height="300px"
-                    src="@/assets/portraits/Portret_Luka_Big-noBG.png"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                  </v-img>
-                </template>
-                <span>Blaskec</span>
-              </v-tooltip>
-            </figure>
-          </router-link>
-        </v-col>
-        <v-col :cols="$vuetify.breakpoint.mobile ? '6' : '2'">
-          <router-link :to="{ name: 'User', params: { userName: 'zuza' } }">
-            <figure class="hover11">
-              <v-tooltip bottom color="#EF5350">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-img
-                    class="align-end"
-                    height="300px"
-                    src="@/assets/portraits/Portret_Alesandro_Big-noBG.png"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                  </v-img>
-                </template>
-                <span>Zuza</span>
-              </v-tooltip>
-            </figure>
-          </router-link>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container class="mb-32">
-      <h2 class="text-4xl text-white font-bold uppercase mb-6 text-center">
+    <about-us></about-us>
+
+    <div class="mb-32 mt-16">
+      <h2 class="text-slate-200 font-bold uppercase mb-6 text-center" :class="$vuetify.breakpoint.smAndDown ? 'text-3xl' : 'text-4xl'">
         What's been going on
       </h2>
       <v-row justify="center">
@@ -165,22 +93,24 @@
             </timelineCard>
           </v-timeline-item> </v-timeline
       ></v-row>
-    </v-container>
+    </div>
   </div>
 </template>
 
 <script>
-import gameCard from "@/components/gameCard.vue";
-import timelineCard from "@/components/timelineCard.vue";
+import gameCard from "@/components/Home/gameCard.vue";
+import timelineCard from "@/components/Home/timelineCard.vue";
 import store from "@/store";
 import { Admin } from "@/services";
+import AboutUs from '@/components/Home/aboutUs.vue';
 
 export default {
   name: "Home",
   components: {
     gameCard,
     timelineCard,
-  },
+    AboutUs,
+},
   data: () => ({
     store,
     news: Admin.data.getTimelinePosts,
@@ -194,9 +124,9 @@ export default {
     width() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return 11;
+          return 12;
         case "sm":
-          return 6;
+          return 12;
         case "md":
           return 6;
         case "lg":
@@ -245,13 +175,5 @@ export default {
 }
 .theme--light.v-timeline:before {
   background: rgba(250, 251, 251, 255);
-}
-.hover11 {
-  opacity: 1;
-  -webkit-transition: 0.5s ease-in-out;
-  transition: 0.5s ease-in-out;
-}
-.hover11 :hover {
-  opacity: 0.5;
 }
 </style>

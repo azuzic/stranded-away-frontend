@@ -32,9 +32,9 @@
     name: "MusicCard" ,
     data: () => ({
       items: [
-          'https://www.youtube.com/embed/7iCOYz4pSso',
-          'https://www.youtube.com/embed/p-lRB7O55NM',
-          'https://www.youtube.com/embed/eyNOoij0Lbg',
+          'https://www.youtube.com/embed/kkkRJm4rJuI',
+          'https://www.youtube.com/embed/G5wPHVsgpjk',
+          'https://www.youtube.com/embed/u3PrdOA_4Tw',
       ],
       transparent: 'rgba(255, 255, 255, 0)',
     }),

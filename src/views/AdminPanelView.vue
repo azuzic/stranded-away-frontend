@@ -365,8 +365,8 @@ import { Auth, Admin } from "@/services";
 import timelinePost from "@/components/admin/timelinePost.vue";
 import gamesPost from "@/components/admin/gamesPost.vue";
 
-import timelineCard from "@/components/timelineCard.vue";
-import gameCard from "@/components/gameCard.vue";
+import timelineCard from "@/components/Home/timelineCard.vue";
+import gameCard from "@/components/Home/gameCard.vue";
 
 setInteractionMode("eager");
 

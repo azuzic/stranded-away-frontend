@@ -7,6 +7,7 @@ module.exports = {
         "background-color": "#0f1119",
         "red-like-logo": "#EF5350",
         "background-cards": "#15171e",
+        "transparent-0": "rgba(0, 0, 0, 0)",
         "transparent-10": "rgba(0, 0, 0, 0.1)",
         "transparent-20": "rgba(0, 0, 0, 0.2)",
         "transparent-30": "rgba(0, 0, 0, 0.3)",
