@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-16 mb-24 md:pl-24 md:pr-24">
+  <v-container class="mt-16 mb-64 md:pl-24 md:pr-24">
     <h1 class="text-4xl mt-4">ADMIN PANEL</h1>
     <h2 class="mb-4">
       Welcome back, <b class="text-red-like-logo">{{ user.username }}</b>
@@ -82,19 +82,26 @@
             <template v-slot:default="imageUploadDialog">
               <v-card>
                 <v-toolbar color="error" dark>Upload new image here</v-toolbar>
-                <croppa
-                  v-model="myCroppa"
-                  :width="1200"
-                  :height="600"
-                  :disable-scroll-to-zoom="true"
-                  :prevent-white-space="true"
-                  :disable-drag-to-move="true"
-                ></croppa>
+                <v-img class="flex justify-center items-center" :src="
+                carouselImagePreview ? carouselImagePreview : require('@/assets/user/user_cover.jpg')">
+                    <v-file-input
+                    class="justify-center"
+                    hide-input
+                    @change="previewCarouselImage()"
+                    accept="image/png, image/jpeg, image/bmp"
+                    placeholder="Pick an avatar"
+                    prepend-icon="mdi-image-plus"
+                    label="CoverImage"
+                    v-model="carouselImageUpload"
+                    dark
+                    >
+                    </v-file-input>
+                </v-img>
                 <v-card-actions class="justify-end">
                   <v-btn text @click="imageUploadDialog.value = false"
                     >Close</v-btn
                   >
-                  <v-btn text @click="uploadNewCarouselImage">Upload</v-btn>
+                  <v-btn text @click="uploadNewCarouselImage()">Upload</v-btn>
                 </v-card-actions>
               </v-card>
             </template>
@@ -126,7 +133,7 @@
                         xs3
                         pa-2
                       >
-                        <v-card link style="height: 200px" class="text-center">
+                        <v-card link style="height: 200px" class="text-center mb-12">
                           <v-img
                             aspect-ratio="1"
                             :src="require('@/assets/game_images/' + item)"
@@ -361,6 +368,7 @@ import {
 } from "vee-validate";
 
 import { Auth, Admin } from "@/services";
+import { Image } from "@/services/imageUpload";
 //Components
 import timelinePost from "@/components/admin/timelinePost.vue";
 import gamesPost from "@/components/admin/gamesPost.vue";
@@ -443,7 +451,8 @@ export default {
       },
     ],
     //New image upload
-    myCroppa: {},
+    carouselImageUpload: [],
+    carouselImagePreview: "",
     //////////////////////////////////////////
 
     /////////////1. Post Timeline///////////
@@ -510,8 +519,28 @@ export default {
         router.go();
       }
     },
+    async encodeImageFileAsURL(file) {
+      let reader = new FileReader();
+      return await new Promise((resolve, reject) => {
+        reader.onloadend = async () => {
+          try {
+            let response = reader.result;
+            resolve(response);
+          } catch (err) {
+            reject(err);
+          }
+        };
+        reader.onerror = (error) => {
+          reject(error);
+        };
+        reader.readAsDataURL(file);
+      });
+    },
     //Carousel image upload//
-    uploadNewCarouselImage() {
+    previewCarouselImage() {
+      this.carouselImagePreview = URL.createObjectURL(this.carouselImageUpload);
+    },
+    async uploadNewCarouselImage() {
       return true;
     },
   },
