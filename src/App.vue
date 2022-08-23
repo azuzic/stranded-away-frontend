@@ -377,8 +377,8 @@ export default {
     },
     async setUserAvatar() {
       if (this.user.username) {
-        this.avatarImage = await Auth.getImage(this.user.profile.avatarImageID);
-        this.avatarImage = this.avatarImage.data.img;
+        let result = await Auth.getImage(this.user.profile.avatarImageID);
+        this.avatarImage = result ? result.data.img : "";
       }
     },
     //Link scroll

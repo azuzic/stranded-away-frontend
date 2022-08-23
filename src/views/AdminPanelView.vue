@@ -81,7 +81,7 @@
             </template>
             <template v-slot:default="imageUploadDialog">
               <v-card>
-                <v-img
+                <v-img 
                   class="flex justify-center items-center"
                   :src="
                     carouselImagePreview
@@ -90,6 +90,8 @@
                   "
                 >
                   <v-file-input
+                    type="file"
+                    ref="file"
                     class="justify-center"
                     hide-input
                     @change="previewCarouselImage()"

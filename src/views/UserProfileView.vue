@@ -708,14 +708,18 @@ export default {
       }
     },
     async setUserCover() {
-      this.coverImage = await Auth.getImage(this.user.profile.coverImageID);
-      this.coverImage = this.coverImage.data.img;
-      this.saveCoverImage = this.coverImage;
+      let result = await Auth.getImage(this.user.profile.coverImageID);
+      if (result) {
+        this.coverImage = result.data.img;
+        this.saveCoverImage = this.coverImage;
+      }
     },
     async setUserAvatar() {
-      this.avatarImage = await Auth.getImage(this.user.profile.avatarImageID);
-      this.avatarImage = this.avatarImage.data.img;
-      this.saveAvatarImage = this.avatarImage;
+      let result = await Auth.getImage(this.user.profile.avatarImageID);
+      if (result) {
+        this.avatarImage = result.data.img;
+        this.saveAvatarImage = this.avatarImage;
+      }
     },
     async encodeImageFileAsURL(file) {
       let reader = new FileReader();
