@@ -81,13 +81,12 @@
             </template>
             <template v-slot:default="imageUploadDialog">
               <v-card>
-                <v-toolbar color="error" dark>Upload new image here</v-toolbar>
                 <v-img
                   class="flex justify-center items-center"
                   :src="
                     carouselImagePreview
                       ? carouselImagePreview
-                      : require('@/assets/user/user_cover.jpg')
+                      : require('@/assets/carouselPlaceholder.png')
                   "
                 >
                   <v-file-input
@@ -134,8 +133,8 @@
                       class="row wrap justify-space-around"
                     >
                       <v-flex
-                        v-for="item in row.items"
-                        :key="item.title"
+                        v-for="item in allCarouselPictures"
+                        :key="item._id"
                         xs3
                         pa-2
                       >
@@ -144,12 +143,8 @@
                           style="height: 200px"
                           class="text-center mb-12"
                         >
-                          <v-img
-                            aspect-ratio="1"
-                            :src="require('@/assets/game_images/' + item)"
-                          >
-                          </v-img>
-                          {{ item }}
+                          <v-img aspect-ratio="2" :src="item.url"> </v-img>
+                          {{ item.url }}
                         </v-card>
                       </v-flex>
                     </draggable>
@@ -167,7 +162,7 @@
           :cols="$vuetify.breakpoint.mobile ? 12 : 4"
         >
           <v-container>
-            <timelinePost :timelinePost="timelinePost"> </timelinePost>
+            <timelinePostForm :timelinePost="timelinePost"> </timelinePostForm>
           </v-container> </v-col
         ><!--***/TIMELINE EDITOR***-->
 
@@ -258,7 +253,7 @@
           :cols="$vuetify.breakpoint.mobile ? 12 : 4"
         >
           <v-container>
-            <gamesPost :gamePost="gamePost"> </gamesPost>
+            <gamesPostForm :gamePost="gamePost"> </gamesPostForm>
           </v-container> </v-col
         ><!--***/GAMES EDITOR***-->
 
@@ -379,8 +374,8 @@ import {
 
 import { Auth, Admin } from "@/services";
 //Components
-import timelinePost from "@/components/admin/timelinePost.vue";
-import gamesPost from "@/components/admin/gamesPost.vue";
+import timelinePostForm from "@/components/admin/timelinePostForm.vue";
+import gamesPostForm from "@/components/admin/gamesPostForm.vue";
 
 import timelineCard from "@/components/Home/timelineCard.vue";
 import gameCard from "@/components/Home/gameCard.vue";
@@ -410,8 +405,8 @@ export default {
     rotatingLogo,
     draggable,
 
-    timelinePost,
-    gamesPost,
+    timelinePostForm,
+    gamesPostForm,
     timelineCard,
     gameCard,
   },
@@ -452,6 +447,7 @@ export default {
     ////////////0. Post Carousel////////////
     //Vue draggable
     imageUploadDialog: false,
+    carouselPictures: Admin.data.getCarouselPictures,
     enabled: true,
     rows: [
       {
@@ -522,9 +518,9 @@ export default {
         this.avatarImage = this.avatarImage.data.img;
       }
     },
-    async deleteTimelinePost(post) {
-      let response = await Admin.deleteTimelinePost(post);
-      if (response.status == 200) {
+    async deleteTimelinePost(postID) {
+      let response = await Admin.deleteDocument(postID, "timelinePosts");
+      if (response.status == 202) {
         router.go();
       }
     },
@@ -555,8 +551,7 @@ export default {
       );
 
       let result = await Admin.uploadImage(base64_string, "carouselPictures");
-      console.log(result);
-      return;
+      if (result.status == 201) router.go();
     },
   },
   asyncComputed: {
@@ -566,6 +561,10 @@ export default {
     },
     async allUsersList() {
       let result = await this.allUsers;
+      return result.data;
+    },
+    async allCarouselPictures() {
+      let result = await this.carouselPictures;
       return result.data;
     },
   },

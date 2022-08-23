@@ -1,4 +1,7 @@
 import axios from "axios";
+import * as filestack from "filestack-js";
+const filestackClient = filestack.init(process.env.VUE_APP_FILESTACK);
+
 let Service = axios.create({
   //baseURL: "https://macroquiet.herokuapp.com/",
   baseURL: "http://192.168.5.24:3000/",
@@ -98,29 +101,31 @@ let Auth = {
 };
 
 let Admin = {
-  addNewTimelinePost(postData) {
-    return Service.post("admin/timeline", postData);
+  async insertDocument(doc, collectionName) {
+    return Service.post(`admin/data/${collectionName}`, doc);
   },
-  addNewGamePost(postData) {
-    return Service.post("admin/game", postData);
+  async deleteDocument(id, collectionName) {
+    return Service.delete(`admin/data/${collectionName}?id=${id}`);
   },
-  deleteTimelinePost(postID) {
-    return Service.delete(`admin/timeline?id=${postID}`);
-  },
-  uploadImage(base64_data, location) {
-    let postData = {
-      imageData: base64_data,
-      location: location,
+  async uploadImage(base64_data, location) {
+    let uploadResult = await filestackClient.upload(base64_data);
+    let doc = {
+      handle: uploadResult.handle,
+      url: uploadResult.url,
     };
-    return Service.post("admin/image", postData);
+    let insertResult = await this.insertDocument(doc, location);
+    return insertResult;
   },
   fetchData(dataName) {
-    return Service.get(`admin/data?d=${dataName}`);
+    return Service.get(`admin/data/${dataName}`);
   },
   //Getters
   data: {
     get getTimelinePosts() {
-      return Admin.fetchData("timeline");
+      return Admin.fetchData("timelinePosts");
+    },
+    get getCarouselPictures() {
+      return Admin.fetchData("carouselPictures");
     },
     get getAllUsers() {
       return Admin.fetchData("users");

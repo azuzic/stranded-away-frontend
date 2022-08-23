@@ -10,7 +10,7 @@
         <v-carousel-item
           v-for="(item, i) in store.carouselPictures"
           :key="i"
-          :src="require('@/assets/game_images/' + item)"
+          :src="item.url"
         >
         </v-carousel-item>
       </v-carousel>
@@ -52,26 +52,31 @@
     <div class="mb-8">
       <h2
         id="games"
-        class="text-5xl text-slate-200 font-bold my-12 v-container text-center" >
+        class="text-5xl text-slate-200 font-bold my-12 v-container text-center"
+      >
         FEATURED GAMES
       </h2>
       <div class="flex flex-wrap justify-center">
-          <gameCard
-          v-for="gameCard in store.gameCards" :key="gameCard.id"
-            :availability="gameCard.availability"
-            :title="gameCard.title"
-            :text="gameCard.text"
-            :imageSrc="gameCard.imageSrc"
-            :gName="gameCard.gameName"
-            class="mb-8"
-          ></gameCard>
+        <gameCard
+          v-for="gameCard in store.gameCards"
+          :key="gameCard.id"
+          :availability="gameCard.availability"
+          :title="gameCard.title"
+          :text="gameCard.text"
+          :imageSrc="gameCard.imageSrc"
+          :gName="gameCard.gameName"
+          class="mb-8"
+        ></gameCard>
       </div>
     </div>
 
     <about-us></about-us>
 
     <div class="mb-32 mt-16">
-      <h2 class="text-slate-200 font-bold uppercase mb-6 text-center" :class="$vuetify.breakpoint.smAndDown ? 'text-3xl' : 'text-4xl'">
+      <h2
+        class="text-slate-200 font-bold uppercase mb-6 text-center"
+        :class="$vuetify.breakpoint.smAndDown ? 'text-3xl' : 'text-4xl'"
+      >
         What's been going on
       </h2>
       <v-row justify="center">
@@ -102,7 +107,7 @@ import gameCard from "@/components/Home/gameCard.vue";
 import timelineCard from "@/components/Home/timelineCard.vue";
 import store from "@/store";
 import { Admin } from "@/services";
-import AboutUs from '@/components/Home/aboutUs.vue';
+import AboutUs from "@/components/Home/aboutUs.vue";
 
 export default {
   name: "Home",
@@ -110,11 +115,15 @@ export default {
     gameCard,
     timelineCard,
     AboutUs,
-},
+  },
   data: () => ({
     store,
     news: Admin.data.getTimelinePosts,
   }),
+  async mounted() {
+    let result = await Admin.data.getCarouselPictures;
+    store.carouselPictures = result.data;
+  },
 
   asyncComputed: {
     async reversedNews() {

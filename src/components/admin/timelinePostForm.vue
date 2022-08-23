@@ -188,7 +188,7 @@ import "animate.css";
 
 import router from "@/router";
 import moment from "moment";
-import { Auth, Admin } from "@/services";
+import { Admin } from "@/services";
 import { required, max, min } from "vee-validate/dist/rules";
 import rotatingLogo from "@/components/rotatingLogo.vue";
 
@@ -266,24 +266,18 @@ export default {
           console.log("Validated successfully!");
           this.timelinePost.date = this.formatDate(this.timelinePost.date);
           if (this.hideAuthorCheckbox) this.timelinePost.author = "MacroQuiet";
-
           let postData = this.timelinePost;
 
-          let result = await Admin.addNewTimelinePost(postData);
-          if (result.status == 200) {
+          let result = await Admin.insertDocument(postData, "timelinePosts");
+          if (result.status == 201) {
             router.go();
           }
         } catch (e) {
-          console.log(e);
+          console.log(`Error inserting data: ${e}`);
         }
       }
     },
-    async deleteTimelinePost(post) {
-      let response = await Admin.deleteTimelinePost(post);
-      if (response.status == 200) {
-        router.go();
-      }
-    },
+
     reset() {
       Object.keys(this.timelinePost).forEach((key) => {
         if (key == "image") this.timelinePost[key] = null;
@@ -334,9 +328,6 @@ export default {
       }-${unformattedDate.getDate()}`;
 
       return formattedDate;
-    },
-    handleImages(files) {
-      console.log(files);
     },
   },
 };

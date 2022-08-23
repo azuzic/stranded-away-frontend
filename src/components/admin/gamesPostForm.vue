@@ -224,9 +224,9 @@ export default {
           console.log("Validated successfully!");
           let postData = this.gamePost;
           console.log(postData);
-          let result = await Admin.addNewGamePost(postData);
-          if (result.status == 200) {
-            //router.go();
+          let result = await Admin.insertDocument(postData, "gameCards");
+          if (result.status == 201) {
+            router.go();
           }
         } catch (e) {
           console.log(e);
