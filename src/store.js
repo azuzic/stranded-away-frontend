@@ -10,7 +10,7 @@ export default {
     },
 
     {
-      availability: "Available in July!",
+      availability: "Available on 30th August",
       title: "Stranded Away",
       text: "2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still work in progress!",
       imageSrc: "cards/stranded1.png",

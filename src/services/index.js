@@ -3,8 +3,8 @@ import * as filestack from "filestack-js";
 const filestackClient = filestack.init(process.env.VUE_APP_FILESTACK);
 
 let Service = axios.create({
-  baseURL: "https://macroquiet.herokuapp.com/",
-  //baseURL: "http://192.168.5.24:3000/",
+  //baseURL: "https://macroquiet.herokuapp.com/",
+  baseURL: "http://localhost:3000/",
   timeout: 30000,
 });
 //Before each sent request to the backend, send the Token in the header:
@@ -63,28 +63,37 @@ let Auth = {
   },
 
   //CHANGE USER DATA
-  changeUserPassword(userData) {
-    return Service.patch("user/password", userData);
+  changeUserPassword(passwordData) {
+    return Service.patch(
+      `users/${this.currentUser.username}/password`,
+      passwordData
+    );
   },
   changeUserEmail(userData) {
-    return Service.patch("user/email", userData);
+    return Service.patch(`users/${this.currentUser.username}/email`, userData);
   },
-  changeUserProfileCoverImage(userData) {
-    return Service.patch("user/profile/coverImage", userData);
+  changeUserProfileCoverImage(imageID) {
+    return Service.patch(
+      `users/${this.currentUser.username}/coverImage`,
+      imageID
+    );
   },
-  changeUserProfileAvatarImage(userData) {
-    return Service.patch("user/profile/avatarImage", userData);
+  changeUserProfileAvatarImage(imageID) {
+    return Service.patch(
+      `users/${this.currentUser.username}/avatarImage`,
+      imageID
+    );
   },
 
   //IMAGE MANIPULATION
   async postImage(imageData) {
-    return await Service.post("image/upload", imageData);
+    return await Service.post("images", imageData);
   },
-  async getImage(imageID) {
-    return await Service.get(`image/download?id=${imageID}`);
+  async getImage(id) {
+    return await Service.get(`images/${id}`);
   },
-  async removeImage(imageID) {
-    return await Service.delete(`image/remove?id=${imageID}`);
+  async deleteImage(id) {
+    return await Service.delete(`images/${id}`);
   },
 
   //Getters
@@ -96,6 +105,9 @@ let Auth = {
   currentUser: {
     get getCurrentUserData() {
       if (Auth.authenticated) return Auth.getCurrentUserData();
+    },
+    get username() {
+      return this.getCurrentUserData().username;
     },
   },
 };

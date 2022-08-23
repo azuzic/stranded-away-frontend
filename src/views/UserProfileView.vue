@@ -740,14 +740,13 @@ export default {
         this.submitting = true;
         console.log("Validated successfully!");
 
-        let userData = {
-          username: this.user.username,
+        let passwordData = {
           old_password: this.oldPassword,
           new_password: this.newPassword,
         };
         let response = {};
         try {
-          response = await Auth.changeUserPassword(userData);
+          response = await Auth.changeUserPassword(passwordData);
           console.log("Request sent successfully!");
           this.submitting = false;
           this.authResolver.changePasswordHandler("success", response);
@@ -767,14 +766,15 @@ export default {
       if (isValid) {
         this.submitting = true;
         console.log("Validated successfully!");
+        let response = {};
 
         let userData = Auth.getCurrentUserData();
         delete userData.email;
         userData.email = this.new_email;
 
-        let response = {};
         try {
           response = await Auth.changeUserEmail(userData);
+
           console.log("Request sent successfully!");
           this.submitting = false;
 
