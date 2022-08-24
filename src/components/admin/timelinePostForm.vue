@@ -290,6 +290,7 @@ export default {
     },
   },
   computed: {
+    timelinePostData: {},
     currentTitle() {
       switch (this.step) {
         case 1:

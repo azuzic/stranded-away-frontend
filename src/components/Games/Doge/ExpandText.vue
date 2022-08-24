@@ -1,23 +1,25 @@
 <template>
-    <div class="w-full flex justify-center">
-        <div class="mx-96">
-            <v-col class="flex justify-center">
-                <button class="button px-36 py-3 text-3xl mb-4" @click="show = !show"><i>{{ title }}</i></button>
-            </v-col>
-            <Transition name="bounce" class="transition">
-                <div class="text text-lg mb-8" v-if="show && !hide">
-                    <slot> placeholder </slot>
-                </div>
-            </Transition>
-        </div> 
+  <div class="w-full flex justify-center">
+    <div class="mx-96">
+      <v-col class="flex justify-center">
+        <button class="button px-36 py-3 text-3xl mb-4" @click="show = !show">
+          <i>{{ title }}</i>
+        </button>
+      </v-col>
+      <Transition name="bounce" class="transition">
+        <div class="text text-lg mb-8" v-if="show && !hide">
+          <p v-html="rawHTML"></p>
+        </div>
+      </Transition>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
   name: "ExpandText",
-  props: ["title", "text", "hide"],
-    data: () => ({
+  props: ["title", "text", "hide", "rawHTML"],
+  data: () => ({
     show: false,
   }),
 };
@@ -25,10 +27,10 @@ export default {
 
 <style lang="scss" scoped>
 .bounce-enter-active {
-  animation: bounce-in .5s;
+  animation: bounce-in 0.5s;
 }
 .bounce-leave-active {
-  animation: bounce-in .5s reverse;
+  animation: bounce-in 0.5s reverse;
 }
 @keyframes bounce-in {
   0% {
@@ -39,21 +41,21 @@ export default {
   }
 }
 .button {
-    background-color: rgba(207, 137, 71, 0.20);
-    border: 2px solid rgba(207, 137, 71, 0.10);
-    border-radius: 12px;
-    transition: all 0.25s;
-    &:hover {
-        background-color: rgba(255, 123, 0, 0.4);
-        border-radius: 24px;
-        border: 2px solid rgba(255, 123, 0, 0.2);
-    }
+  background-color: rgba(207, 137, 71, 0.2);
+  border: 2px solid rgba(207, 137, 71, 0.1);
+  border-radius: 12px;
+  transition: all 0.25s;
+  &:hover {
+    background-color: rgba(255, 123, 0, 0.4);
+    border-radius: 24px;
+    border: 2px solid rgba(255, 123, 0, 0.2);
+  }
 }
 .text {
-    background-color: rgba(63, 0, 19, 0.35);
-    padding: 24px;
-    border-radius: 16px;
-    height: 20vh;
-    overflow: scroll;
+  background-color: rgba(63, 0, 19, 0.35);
+  padding: 24px;
+  border-radius: 16px;
+  height: 20vh;
+  overflow: scroll;
 }
 </style>

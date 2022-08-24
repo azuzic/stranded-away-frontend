@@ -1,5 +1,6 @@
 export default {
   carouselPictures: [],
+  allUsers: [],
   gameCards: [
     {
       availability: "Available now!",
@@ -10,7 +11,7 @@ export default {
     },
 
     {
-      availability: "Available on 30th August",
+      availability: "Available on August 30th",
       title: "Stranded Away",
       text: "2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still work in progress!",
       imageSrc: "cards/stranded1.png",

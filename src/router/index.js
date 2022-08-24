@@ -6,6 +6,7 @@ import RegisterView from "../views/RegisterView.vue";
 import UserProfileView from "../views/UserProfileView.vue";
 import GamePage from "../views/GamePage.vue";
 import AdminPanelView from "../views/AdminPanelView.vue";
+import PageNotFound from "../components/PageNotFound.vue";
 
 import { Auth } from "@/services";
 
@@ -44,6 +45,11 @@ const routes = [
     name: "AdminPanel",
     component: AdminPanelView,
   },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: PageNotFound,
+  },
 ];
 
 const router = new VueRouter({
@@ -56,7 +62,13 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ["/login", "/register", "/"];
+  const publicPages = [
+    "/login",
+    "/register",
+    "/",
+    "/games/doge",
+    "/games/stranded-away",
+  ];
   const adminPages = ["admin-panel"];
   const userRequired = !publicPages.includes(to.path);
   const adminRequired = adminPages.includes(to.path);

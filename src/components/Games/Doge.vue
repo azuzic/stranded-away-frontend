@@ -4,9 +4,21 @@
       <div class="pt-64">
         <p class="text-9xl text-center EHSMB font-bold mb-16"><i>Doge</i></p>
         <div>
-          <expand-text :title="'About'" :hide="false"></expand-text>
-          <expand-text :title="'About2'" :hide="false"></expand-text>
-          <expand-text :title="'About3'" :hide="false"></expand-text>
+          <expand-text
+            :title="'About'"
+            :rawHTML="expandableText[0]"
+            :hide="false"
+          ></expand-text>
+          <expand-text
+            :title="'Background'"
+            :rawHTML="expandableText[1]"
+            :hide="false"
+          ></expand-text>
+          <expand-text
+            :title="'Gameplay'"
+            :rawHTML="expandableText[2]"
+            :hide="false"
+          ></expand-text>
 
           <v-divider class="divider my-8"></v-divider>
 
@@ -19,11 +31,17 @@
           <gallery-doge></gallery-doge>
 
           <v-divider class="divider my-8"></v-divider>
-          <expand-text
-            class="mb-64"
-            :title="'DOWNLOAD'"
-            :hide="true"
-          ></expand-text>
+          <a
+            style="all: unset"
+            href="https://macroquiet.itch.io/"
+            target="_blank"
+          >
+            <expand-text
+              class="mb-64"
+              :title="'DOWNLOAD'"
+              :hide="true"
+            ></expand-text>
+          </a>
         </div>
       </div>
     </ParallaxEffect>
@@ -35,6 +53,13 @@ import ExpandText from "./Doge/ExpandText.vue";
 import GalleryDoge from "./Doge/GalleryDoge.vue";
 import MusicCard from "./Doge/MusicCard.vue";
 import ParallaxEffect from "./Doge/ParallaxEffect.vue";
+
+let expandableText = {
+  0: "Doge game is a small free-to-play 2.5D platform jumper about a lost doge who tries to find his way home. He is roaming across the streets, crossing roads, jumping cars and running away from nasty dog catchers! Play now and help doge find his way home!",
+  1: "Doge game is our first game ever, made in just 2 weeks in the summer of 2021. Initially 3 of us, we challenged ourselves to learn Unity game engine and create a simple game, Doge game being the reuslt of our efforts. Many thanks to <a href='https://github.com/maurosterpin' target='_blank'>@maurosterpin</a> for his contribution!",
+  2: "The game has 3 levels. You control a little dog. He is lost and trying to find his way home. Jump on the cars and buildings to collect bones - they are required to complete the level. You can also pick up the dog food to heal. Dog catchers will start chasing you when you approach them. Dodge their attacks by jumping. Doge game contains 3 achievements which will displayed on your <a href='https://macroquiet.com/user'>profile</a> when you activate them!",
+};
+
 export default {
   name: "Doge",
   components: {
@@ -43,6 +68,9 @@ export default {
     MusicCard,
     GalleryDoge,
   },
+  data: () => ({
+    expandableText,
+  }),
 };
 </script>
 
@@ -50,6 +78,15 @@ export default {
 @font-face {
   font-family: EHSMB;
   src: url("@/assets/fonts/EHSMB.TTF");
+}
+ul {
+  margin-left: 40px;
+  list-style: none;
+}
+li {
+  padding: 0.3em 0 1em 40px;
+  background-image: url("https://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-info-icon.png")
+    no-repeat;
 }
 .EHSMB {
   font-family: EHSMB;

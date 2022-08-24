@@ -312,7 +312,7 @@
 <script>
 import router from "@/router";
 import store from "@/store";
-import { Auth } from "@/services";
+import { Auth, Admin } from "@/services";
 
 export default {
   name: "App",

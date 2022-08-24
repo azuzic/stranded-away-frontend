@@ -574,7 +574,7 @@ import "animate.css";
 import authResolver from "@/services/authResolver";
 
 import gameCard from "@/components/Home/gameCard.vue";
-import { Auth } from "@/services";
+import { Auth, Admin } from "@/services";
 import store from "@/store";
 import {
   extend,
@@ -689,6 +689,7 @@ export default {
   }),
   async mounted() {
     this.currentUser = this.$route.params.userName;
+
     await this.getUserDetails();
 
     await this.setUserCover();
@@ -868,6 +869,7 @@ export default {
       return result;
     },
   },
+
   computed: {
     width() {
       switch (this.$vuetify.breakpoint.name) {
