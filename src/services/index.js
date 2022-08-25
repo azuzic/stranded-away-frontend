@@ -3,8 +3,7 @@ import * as filestack from "filestack-js";
 const filestackClient = filestack.init(process.env.VUE_APP_FILESTACK);
 
 let Service = axios.create({
-  //baseURL: "https://macroquiet.herokuapp.com/",
-  baseURL: "http://192.168.5.24:3000/",
+  baseURL: "https://macroquiet.herokuapp.com/",
   timeout: 30000,
 });
 //Before each sent request to the backend, send the Token in the header:

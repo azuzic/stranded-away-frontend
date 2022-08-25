@@ -202,7 +202,7 @@ export default {
           this.authResolver.registerHandler("success", response);
         } catch (e) {
           this.submitting = false;
-          console.log(e);
+          console.error(e);
           this.authResolver.registerHandler("failed", response);
         }
       } else return;
