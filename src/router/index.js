@@ -69,9 +69,9 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const publicPages = [
+    "/",
     "/login",
     "/register",
-    "NotFound",
     "contact-us",
     "/:pathMatch(.*)*",
     "/games/doge",
