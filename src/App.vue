@@ -1,6 +1,7 @@
 <template>
   <v-app class="overflow-x-hidden">
     <!--Header-->
+
     <nav class="custom-nav">
       <v-main>
         <v-app-bar class="v-app-bar navbarColor" fixed>
@@ -261,7 +262,8 @@
       </v-main>
     </nav>
     <!--Header-->
-    <router-view />
+    <!--Dynamic route matching-->
+    <router-view :key="$route.fullPath"></router-view>
     <!--Footer-->
     <v-card>
       <v-footer padless bottom absolute dark>
@@ -310,6 +312,11 @@
 </template>
 
 <script>
+let wait = function (seconds) {
+  return new Promise((resolveFn) => {
+    setTimeout(resolveFn, seconds * 1000);
+  });
+};
 import router from "@/router";
 import store from "@/store";
 import { Auth, Admin } from "@/services";
@@ -333,7 +340,7 @@ export default {
       {
         title: "Contact us",
         icon: "mdi-account-box",
-        to: "games",
+        to: "contact-us",
       },
     ],
     //For footer
@@ -382,10 +389,18 @@ export default {
       }
     },
     //Link scroll
-    scroll(id) {
-      if (this.$route.name != "home")
+    async scroll(id) {
+      if (id == "contact-us") {
+        router.push({ path: "/contact-us" }).catch(() => {});
+        return;
+      }
+      if (this.$route.name != "Home") {
         router.push({ path: "/", replace: true }).catch(() => {});
+        await wait(0.1);
+      }
+
       if (id == null) return;
+
       try {
         document.getElementById(id).scrollIntoView({
           behavior: "smooth",

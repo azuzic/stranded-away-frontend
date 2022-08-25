@@ -7,6 +7,8 @@ import AsyncComputed from "vue-async-computed";
 import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
 
+import { init } from "@emailjs/browser";
+
 Vue.use(AsyncComputed);
 Vue.use(Croppa);
 
@@ -18,3 +20,6 @@ new Vue({
   vuetify,
   render: (h) => h(App),
 }).$mount("#app");
+
+//Email JS init
+init(process.env.VUE_APP_EMAIL_JS);

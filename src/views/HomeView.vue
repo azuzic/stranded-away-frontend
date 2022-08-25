@@ -15,7 +15,13 @@
         </v-carousel-item>
       </v-carousel>
       <div class="over flex justify-center content-center align-center">
-        <div class="center flex justify-center">
+        <div
+          :class="
+            $vuetify.breakpoint.mobile
+              ? 'center flex justify-center mt-12'
+              : 'center flex justify-center '
+          "
+        >
           <img
             :class="$vuetify.breakpoint.mobile ? 'mr-4 h-24' : 'mr-4 h-64'"
             src="@/assets/Stranded_Away_Icon.png"
@@ -52,7 +58,11 @@
     <div class="mb-8">
       <h2
         id="games"
-        class="text-5xl text-slate-200 font-bold my-12 v-container text-center"
+        :class="
+          $vuetify.breakpoint.mobile
+            ? 'text-4xl text-slate-200 font-bold my-12 v-container text-center'
+            : 'text-5xl text-slate-200 font-bold my-12 v-container text-center'
+        "
       >
         FEATURED GAMES
       </h2>

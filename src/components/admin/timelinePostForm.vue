@@ -56,6 +56,7 @@
           <!--Icon-->
           <v-window-item :value="2">
             <v-card-text>
+              <!--Icon select-->
               <validation-provider v-slot="{ errors }" name="Icon">
                 <v-select
                   v-model="timelinePost.icon"
@@ -67,7 +68,7 @@
                 >
                 </v-select>
               </validation-provider>
-
+              <!--/Icon select-->
               <div class="text-center">
                 <v-icon size="40"> {{ timelinePost.icon }} </v-icon>
               </div>

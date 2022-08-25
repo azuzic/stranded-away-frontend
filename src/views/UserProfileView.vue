@@ -424,7 +424,9 @@
               <!--PASSWORD CHANGE END-->
             </div>
             <!--USERNAME, EMAIL, PASSWORD END-->
-            <!--MEDALS-->
+
+            <!--MEDALS
+            TEPMORARY DISABLED
             <div
               v-show="!authResolver.emailChangeRequest"
               class="medals flex flex-wrap align-center min-w-200px overfow-hidden"
@@ -441,7 +443,7 @@
                 src="@/assets/user/user_medal.png"
               />
             </div>
-            <!--MEDALS END-->
+            MEDALS END-->
           </div>
         </v-container>
         <!--USER DATA-->
@@ -450,17 +452,7 @@
           <div class="pl-4 pt-2 pr-4">
             <p class="text-3xl text-red-like-logo">About me</p>
             <p class="text-justify text-slate-200">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-              semper diam facilisis nisl scelerisque aliquam. Donec rhoncus,
-              augue in facilisis tincidunt, arcu arcu eleifend velit, et
-              interdum nibh mauris et purus. Nunc condimentum velit a lorem
-              condimentum, non imperdiet libero blandit. Mauris at dolor neque.
-              Pellentesque porta varius porta. Suspendisse potenti. Fusce
-              tristique a dui a commodo. Phasellus vitae ante ligula.
-              Suspendisse bibendum metus eu eleifend sagittis. Nunc euismod
-              malesuada congue. Quisque eleifend nisl vitae ex fermentum, tempus
-              cursus erat posuere. Nulla urna velit, elementum ac molestie vel,
-              ornare et nulla. Integer convallis non odio eget malesuada.
+              {{ user.profile.description }}
             </p>
           </div>
           <!--ABOUT ME END-->
@@ -649,6 +641,7 @@ export default {
       email: "",
       admin: false,
       profile: {
+        description: "",
         games: [],
       },
     },

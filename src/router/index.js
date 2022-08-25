@@ -7,6 +7,7 @@ import UserProfileView from "../views/UserProfileView.vue";
 import GamePage from "../views/GamePage.vue";
 import AdminPanelView from "../views/AdminPanelView.vue";
 import PageNotFound from "../components/PageNotFound.vue";
+import ContactView from "../views/ContactView.vue";
 
 import { Auth } from "@/services";
 
@@ -46,6 +47,11 @@ const routes = [
     component: AdminPanelView,
   },
   {
+    path: "/contact-us",
+    name: "Contact us",
+    component: ContactView,
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: PageNotFound,
@@ -65,7 +71,9 @@ router.beforeEach((to, from, next) => {
   const publicPages = [
     "/login",
     "/register",
-    "/",
+    "NotFound",
+    "contact-us",
+    "/:pathMatch(.*)*",
     "/games/doge",
     "/games/stranded-away",
   ];
