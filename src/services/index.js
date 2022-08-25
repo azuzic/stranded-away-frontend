@@ -1,7 +1,6 @@
 import axios from "axios";
-import store from "@/store";
 import * as filestack from "filestack-js";
-const filestackClient = filestack.init(store.keys[0]);
+const filestackClient = filestack.init(process.env.VUE_APP_FILESTACK);
 
 let Service = axios.create({
   baseURL: "https://macroquiet.herokuapp.com/",
@@ -60,10 +59,6 @@ let Auth = {
     let user = this.getCurrentUser();
     if (user && user.token) return user.token;
     else return false;
-  },
-  //Get API keys
-  getKey(key) {
-    return Service.get(`var/${key}`);
   },
 
   //CHANGE USER DATA
