@@ -8,7 +8,7 @@ import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
 
 import { init } from "@emailjs/browser";
-
+import store from "@/store";
 Vue.use(AsyncComputed);
 Vue.use(Croppa);
 
@@ -22,4 +22,4 @@ new Vue({
 }).$mount("#app");
 
 //Email JS init
-init(process.env.VUE_APP_EMAIL_JS);
+init(store.keys[1]);

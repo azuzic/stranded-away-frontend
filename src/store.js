@@ -1,4 +1,5 @@
 export default {
+  keys: [],
   carouselPictures: [],
   allUsers: [],
   gameCards: [

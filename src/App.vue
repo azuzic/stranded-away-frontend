@@ -360,8 +360,8 @@ export default {
     avatarMounted: false,
   }),
   async mounted() {
+    await this.setKeys();
     await this.getUserDetails();
-
     await this.setUserAvatar();
 
     (this.avatarMounted = true),
@@ -411,6 +411,12 @@ export default {
     logOut() {
       Auth.logOut();
       router.go();
+    },
+    async setKeys() {
+      let filestack = Auth.getKey("FILESTACK");
+      store.keys.push(filestack);
+      let emailJS = Auth.getKey("EMAIL_JS");
+      store.keys.push(emailJS);
     },
   },
   computed: {
