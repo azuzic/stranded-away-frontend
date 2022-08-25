@@ -82,7 +82,7 @@
               dark
               v-show="!submitting"
             >
-              <span class="text-red-like-logo">SEND</span>
+              <span class="text-red-like-logo mb-6">SEND</span>
             </v-btn>
             <rotatingLogo v-show="submitting" :height="80"></rotatingLogo>
           </form>
