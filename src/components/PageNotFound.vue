@@ -8,7 +8,7 @@
           This is not the page you are looking for.
         </p>
         <div
-          style="cursor: pointer; color: red"
+          style="cursor: pointer; color: #ef5350"
           class="justify-center text-center"
           @click="$router.push({ name: 'Home' }).catch(() => {})"
         >
