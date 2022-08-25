@@ -72,8 +72,7 @@ router.beforeEach((to, from, next) => {
     "/",
     "/login",
     "/register",
-    "contact-us",
-    "/:pathMatch(.*)*",
+    "/contact-us",
     "/games/doge",
     "/games/stranded-away",
   ];
