@@ -6,7 +6,8 @@
           src="@/assets/macroquiet_logo_notext.png"
           width="25%"
           class="mx-auto animate__animated animate__fadeInDown"
-        ></v-img>
+        >
+        </v-img>
         <h1 class="text-center font-bold text-4xl">
           Log in to your MacroQuiet Account
         </h1>

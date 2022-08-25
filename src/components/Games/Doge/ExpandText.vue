@@ -8,7 +8,7 @@
       </v-col>
       <Transition name="bounce" class="transition">
         <div class="text text-lg mb-8" v-if="show && !hide">
-          <p v-html="rawHTML"></p>
+          <slot> Placeholder text </slot>
         </div>
       </Transition>
     </div>
@@ -18,7 +18,7 @@
 <script>
 export default {
   name: "ExpandText",
-  props: ["title", "text", "hide", "rawHTML"],
+  props: ["title", "hide"],
   data: () => ({
     show: false,
   }),

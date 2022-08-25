@@ -5,7 +5,7 @@
             <div class="w-full h-full px-8 py-4">
                 <p class="text-6xl text-center text-slate-300 Squarewave"> <u>{{title}}</u> </p>
                 <p class="text-2xl text-justify text-slate-400 Squarewave">
-                    {{text}}
+                    <slot> Placeholder text </slot>
                 </p>
             </div>
         </v-img>
@@ -15,7 +15,7 @@
 <script>
 export default {
   name: "StrandedAwayCard",
-  props: ["title", "text", "right"],
+  props: ["title", "right"],
 };
 </script>
 <style lang="scss" scoped>

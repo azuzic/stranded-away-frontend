@@ -116,6 +116,7 @@
           :icon="item.icon"
           :date="item.date"
           :author="item.author"
+          class="mb-8"
         >
         </timelineCard>
       </v-row>

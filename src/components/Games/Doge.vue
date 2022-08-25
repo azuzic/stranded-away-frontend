@@ -6,19 +6,20 @@
         <div>
           <expand-text
             :title="'About'"
-            :rawHTML="expandableText[0]"
             :hide="false"
-          ></expand-text>
+          >
+          Doge game is a small free-to-play 2.5D platform jumper about a lost doge who tries to find his way home. He is roaming across the streets, crossing roads, jumping cars and running away from nasty dog catchers! Play now and help doge find his way home!
+          </expand-text>
           <expand-text
             :title="'Background'"
-            :rawHTML="expandableText[1]"
             :hide="false"
-          ></expand-text>
+          >
+          Doge game is our first game ever, made in just 2 weeks in the summer of 2021. Initially 3 of us, we challenged ourselves to learn Unity game engine and create a simple game, Doge game being the reuslt of our efforts. Many thanks to <a href='https://github.com/maurosterpin' target='_blank'>@maurosterpin</a> for his contribution!
+          </expand-text>
           <expand-text
             :title="'Gameplay'"
-            :rawHTML="expandableText[2]"
             :hide="false"
-          ></expand-text>
+          >The game has 3 levels. You control a little dog. He is lost and trying to find his way home. Jump on the cars and buildings to collect bones - they are required to complete the level. You can also pick up the dog food to heal. Dog catchers will start chasing you when you approach them. Dodge their attacks by jumping. Doge game contains 3 achievements which will displayed on your <a href='https://macroquiet.com/user'>profile</a> when you activate them!</expand-text>
 
           <v-divider class="divider my-8"></v-divider>
 
@@ -53,12 +54,6 @@ import ExpandText from "./Doge/ExpandText.vue";
 import GalleryDoge from "./Doge/GalleryDoge.vue";
 import MusicCard from "./Doge/MusicCard.vue";
 import ParallaxEffect from "./Doge/ParallaxEffect.vue";
-
-let expandableText = {
-  0: "Doge game is a small free-to-play 2.5D platform jumper about a lost doge who tries to find his way home. He is roaming across the streets, crossing roads, jumping cars and running away from nasty dog catchers! Play now and help doge find his way home!",
-  1: "Doge game is our first game ever, made in just 2 weeks in the summer of 2021. Initially 3 of us, we challenged ourselves to learn Unity game engine and create a simple game, Doge game being the reuslt of our efforts. Many thanks to <a href='https://github.com/maurosterpin' target='_blank'>@maurosterpin</a> for his contribution!",
-  2: "The game has 3 levels. You control a little dog. He is lost and trying to find his way home. Jump on the cars and buildings to collect bones - they are required to complete the level. You can also pick up the dog food to heal. Dog catchers will start chasing you when you approach them. Dodge their attacks by jumping. Doge game contains 3 achievements which will displayed on your <a href='https://macroquiet.com/user'>profile</a> when you activate them!",
-};
 
 export default {
   name: "Doge",
