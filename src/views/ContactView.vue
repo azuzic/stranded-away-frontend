@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-12 min-h-full">
+  <v-container class="mt-12 min-h-screen mb-24">
     <v-row justify="center" align="center">
       <v-col :cols="width" align-self="center" class="mt-24">
         <v-img
@@ -76,13 +76,13 @@
             <!--/Message-->
 
             <v-btn
-              class="mr-4"
+              class=""
               width="100%"
               type="submit"
               dark
               v-show="!submitting"
             >
-              <span class="text-red-like-logo mb-6">SEND</span>
+              <span class="text-red-like-logo">SEND</span>
             </v-btn>
             <rotatingLogo v-show="submitting" :height="80"></rotatingLogo>
           </form>
