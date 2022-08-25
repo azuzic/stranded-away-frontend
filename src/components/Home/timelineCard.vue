@@ -1,7 +1,7 @@
 <template>
-  <v-card color="#111011" dark :width="$vuetify.breakpoint.mobile ? 280 : 900">
-    <v-card-title>
-      <v-icon size="32">
+  <v-card color="#111011" dark :width="$vuetify.breakpoint.mobile ? 320 : 900">
+    <v-card-title :align="$vuetify.breakpoint.mobile ? 'center' : 'start'">
+      <v-icon size="32" :class="$vuetify.breakpoint.mobile ? 'mx-auto' : ''">
         {{ icon }}
       </v-icon>
       <span class="text-xl text-slate-200 uppercase ml-2">{{ title }}</span>

@@ -85,17 +85,16 @@
     <div class="mb-32 mt-16">
       <h2
         class="text-slate-200 font-bold uppercase mb-6 text-center"
-        :class="$vuetify.breakpoint.smAndDown ? 'text-3xl' : 'text-4xl'"
+        :class="$vuetify.breakpoint.smAndDown ? 'text-2xl' : 'text-4xl'"
       >
         What's been going on
       </h2>
-      <v-row justify="center">
+      <v-row justify="center" v-if="!$vuetify.breakpoint.mobile">
         <v-timeline align-top :dense="$vuetify.breakpoint.smAndDown">
           <v-timeline-item
             v-for="(item, i) in reversedNews"
             :key="i"
             color="red lighten-1"
-            fill-dot
             small
           >
             <timelineCard
@@ -108,6 +107,18 @@
             </timelineCard>
           </v-timeline-item> </v-timeline
       ></v-row>
+      <v-row justify="center" v-else>
+        <timelineCard
+          v-for="(item, i) in reversedNews"
+          :key="i"
+          :title="item.title"
+          :text="item.text"
+          :icon="item.icon"
+          :date="item.date"
+          :author="item.author"
+        >
+        </timelineCard>
+      </v-row>
     </div>
   </div>
 </template>
