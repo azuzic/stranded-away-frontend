@@ -370,7 +370,7 @@ export default {
       });
 
     this.$root.$on("setUserAvatar", () => {
-      this.getUserDetails();
+      this.setUserAvatar();
     });
   },
 
@@ -383,6 +383,7 @@ export default {
       }
     },
     async setUserAvatar() {
+      await this.getUserDetails();
       if (this.user.username) {
         let result = await Auth.getImage(this.user.profile.avatarImageID);
         this.avatarImage = result ? result.data.img : "";

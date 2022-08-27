@@ -63,9 +63,6 @@ export default {
     MusicCard,
     GalleryDoge,
   },
-  data: () => ({
-    expandableText,
-  }),
 };
 </script>
 
