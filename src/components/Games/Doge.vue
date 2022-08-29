@@ -14,7 +14,7 @@
             :title="'Background'"
             :hide="false"
           >
-          Doge game is our first game ever, made in just 2 weeks in the summer of 2021. Initially 3 of us, we challenged ourselves to learn Unity game engine and create a simple game, Doge game being the reuslt of our efforts. Many thanks to <a href='https://github.com/maurosterpin' target='_blank'>@maurosterpin</a> for his contribution!
+          Doge game is our first game ever, made in just 2 weeks in the summer of 2021. Initially 3 of us, we challenged ourselves to learn Unity game engine and create a simple game, Doge game being the result of our efforts. Many thanks to <a href='https://github.com/maurosterpin' target='_blank'>@maurosterpin</a> for his contribution!
           </expand-text>
           <expand-text
             :title="'Gameplay'"
