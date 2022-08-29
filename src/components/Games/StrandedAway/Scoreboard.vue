@@ -24,7 +24,7 @@
                         <td class="text-start" :class="maxMC.p == item.user ? index == 0 ? 'text-stone-900 font-bold' : 'text-red-500' : 'text-stone-200 font-normal'">{{ item.moneyCollected }}</td>
                         <td class="text-start" :class="maxEK.p == item.user ? index == 0 ? 'text-stone-900 font-bold' : 'text-red-500' : 'text-stone-200 font-normal'">{{ item.enemiesKilled }}</td>
                         <td class="text-start" :class="maxBD.p == item.user ? index == 0 ? 'text-stone-900 font-bold' : 'text-red-500' : 'text-stone-200 font-normal'">{{ item.boxesDestroyed }}</td>
-                        <td class="text-start" :class="maxTP.p == item.user ? index == 0 ? 'text-stone-900 font-bold' : 'text-red-500' : 'text-stone-200 font-normal'">{{ item.timePlayed }}</td>
+                        <td class="text-start" :class="maxTP.p == item.user ? index == 0 ? 'text-stone-900 font-bold' : 'text-red-500' : 'text-stone-200 font-normal'">{{ timePlayed(item.timePlayed) }}</td>
                     </tr>
                     <tr v-else>
                         <td class="custom">
@@ -54,7 +54,7 @@
                                     </v-row>
                                     <v-row no-gutters class="mb-1">
                                         <v-col class="text-right mr-2"> Time played: </v-col>
-                                        <v-col class="text-left"> <b :class="maxTP.p == item.user ? 'text-red-500' : ''">{{ item.timePlayed }}</b> </v-col>
+                                        <v-col class="text-left"> <b :class="maxTP.p == item.user ? 'text-red-500' : ''">{{ timePlayed(item.timePlayed) }}</b> </v-col>
                                     </v-row>
                                 </div>
                             </div>
@@ -129,6 +129,15 @@ export default {
             };
             this.list.sort((a, b) => b.heightReached - a.heightReached)
         },
+        timePlayed(e) {
+            let s = Math.floor(e % 60).toString();
+            let m = Math.floor(e % 3600 / 60).toString();
+            let h = Math.floor(e / 3600).toString();
+            let d = h>23 ?  Math.floor(h / 24).toString() : 0;
+            h = h%24;
+
+            return e>0 ? ((d>0 ? d==1 ? d + ' day ' : d+ ' days ' : '') + (h>0 ? h==1 ? h + ' hour ' : h + ' hours ' : '') + (m>0 ? m==1 ? m + ' minute ' : m + ' minutes ' : '') + (s>0 ? s==1 ? s + ' second ' : s + ' seconds ' : '')) : 'none';
+        }
     },
     computed: {
         sortedUsersScore() {
