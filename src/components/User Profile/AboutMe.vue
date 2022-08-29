@@ -8,7 +8,6 @@
                 counter
                 color="red lighten-1"
                 name="input-7-4"
-                label="Solo textarea"
                 dark
                 :rules="rules"
                 :value="description"

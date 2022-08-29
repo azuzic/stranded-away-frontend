@@ -16,44 +16,47 @@
           ></v-img>
         </div>
 
-        <StrandedAwayCard
-          :class="$vuetify.breakpoint.mobile ? 'mt-8' : 'mt-64'"
-          :title="'About'"
-          :right="false"
-        >
-        Stranded Away is a 2D pixel art singleplayer: platform-jumper, puzzle and action game. You are playing as a mysterious space traveller who's looking for long gone inhabitants on planet Athion.
-        </StrandedAwayCard>
+        <div class="w-full flex justify-center mb-8">
+            <div
+                class="text-slate-100 text-center Squarewave"
+                :class="
+                $vuetify.breakpoint.mobile ? 'downloadGame2 text-6xl' : 'downloadGame text-8xl'" 
+                @click="scoreboard = !scoreboard">
+                <b v-if="scoreboard" class="font-normal">Scoreboard</b>
+                <b v-else class="font-normal">Page</b>
+            </div>
+        </div>
 
-        <StrandedAwayCard
-          :title="'Gameplay'"
-          :right="$vuetify.breakpoint.mobile ? false : true"
-        >
-        You are playing as a space traveler, explore beautiful Athion land, cave and swamp. Search for materials in chests and craft yourself various items in order to survive. Collect coins, wandering trader has some pretty neat items you will most definitely like! Kill lizzards and destroy turrents deep down in bunkers where they hide all the information about planet's past inhabitants. You will have to  solve complex puzzles in order to progress through the land of Athion! Play now and unlock many different achievements which will be displayed on your profile!
-        </StrandedAwayCard>
+        <div v-if="scoreboard">
+            <StrandedAwayCard :class="$vuetify.breakpoint.mobile ? 'mt-8' : 'mt-64'" :title="'About'" :right="false" >
+                Stranded Away is a 2D pixel art singleplayer: platform-jumper, puzzle and action game. You are playing as a mysterious space traveller who's looking for long gone inhabitants on planet Athion.
+            </StrandedAwayCard>
 
-        <StrandedAwayCard
-          :title="'Story'"
-          :right="false"
-        >
-        It’s year 2352., on the cloudy planet of Athion, our hero lands in search of human species. Dark, thick clouds surround his space ship, no sounds to be heard, but the branches of few trees gently fluttering in the breeze. The land is unsafe! There are demon like creatures, lizzards and all kinds of monsters surrounding him, he just isn’t yet aware of it. In search of answers, he finds some old data written on disk by those who survived. They had left the planet many years ago running away from apocalypse that Dr. Hone created. He is a mad scientist responsible for bringing chaos to the galaxy. His madness eventually lead him to transforming human species into all kinds of disgusting monsters.
-        </StrandedAwayCard>
+            <StrandedAwayCard :title="'Gameplay'" :right="$vuetify.breakpoint.mobile ? false : true" >
+                You are playing as a space traveler, explore beautiful Athion land, cave and swamp. Search for materials in chests and craft yourself various items in order to survive. Collect coins, wandering trader has some pretty neat items you will most definitely like! Kill lizzards and destroy turrents deep down in bunkers where they hide all the information about planet's past inhabitants. You will have to  solve complex puzzles in order to progress through the land of Athion! Play now and unlock many different achievements which will be displayed on your profile!
+            </StrandedAwayCard>
 
-        <StrandedAwayCard
-          :title="'Background'"
-          :right="$vuetify.breakpoint.mobile ? false : true"
-        >
-        Standed Away is our second ever game. First released on 30th of August 2022., the development started in late July of 2021. Game currently consists of 3 campaign levels + 1 challenge level - 'Floor is lava'. Developing this game, we learned the fundamentals of game design, pixel art, we learned how to make various tools and game concepts. We sure will utilize all gained knowledge on our next game!
-        </StrandedAwayCard>
+            <StrandedAwayCard :title="'Story'" :right="false" >
+                It’s year 2352., on the cloudy planet of Athion, our hero lands in search of human species. Dark, thick clouds surround his space ship, no sounds to be heard, but the branches of few trees gently fluttering in the breeze. The land is unsafe! There are demon like creatures, lizzards and all kinds of monsters surrounding him, he just isn’t yet aware of it. In search of answers, he finds some old data written on disk by those who survived. They had left the planet many years ago running away from apocalypse that Dr. Hone created. He is a mad scientist responsible for bringing chaos to the galaxy. His madness eventually lead him to transforming human species into all kinds of disgusting monsters.
+            </StrandedAwayCard>
+
+            <StrandedAwayCard :title="'Background'" :right="$vuetify.breakpoint.mobile ? false : true" >
+                Standed Away is our second ever game. First released on 30th of August 2022., the development started in late July of 2021. Game currently consists of 3 campaign levels + 1 challenge level - 'Floor is lava'. Developing this game, we learned the fundamentals of game design, pixel art, we learned how to make various tools and game concepts. We sure will utilize all gained knowledge on our next game!
+            </StrandedAwayCard>
+        </div>
+        <div class="flex justify-center" v-else>
+            <scoreboard></scoreboard>
+        </div>
         <a
           style="all: unset"
           href="https://macroquiet.itch.io/"
           target="_blank"
         >
-          <div class="w-full flex justify-center absolute bottom bottom-64">
+          <div class="w-full flex justify-center">
             <div
-              class="text-8xl text-slate-100 text-center mr-8 Squarewave"
+              class="text-slate-100 text-center Squarewave"
               :class="
-                $vuetify.breakpoint.mobile ? 'downloadGame2' : 'downloadGame'
+                $vuetify.breakpoint.mobile ? 'downloadGame2 text-6xl ' : 'downloadGame text-8xl '
               "
             >
               Download Game
@@ -68,13 +71,20 @@
 <script>
 import StrandedAwayCard from "@/components/Games/StrandedAway/StrandedAwayCard.vue";
 import ParticleEffectWind from "@/components/Games/StrandedAway/ParticleEffectWind.vue";
+import Scoreboard from './StrandedAway/Scoreboard.vue';
 
 export default {
   name: "StrandedAway",
   components: {
     StrandedAwayCard,
     ParticleEffectWind,
+    Scoreboard,
   },
+  data () {
+    return {
+        scoreboard: true,
+    }
+  }
 };
 </script>
 
@@ -114,6 +124,7 @@ export default {
   border-color: white;
   border-radius: 4px;
   border-bottom-width: 4px;
+  margin-bottom: 16px;
   transition: ease-in-out 0.25s all;
   animation: border-width 1000ms infinite;
   @keyframes border-width {
@@ -130,6 +141,7 @@ export default {
   &:hover {
     border-width: 0px;
     border-radius: 16px;
+    margin-bottom: 20px;
     animation: border-width2 2000ms infinite;
     @keyframes border-width2 {
       0% {
