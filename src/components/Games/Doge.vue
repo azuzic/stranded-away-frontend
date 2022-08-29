@@ -34,7 +34,7 @@
           <v-divider class="divider my-8"></v-divider>
           <a
             style="all: unset"
-            href="https://macroquiet.itch.io/"
+            href="https://macroquiet.itch.io/doge"
             target="_blank"
           >
             <expand-text
