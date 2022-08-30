@@ -5,13 +5,11 @@
         :show-arrows="false"
         hide-delimiters
         cycle
-        :height="$vuetify.breakpoint.mobile ? '200' : '700'"
-      >
+        :height="$vuetify.breakpoint.mobile ? '200' : '700'">
         <v-carousel-item
           v-for="(item, i) in store.carouselPictures"
           :key="i"
-          :src="item.url"
-        >
+          :src="item.url">
         </v-carousel-item>
       </v-carousel>
       <div class="over flex justify-center content-center align-center">
@@ -20,22 +18,18 @@
             $vuetify.breakpoint.mobile
               ? 'center flex justify-center mt-12'
               : 'center flex justify-center '
-          "
-        >
+          ">
           <img
             :class="$vuetify.breakpoint.mobile ? 'mr-4 h-24' : 'mr-4 h-64'"
-            src="@/assets/Stranded_Away_Icon.png"
-          />
+            src="@/assets/Stranded_Away_Icon.png" />
           <div
-            class="h-full justify-center align-text-bottom align-end flex-end stranded"
-          >
+            class="h-full justify-center align-text-bottom align-end flex-end stranded">
             <div
               :class="
                 $vuetify.breakpoint.mobile
                   ? 'text-4xl	p-dark'
                   : 'text-8xl p-dark'
-              "
-            >
+              ">
               Stranded
             </div>
             <div
@@ -43,12 +37,11 @@
                 $vuetify.breakpoint.mobile
                   ? 'text-4xl	p-dark'
                   : 'text-8xl p-dark'
-              "
-            >
+              ">
               Away
             </div>
             <div :class="$vuetify.breakpoint.mobile ? 'text-xs	' : 'text-2xl'">
-              Available August 2022.
+              Available now!
             </div>
           </div>
         </div>
@@ -62,8 +55,7 @@
           $vuetify.breakpoint.mobile
             ? 'text-4xl text-slate-200 font-bold my-12 v-container text-center'
             : 'text-5xl text-slate-200 font-bold my-12 v-container text-center'
-        "
-      >
+        ">
         FEATURED GAMES
       </h2>
       <div class="flex flex-wrap justify-center">
@@ -75,8 +67,7 @@
           :text="gameCard.text"
           :imageSrc="gameCard.imageSrc"
           :gName="gameCard.gameName"
-          class="mb-8"
-        ></gameCard>
+          class="mb-8"></gameCard>
       </div>
     </div>
 
@@ -85,8 +76,7 @@
     <div class="mb-32 mt-16">
       <h2
         class="text-slate-200 font-bold uppercase mb-6 text-center"
-        :class="$vuetify.breakpoint.smAndDown ? 'text-2xl' : 'text-4xl'"
-      >
+        :class="$vuetify.breakpoint.smAndDown ? 'text-2xl' : 'text-4xl'">
         What's been going on
       </h2>
       <v-row justify="center" v-if="!$vuetify.breakpoint.mobile">
@@ -95,15 +85,13 @@
             v-for="(item, i) in reversedNews"
             :key="i"
             color="red lighten-1"
-            small
-          >
+            small>
             <timelineCard
               :title="item.title"
               :text="item.text"
               :icon="item.icon"
               :date="item.date"
-              :author="item.author"
-            >
+              :author="item.author">
             </timelineCard>
           </v-timeline-item> </v-timeline
       ></v-row>
@@ -116,8 +104,7 @@
           :icon="item.icon"
           :date="item.date"
           :author="item.author"
-          class="mb-8"
-        >
+          class="mb-8">
         </timelineCard>
       </v-row>
     </div>
