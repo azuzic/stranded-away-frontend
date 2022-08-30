@@ -4,22 +4,32 @@
       <div class="pt-64">
         <p class="text-9xl text-center EHSMB font-bold mb-16"><i>Doge</i></p>
         <div>
-          <expand-text
-            :title="'About'"
-            :hide="false"
-          >
-          Doge game is a small free-to-play 2.5D platform jumper about a lost doge who tries to find his way home. He is roaming across the streets, crossing roads, jumping cars and running away from nasty dog catchers! Play now and help doge find his way home!
+          <expand-text :title="'About'" :hide="false">
+            Doge game is a small free-to-play 2.5D platform jumper about a lost
+            doge who tries to find his way home. He is roaming across the
+            streets, crossing roads, jumping cars and running away from nasty
+            dog catchers! Play now and help doge find his way home!
           </expand-text>
-          <expand-text
-            :title="'Background'"
-            :hide="false"
-          >
-          Doge game is our first game ever, made in just 2 weeks in the summer of 2021. Initially 3 of us, we challenged ourselves to learn Unity game engine and create a simple game, Doge game being the result of our efforts. Many thanks to <a href='https://github.com/maurosterpin' target='_blank'>@maurosterpin</a> for his contribution!
+          <expand-text :title="'Background'" :hide="false">
+            Doge game is our first game ever, made in just 2 weeks in the summer
+            of 2021. Initially 3 of us, we challenged ourselves to learn Unity
+            game engine and create a simple game, Doge game being the result of
+            our efforts. Many thanks to
+            <a href="https://github.com/maurosterpin" target="_blank"
+              >@maurosterpin</a
+            >
+            for his contribution!
           </expand-text>
-          <expand-text
-            :title="'Gameplay'"
-            :hide="false"
-          >The game has 3 levels. You control a little dog. He is lost and trying to find his way home. Jump on the cars and buildings to collect bones - they are required to complete the level. You can also pick up the dog food to heal. Dog catchers will start chasing you when you approach them. Dodge their attacks by jumping. Doge game contains 3 achievements which will displayed on your <a href='https://macroquiet.com/user'>profile</a> when you activate them!</expand-text>
+          <expand-text :title="'Gameplay'" :hide="false"
+            >The game has 3 levels. You control a little dog. He is lost and
+            trying to find his way home. Jump on the cars and buildings to
+            collect bones - they are required to complete the level. You can
+            also pick up the dog food to heal. Dog catchers will start chasing
+            you when you approach them. Dodge their attacks by jumping. Doge
+            game contains 3 achievements which will displayed on your
+            <a href="https://macroquiet.com/user">profile</a> when you activate
+            them!</expand-text
+          >
 
           <v-divider class="divider my-8"></v-divider>
 
@@ -35,13 +45,11 @@
           <a
             style="all: unset"
             href="https://macroquiet.itch.io/doge"
-            target="_blank"
-          >
+            target="_blank">
             <expand-text
               class="mb-64"
               :title="'DOWNLOAD'"
-              :hide="true"
-            ></expand-text>
+              :hide="true"></expand-text>
           </a>
         </div>
       </div>
