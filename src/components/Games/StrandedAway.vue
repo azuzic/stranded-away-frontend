@@ -69,13 +69,13 @@
           <StrandedAwayCard
             :title="'Background'"
             :right="$vuetify.breakpoint.mobile ? false : true">
-            Standed Away is our second ever game. First released on 30th of
-            August 2022., the development started in late July of 2021. Game
-            currently consists of 3 campaign levels + 1 challenge level - 'Floor
-            is lava'. Developing this game, we learned the fundamentals of game
-            design, pixel art, we learned how to make various tools and game
-            concepts. We sure will utilize all gained knowledge on our next
-            game!
+            Standed Away is our second ever game. First version being released
+            on 31th of August 2022., the development started in late July of
+            2021. Game currently consists of 3 campaign levels + 1 challenge
+            level - 'Floor is lava'. Developing this game, we learned the
+            fundamentals of game design, pixel art, we learned how to make
+            various tools and game concepts. We sure will utilize all gained
+            knowledge on our next game!
           </StrandedAwayCard>
         </div>
         <div class="flex justify-center" v-else>
