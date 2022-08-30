@@ -11,9 +11,9 @@ export default {
     },
 
     {
-      availability: "Available on August 30th",
+      availability: "Available now!",
       title: "Stranded Away",
-      text: "2D shooter/puzzle game about exploring abandoned planets. You are playing a hero whose job is to save the galaxy from evil scientist Dr. Hone. Game is currently still work in progress!",
+      text: "Stranded Away is a 2D pixel art singleplayer: platform-jumper, puzzle and action game. You are playing as a mysterious space traveller who's looking for long gone inhabitants of planet Athion.",
       imageSrc: "cards/stranded1.png",
       gameName: "stranded-away",
     },

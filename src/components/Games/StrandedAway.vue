@@ -35,7 +35,7 @@
             :right="false">
             Stranded Away is a 2D pixel art singleplayer: platform-jumper,
             puzzle and action game. You are playing as a mysterious space
-            traveller who's looking for long gone inhabitants on planet Athion.
+            traveller who's looking for long gone inhabitants of planet Athion.
           </StrandedAwayCard>
 
           <StrandedAwayCard
