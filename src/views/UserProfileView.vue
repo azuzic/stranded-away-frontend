@@ -18,7 +18,7 @@
           
           <AboutMe :user="user" :canEdit="canEdit"></AboutMe>
 
-          <v-row class="pr-4">
+          <v-row class="pr-4 mb-8">
             <PlayedGames :user="user"></PlayedGames>
             <Trophies :user="user"></Trophies>
           </v-row>

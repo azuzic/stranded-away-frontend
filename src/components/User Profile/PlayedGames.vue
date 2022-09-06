@@ -1,6 +1,7 @@
 <template>
   <v-col cols="12" class="ml-4 text-2xl text-red-like-logo">
     <p class="text-3xl text-red-like-logo">Played games</p>
+    <p v-if="user.profile.games.length==0" class="text-left text-base text-slate-300">There are no played games . . . </p>  
     <v-row class="mr-2 justify-left w-full">
     <v-col
         v-for="gameCard in isPlayed(store.gameCards)"

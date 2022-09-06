@@ -1,8 +1,8 @@
 <template>
     <div class="pl-4 pt-2 pr-4">
         <p class="text-3xl text-red-like-logo">About me</p>
-        <p v-show="!canEdit" class="text-justify text-slate-200"> {{ user.profile.description }} </p>
-        <p v-show="canEdit" v-if="!editing" class="text-justify text-slate-200 text" @click="editing=!editing, description = user.profile.description"> {{ user.profile.description }} </p>
+        <p v-show="!canEdit" class="text-justify text-slate-300"> {{ user.profile.description }}</p>
+        <p v-show="canEdit" v-if="!editing" class="text-justify text-slate-300 text" @click="editing=!editing, description = user.profile.description"> {{ user.profile.description }} </p>
         <div v-else class="flex relative h-full">
             <v-textarea
                 counter

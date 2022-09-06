@@ -3,6 +3,7 @@
     <v-col cols="12" class="text-3xl text-red-like-logo mt-4"
     >Trophies</v-col
     >
+    <v-col v-if="user.profile.games.length==0" class="text-left text-base text-slate-300">There are no trophies to display . . . </v-col>  
     <v-col
     class="col-12"
     v-for="(game, id) in user.profile.games"
