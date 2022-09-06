@@ -1,17 +1,17 @@
 <template>
-  <v-card class="mx-auto" max-width="500">
-    <v-card-title class="text-h6 font-weight-regular justify-space-between">
+<v-col :cols="$vuetify.breakpoint.mobile ? 12 : 4">
+  <div class="rounded-md overflow-hidden drop-shadow">
+    <v-card-title class="justify-space-between bg-footer-header text-slate-200">
       <span>{{ currentTitle }}</span>
       <v-avatar
-        color="error"
-        class="subheading white--text"
-        size="24"
-        v-text="step"
+        class="subheading text-slate-100"
+        size="32"
+        v-text="step + '.'"
       ></v-avatar>
     </v-card-title>
     <validation-observer ref="observer" v-slot="{ invalid }">
       <form @submit.prevent="addNewGamePost">
-        <v-window v-model="step">
+        <v-window v-model="step" class="h-64 bg-background-color">
           <!--PAGE 1-->
           <v-window-item :value="1">
             <v-card-text>
@@ -160,14 +160,15 @@
         </v-window>
       </form>
     </validation-observer>
-    <v-card-actions>
+    <v-card-actions  class="bg-background-color">
       <v-btn :disabled="step === 1" text @click="step--"> Back </v-btn>
       <v-spacer></v-spacer>
       <v-btn :disabled="step === 3" color="error" depressed @click="step++">
         Next
       </v-btn>
     </v-card-actions>
-  </v-card>
+  </div>
+</v-col>
 </template>
 
 <script>
@@ -285,5 +286,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

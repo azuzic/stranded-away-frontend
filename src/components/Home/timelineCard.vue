@@ -12,7 +12,7 @@
       <v-row>
         <v-col cols="12" md="10">
           <div class="text-slate-300">
-            <p>{{ text }}</p>
+            <p v-html="text"></p>
             <!--
             <v-btn color="red lighten-1" class="mx-0 absolute bottom left" outlined>
               read more

@@ -15,9 +15,8 @@
         <p class="text-slate-200">{{ title }}</p>
     </v-card-subtitle>
 
-    <v-card-text class="ont-medium card-text-size">
-        <div class="w-full text-size text-slate-300">    
-        {{ text }}
+    <v-card-text class="font-medium card-text-size">
+        <div class="w-full text-size text-slate-300" v-html="text">    
         </div>
     </v-card-text>
 
