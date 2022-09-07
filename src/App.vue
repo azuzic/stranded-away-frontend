@@ -8,15 +8,13 @@
           <v-row justify="start" align="start">
             <v-col
               align-self="center"
-              :cols="$vuetify.breakpoint.mobile ? '12' : '2'"
-            >
+              :cols="$vuetify.breakpoint.mobile ? '12' : '2'">
               <router-link to="/">
                 <img
                   class="p-4"
                   src="@/assets/macroquiet_logo.png"
                   alt=""
-                  :width="logoWidth"
-                />
+                  :width="logoWidth" />
               </router-link>
             </v-col>
             <!--LINKS-->
@@ -24,8 +22,7 @@
               v-show="!$vuetify.breakpoint.mobile"
               align-self="center"
               cols="9"
-              class="mt-2"
-            >
+              class="mt-2">
               <v-btn
                 v-for="link in links"
                 :key="link.title"
@@ -34,8 +31,7 @@
                 rounded
                 class="my-4"
                 cols="2"
-                @click="scroll(link.to)"
-              >
+                @click="scroll(link.to)">
                 <v-icon color="red lighten-1" class="mr-1">{{
                   link.icon
                 }}</v-icon>
@@ -46,15 +42,13 @@
             <v-col
               cols="1"
               align-self="center"
-              v-show="!$vuetify.breakpoint.mobile"
-            >
+              v-show="!$vuetify.breakpoint.mobile">
               <v-btn
                 v-if="!auth.authenticated"
                 color="secondary"
                 rounded
                 class="my-4"
-                @click="$router.push({ name: 'Login' }).catch(() => {})"
-              >
+                @click="$router.push({ name: 'Login' }).catch(() => {})">
                 <strong class="text-sm">LOG IN</strong>
               </v-btn>
               <!--User profile icon-->
@@ -69,15 +63,13 @@
                             avatarImage
                               ? avatarImage
                               : require('@/assets/default-user-icon.jpg')
-                          "
-                        >
+                          ">
                         </v-img>
                         <v-skeleton-loader
                           v-else
                           dark
                           type="avatar"
-                          height="48px"
-                        >
+                          height="48px">
                         </v-skeleton-loader>
                       </v-avatar>
                     </v-btn>
@@ -92,15 +84,13 @@
                               avatarImage
                                 ? avatarImage
                                 : require('@/assets/default-user-icon.jpg')
-                            "
-                          >
+                            ">
                           </v-img>
                           <v-skeleton-loader
                             v-else
                             light
                             type="avatar"
-                            height="48px"
-                          >
+                            height="48px">
                           </v-skeleton-loader>
                         </v-avatar>
                         <h3>{{ user.username }}</h3>
@@ -117,8 +107,7 @@
                           "
                           depressed
                           rounded
-                          text
-                        >
+                          text>
                           MY PROFILE
                         </v-btn>
                         <v-btn
@@ -130,8 +119,7 @@
                           "
                           depressed
                           rounded
-                          text
-                        >
+                          text>
                           ADMIN PANEL
                         </v-btn>
                         <v-divider class="my-3"></v-divider>
@@ -151,8 +139,7 @@
           <v-app-bar-nav-icon
             color="white"
             v-show="$vuetify.breakpoint.mobile"
-            @click.stop="drawer = !drawer"
-          ></v-app-bar-nav-icon>
+            @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           <!--/Mobile navigation icon-->
         </v-app-bar>
 
@@ -162,15 +149,13 @@
           fixed
           temporary
           height="auto"
-          color="grey darken-4 h-100"
-        >
+          color="grey darken-4 h-100">
           <v-list dense>
             <v-list-item
               v-for="link in links"
               :key="link.title"
               link
-              class="ml-15"
-            >
+              class="ml-15">
               <div @click="scroll(link.to)" class="w-full">
                 <v-list-item-icon class="text-stone-200 w-full">
                   <v-icon color="white">{{ link.icon }}</v-icon> &nbsp;{{
@@ -191,8 +176,7 @@
                         avatarImage
                           ? avatarImage
                           : require('@/assets/default-user-icon.jpg')
-                      "
-                    >
+                      ">
                     </v-img>
                     <v-skeleton-loader v-else dark type="avatar" height="48px">
                     </v-skeleton-loader>
@@ -211,8 +195,7 @@
                         .catch(() => {})
                     "
                     depressed
-                    rounded
-                  >
+                    rounded>
                     MY PROFILE
                   </v-btn>
                   <v-btn
@@ -225,8 +208,7 @@
                     "
                     depressed
                     rounded
-                    color="red"
-                  >
+                    color="red">
                     ADMIN PANEL
                   </v-btn>
                 </div>
@@ -240,8 +222,7 @@
                 rounded
                 class="my-4 text-stone-200"
                 cols="2"
-                @click="$router.push({ name: 'Login' }).catch(() => {})"
-              >
+                @click="$router.push({ name: 'Login' }).catch(() => {})">
                 <strong class="text-sm">LOG IN</strong>
               </v-btn>
               <v-btn
@@ -250,8 +231,7 @@
                 rounded
                 class="my-4"
                 cols="2"
-                @click="logOut()"
-              >
+                @click="logOut()">
                 <strong class="text-sm text-stone-200">LOG OUT</strong>
               </v-btn>
             </v-list-item>
@@ -319,7 +299,7 @@ let wait = function (seconds) {
 };
 import router from "@/router";
 import store from "@/store";
-import { Auth, Admin } from "@/services";
+import { Auth } from "@/services";
 
 export default {
   name: "App",
