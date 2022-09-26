@@ -1,10 +1,17 @@
 <template>
   <v-card color="#111011" dark :width="$vuetify.breakpoint.mobile ? 320 : 900">
     <v-card-title :align="$vuetify.breakpoint.mobile ? 'center' : 'start'">
-      <v-icon size="32" :class="$vuetify.breakpoint.mobile ? 'mx-auto' : ''">
+      <v-icon :class="$vuetify.breakpoint.mobile ? 'mx-auto' : ''">
         {{ icon }}
       </v-icon>
-      <span class="text-xl text-slate-200 uppercase ml-2">{{ title }}</span>
+      <span
+        :class="
+          $vuetify.breakpoint.mobile
+            ? 'text-lg text-slate-200 uppercase ml-2 break-normal'
+            : 'text-xl text-slate-200 uppercase ml-2 break-normal'
+        "
+        >{{ title }}</span
+      >
     </v-card-title>
 
     <v-container class="bg-background-cards">
@@ -24,38 +31,32 @@
       <v-row
         v-if="author == 'MacroQuiet'"
         justify="end"
-        class="text-red-500 pr-3 pb-1"
-      >
+        class="text-red-500 pr-3 pb-1">
         <img
           class="float-right -mt-1"
           height="35px"
           width="35px"
-          src="@/assets/macroquiet_logo_notext.png"
-        />{{ author }}
+          src="@/assets/macroquiet_logo_notext.png" />{{ author }}
       </v-row>
       <v-row
         v-else-if="author == 'blaskec'"
         justify="end"
-        class="text-red-500 pr-3 pb-2"
-      >
+        class="text-red-500 pr-3 pb-2">
         <img
           class="float-right -mt-1"
           height="35px"
           width="35px"
-          src="@/assets/portraits/Portret_Luka_Big-noBG.png"
-        />{{ author }}
+          src="@/assets/portraits/Portret_Luka_Big-noBG.png" />{{ author }}
       </v-row>
       <v-row
         v-else-if="author == 'zuza'"
         justify="end"
-        class="text-red-500 pr-3 pb-2"
-      >
+        class="text-red-500 pr-3 pb-2">
         <img
           class="float-right -mt-1"
           height="35px"
           width="35px"
-          src="@/assets/portraits/Portret_Alesandro_Big-noBG.png"
-        />{{ author }}
+          src="@/assets/portraits/Portret_Alesandro_Big-noBG.png" />{{ author }}
       </v-row>
       <v-row v-else justify="end" class="text-red-500 pr-3 pb-2">
         {{ author }}
