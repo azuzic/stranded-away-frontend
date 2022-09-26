@@ -281,6 +281,17 @@
                   target="_blank"
                   ><v-icon class="p-2" color="white">mdi-twitter</v-icon></v-btn
                 >
+                <v-btn
+                  text
+                  icon
+                  href="https://www.buymeacoffee.com/macroquiet"
+                  target="_blank"
+                  ><v-img
+                    max-height="35"
+                    max-width="35"
+                    src="@/assets/buymeacoffee.png"
+                    contain></v-img
+                ></v-btn>
               </div>
             </span>
           </v-card-text>
