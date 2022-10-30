@@ -364,6 +364,18 @@ export default {
       this.setUserAvatar();
     });
   },
+  metaInfo() {
+    return {
+      meta: [
+        {
+          title: "MacroQuiet - Indie Game Development Studio From Croatia",
+          vmid: "description",
+          name: "description",
+          content: "MacroQuiet - Indie Game Development Studio From Croatia",
+        },
+      ],
+    };
+  },
 
   methods: {
     async getUserDetails() {

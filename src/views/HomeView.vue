@@ -133,7 +133,18 @@ export default {
     let result = await Admin.data.getCarouselPictures;
     store.carouselPictures = result.data;
   },
-
+  metaInfo() {
+    return {
+      meta: [
+        {
+          title: "MacroQuiet - Indie Game Development Studio From Croatia",
+          vmid: "description",
+          name: "description",
+          content: "MacroQuiet - Indie Game Development Studio From Croatia",
+        },
+      ],
+    };
+  },
   asyncComputed: {
     async reversedNews() {
       let result = await this.news;

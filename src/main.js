@@ -6,11 +6,14 @@ import vuetify from "./plugins/vuetify";
 import AsyncComputed from "vue-async-computed";
 import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
+import Meta from "vue-meta";
 
 import { init } from "@emailjs/browser";
 
 Vue.use(AsyncComputed);
 Vue.use(Croppa);
+
+Vue.use(Meta);
 
 Vue.config.productionTip = false;
 Vue.use(vuetify);
