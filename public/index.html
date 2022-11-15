@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <meta
       name="description"
-      content="MacroQuiet - Indie Game Development Studio From Croatia."
-    />
+      content="MacroQuiet - Indie Game Development Studio From Croatia." />
 
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title><%= process.env.VUE_APP_TITLE %></title>
@@ -15,24 +14,33 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css"
-    />
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css" />
     <!-- Video.js base CSS -->
     <link
       href="https://unpkg.com/video.js@7/dist/video-js.min.css"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
 
     <!-- City -->
     <link
       href="https://unpkg.com/@videojs/themes@1/dist/city/index.css"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
   </head>
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-SELHVMV24W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-SELHVMV24W");
+  </script>
   <body>
     <noscript>
       <strong
