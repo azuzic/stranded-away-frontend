@@ -1,5 +1,5 @@
 <template>
-<v-col :cols="$vuetify.breakpoint.mobile ? 12 : 4">
+<v-col :cols="$vuetify.breakpoint.mobile ? 12 : 6">
   <div class="rounded-md overflow-hidden drop-shadow">
     <v-card-title class="justify-space-between bg-footer-header text-slate-200">
       <span>{{ currentTitle }}</span>

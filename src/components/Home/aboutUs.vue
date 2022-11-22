@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-8 text-center">
+  <div class="mb-8 pb-8 text-center bg-background-cards about-us">
     <div class="flex justify-center mb-4">
       <v-col :cols="$vuetify.breakpoint.mobile ? '12' : '4'">
         <h2
@@ -53,3 +53,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.about-us {
+    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+        0px 2px 2px 0px rgb(0 0 0 / 14%),
+        0px 1px 5px 0px rgb(0 0 0 / 12%);
+}
+</style>

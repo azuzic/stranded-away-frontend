@@ -1,14 +1,14 @@
 <template>
-  <div :class="right ? 'w-full flex justify-end' : 'w-full'">
+    <div class="w-full flex" :class="!$vuetify.breakpoint.mobile ? right ? 'justify-end' : 'justify-start' : 'justify-center'">
         <div>
             <v-img class="pixelart" width="50vh" src="@/assets/StrandedAway/menu.png">
-            <div class="w-full h-full px-8 py-4">
-                <p class="text-6xl text-center text-slate-300 Squarewave"> <u>{{title}}</u> </p>
-                <p class="text-2xl text-justify text-slate-400 Squarewave">
-                    <slot> Placeholder text </slot>
-                </p>
-            </div>
-        </v-img>
+                <div class="w-full h-full px-16 py-8">
+                    <p class="text-6xl text-center text-slate-300 Squarewave"> <u>{{title}}</u> </p>
+                    <p class="text-2xl text-justify text-slate-400 Squarewave">
+                        <slot> Placeholder text </slot>
+                    </p>
+                </div>
+            </v-img>
         </div>
     </div>
 </template>
